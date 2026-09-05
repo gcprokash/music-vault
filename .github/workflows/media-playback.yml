@@ -1,0 +1,77 @@
+name: Music Vault Playback Builder
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-playback:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # ==========================================
+      # 1. Checkout
+      # ==========================================
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+
+      # ==========================================
+      # 2. Install FFmpeg
+      # ==========================================
+
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+
+      # ==========================================
+      # 3. Check FFmpeg
+      # ==========================================
+
+      - name: Check FFmpeg
+        run: |
+          ffmpeg -version
+          ffprobe -version
+
+
+      # ==========================================
+      # 4. Check media.json
+      # ==========================================
+
+      - name: Check media.json
+        run: |
+          python - <<'PY'
+          import json
+
+          with open("media.json", "r", encoding="utf-8") as f:
+              data = json.load(f)
+
+          print("Music Vault files:", len(data.get("files", [])))
+
+          for item in data.get("files", []):
+              print(
+                  item.get("title"),
+                  "|",
+                  item.get("container"),
+                  "|",
+                  item.get("video", {}).get("codec")
+              )
+          PY
+
+
+      # ==========================================
+      # 5. Complete
+      # ==========================================
+
+      - name: Complete
+        run: |
+          echo "========================================"
+          echo " MUSIC VAULT PLAYBACK BUILDER"
+          echo "========================================"
+          echo "Playback preparation test completed."
