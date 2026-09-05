@@ -1,8 +1,8 @@
 {
   "project": "Music Vault",
   "version": "5.0",
-  "generatedAt": "2026-09-05T10:41:00.872845+00:00",
-  "totalFiles": 1,
+  "generatedAt": "2026-09-05T11:15:00.770699+00:00",
+  "totalFiles": 2,
   "files": [
     {
       "id": "18lt8N-Nzs0Bt7r2XsD-73edabPVs5o2-",
@@ -81,6 +81,115 @@
         "artist": "",
         "album": "",
         "title": "Hi-Res Apple Lossless (ALAC) 24-bit 48.0kHz By GCP",
+        "composer": ""
+      },
+      "metadataStatus": "INCOMPLETE",
+      "warnings": [
+        "Artist metadata missing from Hi-Res audio track"
+      ]
+    },
+    {
+      "id": "17BUJhyefcUYLHm5csjtZr4om2pxXMnu2",
+      "fileName": "Rupa Goriya 2K [1440p] [VP9] [Multi Audio] [Tri-Lingual Subs] [GCP].mkv",
+      "title": "Rupa Goriya 2K",
+      "artist": "",
+      "album": "",
+      "composer": "",
+      "year": "",
+      "genre": "",
+      "container": "mkv",
+      "mimeType": "video/matroska",
+      "size": 284419300,
+      "created": "2026-09-05T11:06:40.875Z",
+      "updated": "2026-08-07T07:45:49.000Z",
+      "driveUrl": "https://drive.google.com/file/d/17BUJhyefcUYLHm5csjtZr4om2pxXMnu2/view?usp=drivesdk",
+      "duration": "235.395000",
+      "format": "matroska,webm",
+      "formatLong": "Matroska / WebM",
+      "video": {
+        "codec": "vp9",
+        "codecLong": "Google VP9",
+        "width": 2560,
+        "height": 1440,
+        "resolution": "2560x1440",
+        "fps": "25",
+        "bitrate": "",
+        "pixelFormat": "yuv420p"
+      },
+      "audio": {
+        "trackCount": 2,
+        "multiAudio": true,
+        "hiResTrack": 2,
+        "tracks": [
+          {
+            "index": 1,
+            "codec": "opus",
+            "codecLong": "Opus (Opus Interactive Audio Codec)",
+            "language": "",
+            "title": "Original YouTube Opus",
+            "artist": "",
+            "album": "",
+            "composer": "",
+            "sampleRate": "48000",
+            "bitDepth": 0,
+            "channels": 2,
+            "channelLayout": "stereo",
+            "bitrate": "",
+            "default": false,
+            "forced": false
+          },
+          {
+            "index": 2,
+            "codec": "alac",
+            "codecLong": "ALAC (Apple Lossless Audio Codec)",
+            "language": "",
+            "title": "Hi-Res Apple Lossless (ALAC) 24-bit 44.1kHz By GCP",
+            "artist": "",
+            "album": "",
+            "composer": "",
+            "sampleRate": "44100",
+            "bitDepth": 24,
+            "channels": 2,
+            "channelLayout": "stereo",
+            "bitrate": "",
+            "default": true,
+            "forced": false
+          }
+        ]
+      },
+      "subtitles": {
+        "trackCount": 3,
+        "tracks": [
+          {
+            "index": 1,
+            "codec": "subrip",
+            "language": "",
+            "title": "Rupa Goriya Dual [English] [GCP]",
+            "default": true,
+            "forced": false
+          },
+          {
+            "index": 2,
+            "codec": "subrip",
+            "language": "",
+            "title": "Rupa Goriya Dual [Native + English] [GCP]",
+            "default": false,
+            "forced": false
+          },
+          {
+            "index": 3,
+            "codec": "subrip",
+            "language": "",
+            "title": "Rupa Goriya Dual [Native] [GCP]",
+            "default": false,
+            "forced": false
+          }
+        ]
+      },
+      "hiResMetadata": {
+        "artist": "",
+        "album": "",
+        "title": "Hi-Res Apple Lossless (ALAC) 24-bit 44.1kHz By GCP",
         "composer": ""
       },
       "metadataStatus": "INCOMPLETE",
