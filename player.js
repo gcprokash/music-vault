@@ -1,5 +1,7 @@
 // =========================================================
 // MUSIC VAULT — MEDIA PLAYER
+// Dynamic Player
+// media.json → Player
 // =========================================================
 
 
@@ -55,48 +57,10 @@ audio.volume = 1;
 
 // =========================================================
 // MUSIC DATABASE
+// Loaded from media.json
 // =========================================================
 
-const tracks = [
-
-  // -------------------------------------------------------
-  // TRACK 01 — HAME TORA DIL DELI
-  // -------------------------------------------------------
-
-  {
-    title:
-      "Hame Tora Dil Deli",
-
-    subtitle:
-      "1440p • VP9 • Hi-Res ALAC • Multi Audio",
-
-    path:
-      "Hame Tora Dil Deli [1440p] [VP9] [Hi-Res ALAC] [Multi Audio] [Tri-Lingual Subs] [GCP].mkv",
-
-    cover:
-      "Hame Tora Dil Deli.jpg"
-  },
-
-
-  // -------------------------------------------------------
-  // TRACK 02 — AMER ACHAAR
-  // -------------------------------------------------------
-
-  {
-    title:
-      "Amer Achaar",
-
-    subtitle:
-      "1440p • VP9 • Hi-Res ALAC • Multi Audio",
-
-    path:
-      "Amer Achaar [1440p] [VP9] [Hi-Res ALAC] [Multi Audio] [Bi-Lingual Subs] [GCP].mkv",
-
-    cover:
-      "Amer Achaar.jpg"
-  }
-
-];
+let tracks = [];
 
 
 // =========================================================
@@ -207,7 +171,7 @@ function updatePlayerCover(track) {
   }
 
 
-  if (track.cover) {
+  if (track && track.cover) {
 
     playerCover.style.backgroundImage =
       `url("${track.cover}")`;
@@ -240,6 +204,213 @@ function updatePlayerCover(track) {
 
 
 // =========================================================
+// BUILD PLAYER SUBTITLE
+// =========================================================
+
+function buildPlayerSubtitle(track) {
+
+  if (!track) {
+    return "Select a song from your library";
+  }
+
+
+  const parts = [];
+
+
+  // Artist
+  if (track.artist) {
+
+    parts.push(
+      track.artist
+    );
+
+  }
+
+
+  // Resolution
+  if (track.video?.height) {
+
+    const height =
+      Number(track.video.height);
+
+
+    if (height >= 2160) {
+
+      parts.push("2160p");
+
+    } else if (height >= 1440) {
+
+      parts.push("1440p");
+
+    } else if (height >= 1080) {
+
+      parts.push("1080p");
+
+    } else if (height >= 720) {
+
+      parts.push("720p");
+
+    }
+
+  }
+
+
+  // Video codec
+  if (track.video?.codec) {
+
+    parts.push(
+      track.video.codec.toUpperCase()
+    );
+
+  }
+
+
+  // Hi-Res
+  const hiResTrack =
+    getHiResTrack(track);
+
+
+  if (hiResTrack) {
+
+    parts.push(
+      "Hi-Res " +
+      String(
+        hiResTrack.codec || ""
+      ).toUpperCase()
+    );
+
+  }
+
+
+  // Multi Audio
+  if (
+    track.audio &&
+    Number(track.audio.trackCount) > 1
+  ) {
+
+    parts.push(
+      "Multi Audio"
+    );
+
+  }
+
+
+  if (parts.length) {
+
+    return parts.join(" • ");
+
+  }
+
+
+  return "Premium Music Release";
+
+}
+
+
+// =========================================================
+// FIND HI-RES TRACK
+// =========================================================
+
+function getHiResTrack(track) {
+
+  if (
+    !track?.audio ||
+    !Array.isArray(track.audio.tracks)
+  ) {
+
+    return null;
+
+  }
+
+
+  // Scanner detected Hi-Res track
+  if (track.audio.hiResTrack) {
+
+    const detected =
+      track.audio.tracks.find(
+        item =>
+          Number(item.index) ===
+          Number(track.audio.hiResTrack)
+      );
+
+
+    if (detected) {
+      return detected;
+    }
+
+  }
+
+
+  // Fallback
+  return track.audio.tracks.find(
+    item => {
+
+      const codec =
+        String(
+          item.codec || ""
+        ).toLowerCase();
+
+
+      return (
+        codec === "alac" ||
+        codec === "flac" ||
+        codec === "wav"
+      );
+
+    }
+  ) || null;
+
+}
+
+
+// =========================================================
+// GET PLAYBACK SOURCE
+// =========================================================
+
+function getPlaybackSource(track) {
+
+  if (!track) {
+    return "";
+  }
+
+
+  /*
+   * Future media.json can contain:
+   *
+   * playbackUrl
+   *
+   * This should point to a browser-compatible
+   * audio/video file.
+   */
+
+
+  if (track.playbackUrl) {
+
+    return track.playbackUrl;
+
+  }
+
+
+  if (track.audioUrl) {
+
+    return track.audioUrl;
+
+  }
+
+
+  if (track.path) {
+
+    return track.path;
+
+  }
+
+
+  return "";
+
+}
+
+
+// =========================================================
 // LOAD TRACK
 // =========================================================
 
@@ -255,6 +426,8 @@ function loadTrack(
 
     playerSubtitle.textContent =
       "Add a media file to the library";
+
+    isLoaded = false;
 
     return;
 
@@ -295,10 +468,12 @@ function loadTrack(
   // -------------------------------------------------------
 
   playerTitle.textContent =
-    track.title;
+    track.title ||
+    "Unknown Title";
+
 
   playerSubtitle.textContent =
-    track.subtitle;
+    buildPlayerSubtitle(track);
 
 
   // -------------------------------------------------------
@@ -314,15 +489,57 @@ function loadTrack(
 
   audio.pause();
 
-  audio.currentTime = 0;
+  audio.removeAttribute("src");
 
-  progressBar.value = 0;
+  audio.load();
 
-  currentTimeElement.textContent =
-    "0:00";
 
-  durationElement.textContent =
-    "0:00";
+  if (progressBar) {
+
+    progressBar.value = 0;
+
+  }
+
+
+  if (currentTimeElement) {
+
+    currentTimeElement.textContent =
+      "0:00";
+
+  }
+
+
+  if (durationElement) {
+
+    durationElement.textContent =
+      "0:00";
+
+  }
+
+
+  isLoaded = false;
+
+
+  updatePlayButton(false);
+
+
+  // -------------------------------------------------------
+  // Playback Source
+  // -------------------------------------------------------
+
+  const source =
+    getPlaybackSource(track);
+
+
+  if (!source) {
+
+    playerSubtitle.textContent =
+      buildPlayerSubtitle(track) +
+      " • Playback source unavailable";
+
+    return;
+
+  }
 
 
   // -------------------------------------------------------
@@ -330,14 +547,11 @@ function loadTrack(
   // -------------------------------------------------------
 
   audio.src =
-    track.path;
+    source;
 
   audio.load();
 
   isLoaded = true;
-
-
-  updatePlayButton(false);
 
 
   // -------------------------------------------------------
@@ -359,12 +573,29 @@ function loadTrack(
 
 function playTrack() {
 
+  if (!tracks.length) {
+
+    return;
+
+  }
+
+
   if (!isLoaded) {
 
     loadTrack(
       currentTrackIndex,
       false
     );
+
+  }
+
+
+  if (!audio.src) {
+
+    playerSubtitle.textContent =
+      "Playback source unavailable";
+
+    return;
 
   }
 
@@ -387,8 +618,13 @@ function playTrack() {
 
         updatePlayButton(false);
 
+
         playerSubtitle.textContent =
-          "Unable to play this media file";
+          buildPlayerSubtitle(
+            tracks[currentTrackIndex]
+          ) +
+          " • Unable to play this media";
+
 
         console.warn(
           "Music Vault Player:",
@@ -546,14 +782,22 @@ audio.addEventListener(
       ) * 100;
 
 
-    progressBar.value =
-      percentage;
+    if (progressBar) {
+
+      progressBar.value =
+        percentage;
+
+    }
 
 
-    currentTimeElement.textContent =
-      formatTime(
-        audio.currentTime
-      );
+    if (currentTimeElement) {
+
+      currentTimeElement.textContent =
+        formatTime(
+          audio.currentTime
+        );
+
+    }
 
   }
 );
@@ -567,10 +811,14 @@ audio.addEventListener(
   "loadedmetadata",
   () => {
 
-    durationElement.textContent =
-      formatTime(
-        audio.duration
-      );
+    if (durationElement) {
+
+      durationElement.textContent =
+        formatTime(
+          audio.duration
+        );
+
+    }
 
   }
 );
@@ -607,7 +855,8 @@ if (progressBar) {
       audio.currentTime =
         (
           percentage / 100
-        ) * audio.duration;
+        ) *
+        audio.duration;
 
     }
   );
@@ -710,8 +959,20 @@ audio.addEventListener(
     updatePlayButton(false);
 
 
-    playerSubtitle.textContent =
-      "This media format cannot be played here";
+    if (tracks[currentTrackIndex]) {
+
+      playerSubtitle.textContent =
+        buildPlayerSubtitle(
+          tracks[currentTrackIndex]
+        ) +
+        " • This media format cannot be played here";
+
+    } else {
+
+      playerSubtitle.textContent =
+        "This media format cannot be played here";
+
+    }
 
 
     console.error(
@@ -725,92 +986,188 @@ audio.addEventListener(
 
 
 // =========================================================
-// LIBRARY PLAY BUTTONS
+// DYNAMIC LIBRARY PLAY EVENT
 // =========================================================
 
-const musicPlayButtons =
-  document.querySelectorAll(
-    ".music-play"
-  );
+window.addEventListener(
+  "musicvault:play",
+  (event) => {
+
+    const detail =
+      event.detail;
 
 
-musicPlayButtons.forEach(
-  (button, index) => {
-
-    button.addEventListener(
-      "click",
-      (event) => {
-
-        event.preventDefault();
+    if (!detail) {
+      return;
+    }
 
 
-        // -------------------------------------------------
-        // Check Track
-        // -------------------------------------------------
-
-        if (!tracks[index]) {
-
-          playerTitle.textContent =
-            "Track Not Added Yet";
-
-          playerSubtitle.textContent =
-            "This song will be added later";
-
-          return;
-
-        }
+    const track =
+      detail.track;
 
 
-        // -------------------------------------------------
-        // Load Selected Track
-        // -------------------------------------------------
-
-        loadTrack(
-          index,
-          true
-        );
+    const index =
+      Number(detail.index);
 
 
-        // -------------------------------------------------
-        // Scroll to Player
-        // -------------------------------------------------
+    if (!track) {
+      return;
+    }
 
-        if (playerSection) {
 
-          playerSection.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-          });
+    // -----------------------------------------------------
+    // Sync Player Database
+    // -----------------------------------------------------
 
-        }
+    if (
+      Array.isArray(
+        window.musicVaultTracks
+      )
+    ) {
 
-      }
-    );
+      tracks =
+        window.musicVaultTracks;
+
+    }
+
+
+    // -----------------------------------------------------
+    // Selected Track
+    // -----------------------------------------------------
+
+    if (
+      Number.isInteger(index) &&
+      index >= 0 &&
+      index < tracks.length
+    ) {
+
+      loadTrack(
+        index,
+        true
+      );
+
+    }
 
   }
 );
 
 
 // =========================================================
-// INITIAL PLAYER
+// WAIT FOR MEDIA JSON
 // =========================================================
 
-if (tracks.length > 0) {
+function syncWithMusicLibrary() {
 
-  loadTrack(
-    0,
-    false
-  );
+  if (
+    Array.isArray(
+      window.musicVaultTracks
+    )
+  ) {
 
-} else {
+    tracks =
+      window.musicVaultTracks;
 
-  playerTitle.textContent =
-    "No Track Selected";
 
-  playerSubtitle.textContent =
-    "Select a song from your library";
+    if (!tracks.length) {
+
+      playerTitle.textContent =
+        "No Track Selected";
+
+      playerSubtitle.textContent =
+        "No media files found";
+
+      return;
+
+    }
+
+
+    // Load first track without autoplay
+    loadTrack(
+      0,
+      false
+    );
+
+
+    console.log(
+      "Music Vault Player:",
+      tracks.length,
+      "track(s) ready."
+    );
+
+  }
 
 }
+
+
+// =========================================================
+// INITIAL SYNC
+// =========================================================
+
+syncWithMusicLibrary();
+
+
+// =========================================================
+// LIBRARY LOADED EVENT WATCH
+// =========================================================
+
+const originalTracksDescriptor =
+  Object.getOwnPropertyDescriptor(
+    window,
+    "musicVaultTracks"
+  );
+
+
+// Give script.js time to load media.json
+const librarySyncInterval =
+  setInterval(
+    () => {
+
+      if (
+        Array.isArray(
+          window.musicVaultTracks
+        ) &&
+        window.musicVaultTracks.length > 0
+      ) {
+
+        tracks =
+          window.musicVaultTracks;
+
+
+        clearInterval(
+          librarySyncInterval
+        );
+
+
+        loadTrack(
+          0,
+          false
+        );
+
+
+        console.log(
+          "Music Vault Player:",
+          tracks.length,
+          "track(s) synchronized."
+        );
+
+      }
+
+    },
+    100
+  );
+
+
+// Safety timeout
+setTimeout(
+  () => {
+
+    clearInterval(
+      librarySyncInterval
+    );
+
+  },
+  10000
+);
 
 
 // =========================================================
