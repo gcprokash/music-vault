@@ -1345,6 +1345,77 @@ main {
 }
 
 
+/* =========================================================
+   MUSIC CARD — DOWNLOAD VIDEO
+   ========================================================= */
+
+.music-download {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+
+  margin-top: 14px;
+  padding: 10px 14px;
+
+  box-sizing: border-box;
+
+  border: 1px solid rgba(139, 92, 246, 0.24);
+
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(124, 58, 237, 0.16),
+      rgba(91, 33, 182, 0.12)
+    );
+
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  letter-spacing: 0.2px;
+
+  text-decoration: none;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.music-download:hover {
+
+  transform: translateY(-2px);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(139, 92, 246, 0.30),
+      rgba(109, 40, 217, 0.24)
+    );
+
+  border-color:
+    rgba(167, 139, 250, 0.45);
+
+  box-shadow:
+    0 8px 24px
+    rgba(124, 58, 237, 0.20);
+}
+
+
+.music-download:active {
+
+  transform: scale(0.97);
+
+}
+
 /* ---------------------------------------------------------
    COPYRIGHT
    --------------------------------------------------------- */
