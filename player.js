@@ -1,6 +1,6 @@
 // =========================================================
 // MUSIC VAULT — MEDIA PLAYER
-// Dynamic Player
+// Dynamic Audio Player
 // media.json → Player
 // =========================================================
 
@@ -42,6 +42,9 @@ const durationElement =
 const volumeBar =
   document.getElementById("player-volume-bar");
 
+const downloadButton =
+  document.getElementById("player-download");
+
 
 // =========================================================
 // MEDIA ELEMENT
@@ -82,14 +85,11 @@ function formatTime(seconds) {
     return "0:00";
   }
 
-
   const minutes =
     Math.floor(seconds / 60);
 
-
   const remainingSeconds =
     Math.floor(seconds % 60);
-
 
   return (
     minutes +
@@ -110,7 +110,6 @@ function updatePlayButton(isPlaying) {
     return;
   }
 
-
   if (isPlaying) {
 
     playButton.textContent =
@@ -120,7 +119,6 @@ function updatePlayButton(isPlaying) {
       "aria-label",
       "Pause"
     );
-
 
     if (mediaPlayer) {
 
@@ -139,7 +137,6 @@ function updatePlayButton(isPlaying) {
       "aria-label",
       "Play"
     );
-
 
     if (mediaPlayer) {
 
@@ -165,11 +162,9 @@ function updatePlayerCover(track) {
       ".player-cover"
     );
 
-
   if (!playerCover) {
     return;
   }
-
 
   if (track && track.cover) {
 
@@ -213,7 +208,6 @@ function buildPlayerSubtitle(track) {
     return "Select a song from your library";
   }
 
-
   const parts = [];
 
 
@@ -232,7 +226,6 @@ function buildPlayerSubtitle(track) {
 
     const height =
       Number(track.video.height);
-
 
     if (height >= 2160) {
 
@@ -268,7 +261,6 @@ function buildPlayerSubtitle(track) {
   // Hi-Res
   const hiResTrack =
     getHiResTrack(track);
-
 
   if (hiResTrack) {
 
@@ -333,7 +325,6 @@ function getHiResTrack(track) {
           Number(track.audio.hiResTrack)
       );
 
-
     if (detected) {
       return detected;
     }
@@ -349,7 +340,6 @@ function getHiResTrack(track) {
         String(
           item.codec || ""
         ).toLowerCase();
-
 
       return (
         codec === "alac" ||
@@ -375,18 +365,25 @@ function getPlaybackSource(track) {
 
 
   /*
-   * Future media.json can contain:
+   * Playback priority:
    *
-   * playbackUrl
-   *
-   * This should point to a browser-compatible
-   * audio/video file.
+   * 1. playbackUrl
+   * 2. audioPlaybackUrl
+   * 3. audioUrl
+   * 4. path
    */
 
 
   if (track.playbackUrl) {
 
     return track.playbackUrl;
+
+  }
+
+
+  if (track.audioPlaybackUrl) {
+
+    return track.audioPlaybackUrl;
 
   }
 
@@ -411,6 +408,119 @@ function getPlaybackSource(track) {
 
 
 // =========================================================
+// GET ORIGINAL VIDEO DOWNLOAD URL
+// =========================================================
+
+function getDownloadUrl(track) {
+
+  if (!track) {
+    return "";
+  }
+
+
+  /*
+   * Original Video Download priority:
+   *
+   * 1. downloadUrl
+   * 2. driveUrl
+   * 3. url
+   */
+
+
+  if (track.downloadUrl) {
+
+    return track.downloadUrl;
+
+  }
+
+
+  if (track.driveUrl) {
+
+    return track.driveUrl;
+
+  }
+
+
+  if (track.url) {
+
+    return track.url;
+
+  }
+
+
+  return "";
+
+}
+
+
+// =========================================================
+// UPDATE DOWNLOAD BUTTON
+// =========================================================
+
+function updateDownloadButton(track) {
+
+  if (!downloadButton) {
+    return;
+  }
+
+
+  const downloadUrl =
+    getDownloadUrl(track);
+
+
+  if (!downloadUrl) {
+
+    downloadButton.removeAttribute(
+      "href"
+    );
+
+    downloadButton.setAttribute(
+      "aria-disabled",
+      "true"
+    );
+
+    downloadButton.style.pointerEvents =
+      "none";
+
+    downloadButton.style.opacity =
+      "0.5";
+
+    return;
+
+  }
+
+
+  downloadButton.href =
+    downloadUrl;
+
+  downloadButton.target =
+    "_blank";
+
+  downloadButton.rel =
+    "noopener";
+
+
+  downloadButton.removeAttribute(
+    "aria-disabled"
+  );
+
+
+  downloadButton.style.pointerEvents =
+    "";
+
+  downloadButton.style.opacity =
+    "";
+
+
+  downloadButton.setAttribute(
+    "download",
+    ""
+  );
+
+}
+
+
+// =========================================================
 // LOAD TRACK
 // =========================================================
 
@@ -426,6 +536,8 @@ function loadTrack(
 
     playerSubtitle.textContent =
       "Add a media file to the library";
+
+    updateDownloadButton(null);
 
     isLoaded = false;
 
@@ -484,6 +596,13 @@ function loadTrack(
 
 
   // -------------------------------------------------------
+  // Download
+  // -------------------------------------------------------
+
+  updateDownloadButton(track);
+
+
+  // -------------------------------------------------------
   // Reset Player
   // -------------------------------------------------------
 
@@ -535,7 +654,7 @@ function loadTrack(
 
     playerSubtitle.textContent =
       buildPlayerSubtitle(track) +
-      " • Playback source unavailable";
+      " • Audio playback unavailable";
 
     return;
 
@@ -543,7 +662,7 @@ function loadTrack(
 
 
   // -------------------------------------------------------
-  // Load Media
+  // Load Audio
   // -------------------------------------------------------
 
   audio.src =
@@ -574,9 +693,7 @@ function loadTrack(
 function playTrack() {
 
   if (!tracks.length) {
-
     return;
-
   }
 
 
@@ -593,7 +710,7 @@ function playTrack() {
   if (!audio.src) {
 
     playerSubtitle.textContent =
-      "Playback source unavailable";
+      "Audio playback unavailable";
 
     return;
 
@@ -623,7 +740,7 @@ function playTrack() {
           buildPlayerSubtitle(
             tracks[currentTrackIndex]
           ) +
-          " • Unable to play this media";
+          " • Unable to play audio";
 
 
         console.warn(
@@ -965,19 +1082,19 @@ audio.addEventListener(
         buildPlayerSubtitle(
           tracks[currentTrackIndex]
         ) +
-        " • This media format cannot be played here";
+        " • This audio format cannot be played here";
 
     } else {
 
       playerSubtitle.textContent =
-        "This media format cannot be played here";
+        "This audio format cannot be played here";
 
     }
 
 
     console.error(
       "Music Vault:",
-      "Media loading error",
+      "Audio loading error",
       audio.error
     );
 
@@ -1076,6 +1193,8 @@ function syncWithMusicLibrary() {
       playerSubtitle.textContent =
         "No media files found";
 
+      updateDownloadButton(null);
+
       return;
 
     }
@@ -1110,14 +1229,6 @@ syncWithMusicLibrary();
 // LIBRARY LOADED EVENT WATCH
 // =========================================================
 
-const originalTracksDescriptor =
-  Object.getOwnPropertyDescriptor(
-    window,
-    "musicVaultTracks"
-  );
-
-
-// Give script.js time to load media.json
 const librarySyncInterval =
   setInterval(
     () => {
@@ -1157,7 +1268,10 @@ const librarySyncInterval =
   );
 
 
-// Safety timeout
+// =========================================================
+// SAFETY TIMEOUT
+// =========================================================
+
 setTimeout(
   () => {
 
@@ -1175,5 +1289,5 @@ setTimeout(
 // =========================================================
 
 console.log(
-  "Music Vault Player initialized."
+  "Music Vault Audio Player initialized."
 );
