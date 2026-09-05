@@ -1,13 +1,13 @@
 {
   "project": "Music Vault",
-  "version": "4.0",
-  "generatedAt": "2026-09-05T10:31:59.612795Z",
+  "version": "5.0",
+  "generatedAt": "2026-09-05T10:41:00.872845+00:00",
   "totalFiles": 1,
   "files": [
     {
       "id": "18lt8N-Nzs0Bt7r2XsD-73edabPVs5o2-",
       "fileName": "Chumu 2K [1440p] [VP9] [Multi Audio] [GCP].mkv",
-      "title": "Chumu 2K [1440p] [VP9] [Multi Audio] [GCP]",
+      "title": "Chumu 2K",
       "artist": "",
       "album": "",
       "composer": "",
@@ -28,7 +28,7 @@
         "width": 2560,
         "height": 1440,
         "resolution": "2560x1440",
-        "fps": "30/1",
+        "fps": "30",
         "bitrate": "",
         "pixelFormat": "yuv420p"
       },
@@ -64,7 +64,7 @@
             "album": "",
             "composer": "",
             "sampleRate": "48000",
-            "bitDepth": 0,
+            "bitDepth": 24,
             "channels": 2,
             "channelLayout": "stereo",
             "bitrate": "",
