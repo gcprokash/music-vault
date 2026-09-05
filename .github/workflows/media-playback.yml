@@ -3,11 +3,25 @@ name: Music Vault Playback Builder
 on:
   workflow_dispatch:
 
+  # Metadata Scanner সফলভাবে শেষ হলে
+  # Playback Builder অটো চালু হবে
+  workflow_run:
+    workflows:
+      - Music Vault Metadata Scanner
+    types:
+      - completed
+
 permissions:
   contents: write
 
 jobs:
   build-playback:
+
+    # workflow_run হলে শুধু সফল scanner-এর পর চলবে
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+
     runs-on: ubuntu-latest
 
     steps:
@@ -41,12 +55,13 @@ jobs:
 
 
       # ==========================================
-      # 4. Build Browser Audio
+      # 4. Smart Audio Builder
       # ==========================================
 
-      - name: Extract original Opus audio
+      - name: Build smart audio playback
         env:
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+
         run: |
 
           python - <<'PY'
@@ -55,6 +70,7 @@ jobs:
           import os
           import subprocess
           import tempfile
+
           from pathlib import Path
 
           from google.oauth2 import service_account
@@ -67,24 +83,53 @@ jobs:
           # ==========================================
 
           REPO_BASE = "https://gcprokash.github.io/music-vault"
-          AUDIO_DIR = Path("audio")
 
+          AUDIO_DIR = Path("audio")
           AUDIO_DIR.mkdir(parents=True, exist_ok=True)
+
+
+          # ==========================================
+          # Browser-compatible codec priority
+          # ==========================================
+
+          CODEC_PRIORITY = [
+              "opus",
+              "flac",
+              "aac",
+              "mp3",
+              "vorbis"
+          ]
+
+
+          EXTENSIONS = {
+              "opus": "opus",
+              "flac": "flac",
+              "aac": "aac",
+              "mp3": "mp3",
+              "vorbis": "ogg"
+          }
 
 
           # ==========================================
           # Load media.json
           # ==========================================
 
-          with open("media.json", "r", encoding="utf-8") as f:
+          with open(
+              "media.json",
+              "r",
+              encoding="utf-8"
+          ) as f:
+
               data = json.load(f)
+
 
           files = data.get("files", [])
 
+
           print("========================================")
-          print(" MUSIC VAULT AUDIO BUILDER")
+          print(" MUSIC VAULT SMART AUDIO BUILDER")
           print("========================================")
-          print("Music Vault files:", len(files))
+          print("Total files:", len(files))
           print()
 
 
@@ -96,12 +141,17 @@ jobs:
               os.environ["GOOGLE_SERVICE_ACCOUNT_JSON"]
           )
 
-          credentials = service_account.Credentials.from_service_account_info(
-              credentials_info,
-              scopes=[
-                  "https://www.googleapis.com/auth/drive.readonly"
-              ]
+          credentials = (
+              service_account
+              .Credentials
+              .from_service_account_info(
+                  credentials_info,
+                  scopes=[
+                      "https://www.googleapis.com/auth/drive.readonly"
+                  ]
+              )
           )
+
 
           drive = build(
               "drive",
@@ -110,102 +160,93 @@ jobs:
           )
 
 
-          # ==========================================
-          # Process each media file
-          # ==========================================
-
           changed = False
+
+
+          # ==========================================
+          # Process every media file
+          # ==========================================
 
           for item in files:
 
               file_id = item.get("id")
-              title = item.get("title") or item.get("fileName") or "Unknown"
 
-              if not file_id:
-                  print("SKIP:", title, "- no file ID")
-                  continue
-
-
-              output_file = AUDIO_DIR / f"{file_id}.opus"
-
-              playback_url = (
-                  f"{REPO_BASE}/audio/{file_id}.opus"
+              title = (
+                  item.get("title")
+                  or item.get("fileName")
+                  or "Unknown"
               )
 
 
-              # ======================================
-              # Already built
-              # ======================================
+              if not file_id:
 
-              if output_file.exists() and output_file.stat().st_size > 0:
-
-                  print("EXISTS:", title)
-
-                  if item.get("audioPlaybackUrl") != playback_url:
-                      item["audioPlaybackUrl"] = playback_url
-                      changed = True
+                  print(
+                      "SKIP:",
+                      title,
+                      "- missing file ID"
+                  )
 
                   continue
 
 
               print()
-              print("----------------------------------------")
+              print("========================================")
               print("Processing:", title)
               print("Drive ID:", file_id)
-              print("----------------------------------------")
+              print("========================================")
 
 
               # ======================================
-              # Temporary MKV file
+              # Temporary source file
               # ======================================
 
-              with tempfile.TemporaryDirectory() as temp_dir:
+              with tempfile.TemporaryDirectory() as temp:
 
-                  temp_dir = Path(temp_dir)
-                  input_file = temp_dir / "source.mkv"
+                  temp = Path(temp)
+
+                  source = temp / "source.mkv"
 
 
                   # ==================================
-                  # Get Drive file
+                  # Download original file
                   # ==================================
+
+                  print("Downloading original MKV...")
+
 
                   request = drive.files().get(
-                      fileId=file_id,
-                      fields="id,name,mimeType,size"
-                  )
-
-                  file_info = request.execute()
-
-                  print("Drive file:", file_info.get("name"))
-                  print("Size:", file_info.get("size"))
-
-
-                  # ==================================
-                  # Download original MKV
-                  # ==================================
-
-                  download_request = drive.files().get(
                       fileId=file_id,
                       alt="media"
                   )
 
-                  with open(input_file, "wb") as fh:
+
+                  with open(
+                      source,
+                      "wb"
+                  ) as fh:
 
                       downloader = MediaIoBaseDownload(
                           fh,
-                          download_request,
+                          request,
                           chunksize=10 * 1024 * 1024
                       )
 
+
                       done = False
+
 
                       while not done:
 
-                          status, done = downloader.next_chunk()
+                          status, done = (
+                              downloader.next_chunk()
+                          )
+
 
                           if status:
+
                               print(
-                                  f"Download: {status.progress() * 100:.1f}%"
+                                  f"Download: "
+                                  f"{status.progress() * 100:.1f}%"
                               )
 
 
@@ -213,54 +254,234 @@ jobs:
 
 
                   # ==================================
-                  # Find Opus audio stream
+                  # Probe ALL audio streams
                   # ==================================
 
                   probe_cmd = [
                       "ffprobe",
-                      "-v", "error",
-                      "-select_streams", "a",
+                      "-v",
+                      "error",
+
+                      "-select_streams",
+                      "a",
+
                       "-show_entries",
-                      "stream=index,codec_name",
-                      "-of", "json",
-                      str(input_file)
+                      (
+                          "stream="
+                          "index,"
+                          "codec_name,"
+                          "channels,"
+                          "sample_rate,"
+                          "bits_per_sample,"
+                          "channel_layout:"
+                          "stream_tags="
+                          "language,"
+                          "title,"
+                          "handler_name:"
+                          "stream_disposition="
+                          "default"
+                      ),
+
+                      "-of",
+                      "json",
+
+                      str(source)
                   ]
+
 
                   result = subprocess.run(
                       probe_cmd,
                       capture_output=True,
-                      text=True,
-                      check=True
+                      text=True
                   )
 
-                  probe = json.loads(result.stdout)
 
-                  audio_streams = probe.get("streams", [])
+                  # ==================================
+                  # ffprobe error handling
+                  # ==================================
 
-                  opus_stream = None
+                  if result.returncode != 0:
 
-                  for stream in audio_streams:
+                      print()
+                      print("FFPROBE ERROR")
+                      print(result.stderr)
 
-                      if stream.get("codec_name") == "opus":
-                          opus_stream = stream
-                          break
-
-
-                  if not opus_stream:
-
-                      print(
-                          "NO OPUS AUDIO:",
-                          title
+                      item["audioPlaybackAvailable"] = False
+                      item["audioPlaybackReason"] = (
+                          "Unable to inspect audio tracks"
                       )
+
+                      changed = True
 
                       continue
 
 
-                  stream_index = opus_stream["index"]
+                  try:
+
+                      probe = json.loads(
+                          result.stdout
+                      )
+
+                  except json.JSONDecodeError:
+
+                      print(
+                          "Invalid ffprobe JSON."
+                      )
+
+                      item["audioPlaybackAvailable"] = False
+                      item["audioPlaybackReason"] = (
+                          "Invalid audio metadata"
+                      )
+
+                      changed = True
+
+                      continue
+
+
+                  streams = probe.get(
+                      "streams",
+                      []
+                  )
+
+
+                  print()
+                  print(
+                      "Audio tracks found:",
+                      len(streams)
+                  )
+
+
+                  # ==================================
+                  # Display tracks
+                  # ==================================
+
+                  for stream in streams:
+
+                      print(
+                          "Track",
+                          stream.get("index"),
+                          "|",
+                          stream.get("codec_name"),
+                          "|",
+                          stream.get("channels"),
+                          "ch |",
+                          stream.get("sample_rate"),
+                          "Hz"
+                      )
+
+
+                  # ==================================
+                  # Smart codec selection
+                  # ==================================
+
+                  selected = None
+
+
+                  for codec in CODEC_PRIORITY:
+
+                      for stream in streams:
+
+                          if (
+                              stream.get("codec_name")
+                              == codec
+                          ):
+
+                              selected = stream
+
+                              break
+
+
+                      if selected:
+
+                          break
+
+
+                  # ==================================
+                  # No browser-compatible track
+                  # ==================================
+
+                  if not selected:
+
+                      print()
+                      print(
+                          "NO BROWSER-COMPATIBLE "
+                          "ORIGINAL AUDIO"
+                      )
+
+
+                      codecs = [
+                          s.get("codec_name")
+                          for s in streams
+                      ]
+
+
+                      item[
+                          "audioPlaybackAvailable"
+                      ] = False
+
+
+                      item[
+                          "audioPlaybackReason"
+                      ] = (
+                          "No supported original "
+                          "audio codec"
+                      )
+
+
+                      item[
+                          "audioTracksDetected"
+                      ] = codecs
+
+
+                      changed = True
+
+                      continue
+
+
+                  # ==================================
+                  # Selected track
+                  # ==================================
+
+                  codec = selected.get(
+                      "codec_name"
+                  )
+
+                  stream_index = selected.get(
+                      "index"
+                  )
+
+
+                  extension = EXTENSIONS[
+                      codec
+                  ]
+
+
+                  output_file = (
+                      AUDIO_DIR
+                      / f"{file_id}.{extension}"
+                  )
+
+
+                  playback_url = (
+                      f"{REPO_BASE}/audio/"
+                      f"{file_id}.{extension}"
+                  )
+
+
+                  print()
+                  print(
+                      "SELECTED AUDIO:",
+                      codec.upper()
+                  )
 
                   print(
-                      "Opus stream found:",
+                      "Stream:",
                       stream_index
+                  )
+
+                  print(
+                      "Output:",
+                      output_file
                   )
 
 
@@ -269,12 +490,15 @@ jobs:
                   # ==================================
 
                   ffmpeg_cmd = [
+
                       "ffmpeg",
+
                       "-hide_banner",
-                      "-loglevel", "error",
+                      "-loglevel",
+                      "error",
 
                       "-i",
-                      str(input_file),
+                      str(source),
 
                       "-map",
                       f"0:{stream_index}",
@@ -293,40 +517,115 @@ jobs:
                   ]
 
 
-                  subprocess.run(
+                  extract = subprocess.run(
                       ffmpeg_cmd,
-                      check=True
+                      capture_output=True,
+                      text=True
                   )
+
+
+                  if extract.returncode != 0:
+
+                      print()
+                      print(
+                          "AUDIO EXTRACTION ERROR"
+                      )
+
+                      print(
+                          extract.stderr
+                      )
+
+                      item[
+                          "audioPlaybackAvailable"
+                      ] = False
+
+                      item[
+                          "audioPlaybackReason"
+                      ] = (
+                          "Audio extraction failed"
+                      )
+
+                      changed = True
+
+                      continue
 
 
                   # ==================================
                   # Verify output
                   # ==================================
 
-                  if not output_file.exists():
-                      raise RuntimeError(
-                          f"Audio extraction failed: {title}"
+                  if (
+                      not output_file.exists()
+                      or
+                      output_file.stat().st_size == 0
+                  ):
+
+                      print(
+                          "Output audio file is empty."
                       )
+
+                      item[
+                          "audioPlaybackAvailable"
+                      ] = False
+
+                      item[
+                          "audioPlaybackReason"
+                      ] = (
+                          "Empty extracted audio"
+                      )
+
+                      changed = True
+
+                      continue
 
 
                   size_mb = (
-                      output_file.stat().st_size /
-                      (1024 * 1024)
+                      output_file.stat().st_size
+                      / (1024 * 1024)
                   )
 
 
+                  print()
                   print(
-                      f"Audio created: {size_mb:.2f} MB"
+                      f"Audio created: "
+                      f"{size_mb:.2f} MB"
                   )
 
 
                   # ==================================
-                  # Update media.json
+                  # Save playback metadata
                   # ==================================
 
-                  item["audioPlaybackUrl"] = playback_url
+                  item[
+                      "audioPlaybackAvailable"
+                  ] = True
+
+
+                  item[
+                      "audioPlaybackCodec"
+                  ] = codec
+
+
+                  item[
+                      "audioPlaybackStream"
+                  ] = stream_index
+
+
+                  item[
+                      "audioPlaybackUrl"
+                  ] = playback_url
+
+
+                  item[
+                      "audioPlaybackFile"
+                  ] = (
+                      f"audio/"
+                      f"{file_id}.{extension}"
+                  )
+
 
                   changed = True
+
 
                   print(
                       "Playback URL:",
@@ -355,43 +654,63 @@ jobs:
 
                   f.write("\n")
 
+
               print()
-              print("media.json updated.")
+              print(
+                  "media.json updated."
+              )
 
           else:
 
               print()
-              print("No metadata changes needed.")
+              print(
+                  "No metadata changes."
+              )
 
 
           print()
           print("========================================")
-          print(" AUDIO BUILD COMPLETE")
+          print(" SMART AUDIO BUILD COMPLETE")
           print("========================================")
 
           PY
 
 
       # ==========================================
-      # 5. Show generated audio
+      # 5. Show generated files
       # ==========================================
 
       - name: Check generated audio
         run: |
 
-          echo "Generated audio files:"
-          find audio -type f -name "*.opus" -printf "%f - %s bytes\n" || true
+          echo "========================================"
+          echo " GENERATED AUDIO FILES"
+          echo "========================================"
+
+          find audio \
+            -type f \
+            \( \
+              -name "*.opus" \
+              -o -name "*.flac" \
+              -o -name "*.aac" \
+              -o -name "*.mp3" \
+              -o -name "*.ogg" \
+            \) \
+            -printf "%f - %s bytes\n" \
+            || true
 
 
       # ==========================================
-      # 6. Commit changes
+      # 6. Commit
       # ==========================================
 
       - name: Commit audio and metadata
         run: |
 
           git config user.name "Music Vault Bot"
-          git config user.email "music-vault-bot@users.noreply.github.com"
+
+          git config user.email \
+            "music-vault-bot@users.noreply.github.com"
 
           git add audio media.json
 
@@ -401,7 +720,8 @@ jobs:
 
           else
 
-            git commit -m "Build Music Vault audio playback"
+            git commit \
+              -m "Build Music Vault smart audio playback"
 
             git push
 
