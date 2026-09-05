@@ -1,0 +1,92 @@
+{
+  "project": "Music Vault",
+  "version": "4.0",
+  "generatedAt": "2026-09-05T10:31:59.612795Z",
+  "totalFiles": 1,
+  "files": [
+    {
+      "id": "18lt8N-Nzs0Bt7r2XsD-73edabPVs5o2-",
+      "fileName": "Chumu 2K [1440p] [VP9] [Multi Audio] [GCP].mkv",
+      "title": "Chumu 2K [1440p] [VP9] [Multi Audio] [GCP]",
+      "artist": "",
+      "album": "",
+      "composer": "",
+      "year": "",
+      "genre": "",
+      "container": "mkv",
+      "mimeType": "video/matroska",
+      "size": 189494562,
+      "created": "2026-09-05T09:15:16.668Z",
+      "updated": "2026-08-06T05:40:48.000Z",
+      "driveUrl": "https://drive.google.com/file/d/18lt8N-Nzs0Bt7r2XsD-73edabPVs5o2-/view?usp=drivesdk",
+      "duration": "197.717000",
+      "format": "matroska,webm",
+      "formatLong": "Matroska / WebM",
+      "video": {
+        "codec": "vp9",
+        "codecLong": "Google VP9",
+        "width": 2560,
+        "height": 1440,
+        "resolution": "2560x1440",
+        "fps": "30/1",
+        "bitrate": "",
+        "pixelFormat": "yuv420p"
+      },
+      "audio": {
+        "trackCount": 2,
+        "multiAudio": true,
+        "hiResTrack": 2,
+        "tracks": [
+          {
+            "index": 1,
+            "codec": "opus",
+            "codecLong": "Opus (Opus Interactive Audio Codec)",
+            "language": "",
+            "title": "Original YouTube Opus",
+            "artist": "",
+            "album": "",
+            "composer": "",
+            "sampleRate": "48000",
+            "bitDepth": 0,
+            "channels": 2,
+            "channelLayout": "stereo",
+            "bitrate": "",
+            "default": false,
+            "forced": false
+          },
+          {
+            "index": 2,
+            "codec": "alac",
+            "codecLong": "ALAC (Apple Lossless Audio Codec)",
+            "language": "",
+            "title": "Hi-Res Apple Lossless (ALAC) 24-bit 48.0kHz By GCP",
+            "artist": "",
+            "album": "",
+            "composer": "",
+            "sampleRate": "48000",
+            "bitDepth": 0,
+            "channels": 2,
+            "channelLayout": "stereo",
+            "bitrate": "",
+            "default": true,
+            "forced": false
+          }
+        ]
+      },
+      "subtitles": {
+        "trackCount": 0,
+        "tracks": []
+      },
+      "hiResMetadata": {
+        "artist": "",
+        "album": "",
+        "title": "Hi-Res Apple Lossless (ALAC) 24-bit 48.0kHz By GCP",
+        "composer": ""
+      },
+      "metadataStatus": "INCOMPLETE",
+      "warnings": [
+        "Artist metadata missing from Hi-Res audio track"
+      ]
+    }
+  ]
+}
