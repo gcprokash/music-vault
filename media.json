@@ -1,7 +1,7 @@
 {
   "project": "Music Vault",
-  "version": "5.0",
-  "generatedAt": "2026-09-05T18:39:54.386202+00:00",
+  "version": "6.0",
+  "generatedAt": "2026-09-05T19:12:56.623428+00:00",
   "totalFiles": 10,
   "files": [
     {
@@ -83,12 +83,14 @@
         "title": "Hi-Res Apple Lossless (ALAC) 16-bit 44.1kHz + Intro By GCP",
         "composer": ""
       },
+      "cover": "covers/1UYIq8jRE4-VCM7UgMDEpyTpxuJCgIJB3.svg",
+      "coverType": "generated",
+      "coverSource": "Music Vault Auto Generated",
+      "coverDriveId": "",
       "metadataStatus": "INCOMPLETE",
       "warnings": [
         "Artist metadata missing from Hi-Res audio track"
-      ],
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
+      ]
     },
     {
       "id": "1TIYX3F47Dg6kfVc8Ymvkuq2aff6jkkf9",
@@ -194,12 +196,14 @@
         "title": "Hi-Res Apple Lossless (ALAC) 16-bit 44.1kHz By GCP",
         "composer": ""
       },
+      "cover": "covers/1TIYX3F47Dg6kfVc8Ymvkuq2aff6jkkf9.jpg",
+      "coverType": "drive",
+      "coverSource": "Amer Achaar.jpg",
+      "coverDriveId": "11MrDmd8lEkD4NRLr89ZZqco1sICe9wKy",
       "metadataStatus": "INCOMPLETE",
       "warnings": [
         "Artist metadata missing from Hi-Res audio track"
-      ],
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
+      ]
     },
     {
       "id": "1mvr_Gj6NTnblkQzu3j-qe7yP4OzPePb1",
@@ -280,12 +284,14 @@
         "title": "Hi-Res Apple Lossless (ALAC) 16-bit 44.1kHz By GCP",
         "composer": ""
       },
+      "cover": "covers/1mvr_Gj6NTnblkQzu3j-qe7yP4OzPePb1.svg",
+      "coverType": "generated",
+      "coverSource": "Music Vault Auto Generated",
+      "coverDriveId": "",
       "metadataStatus": "INCOMPLETE",
       "warnings": [
         "Artist metadata missing from Hi-Res audio track"
-      ],
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
+      ]
     },
     {
       "id": "1FrigSYrscjY9BloRg2oPNnR8WMUSBuhz",
@@ -423,13 +429,14 @@
         "title": "Hi-Res Apple Lossless (ALAC) 24-bit 44.1kHz By GCP",
         "composer": ""
       },
+      "cover": "covers/1FrigSYrscjY9BloRg2oPNnR8WMUSBuhz.svg",
+      "coverType": "generated",
+      "coverSource": "Music Vault Auto Generated",
+      "coverDriveId": "",
       "metadataStatus": "INCOMPLETE",
       "warnings": [
         "Artist metadata missing from Hi-Res audio track"
-      ],
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "No supported original audio codec",
-      "audioTracksDetected": []
+      ]
     },
     {
       "id": "18lt8N-Nzs0Bt7r2XsD-73edabPVs5o2-",
@@ -510,12 +517,14 @@
         "title": "Hi-Res Apple Lossless (ALAC) 24-bit 48.0kHz By GCP",
         "composer": ""
       },
+      "cover": "covers/18lt8N-Nzs0Bt7r2XsD-73edabPVs5o2-.svg",
+      "coverType": "generated",
+      "coverSource": "Music Vault Auto Generated",
+      "coverDriveId": "",
       "metadataStatus": "INCOMPLETE",
       "warnings": [
         "Artist metadata missing from Hi-Res audio track"
-      ],
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
+      ]
     },
     {
       "id": "15U7ZY94ER6xpAgzxDOjpUMHVIv72wM0b",
@@ -596,12 +605,14 @@
         "title": "Hi-Res Apple Lossless (ALAC) 16-bit 44.1kHz By GCP",
         "composer": ""
       },
+      "cover": "covers/15U7ZY94ER6xpAgzxDOjpUMHVIv72wM0b.jpg",
+      "coverType": "embedded",
+      "coverSource": "Embedded Album Art",
+      "coverDriveId": "",
       "metadataStatus": "INCOMPLETE",
       "warnings": [
         "Artist metadata missing from Hi-Res audio track"
-      ],
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
+      ]
     },
     {
       "id": "1LQk_aOde4MtwID7EjBmR1vPqXAhpKYNB",
@@ -707,12 +718,14 @@
         "title": "Hi-Res Apple Lossless (ALAC) 24-bit 44.1kHz By GCP",
         "composer": ""
       },
+      "cover": "covers/1LQk_aOde4MtwID7EjBmR1vPqXAhpKYNB.svg",
+      "coverType": "generated",
+      "coverSource": "Music Vault Auto Generated",
+      "coverDriveId": "",
       "metadataStatus": "INCOMPLETE",
       "warnings": [
         "Artist metadata missing from Hi-Res audio track"
-      ],
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
+      ]
     },
     {
       "id": "1uofh1-iX9SIHDZcXZEUUb_T5IA7gfWP3",
@@ -802,12 +815,14 @@
         "title": "Hi-Res Apple Lossless (ALAC) 16-bit 44.1kHz By GCP",
         "composer": ""
       },
+      "cover": "covers/1uofh1-iX9SIHDZcXZEUUb_T5IA7gfWP3.svg",
+      "coverType": "generated",
+      "coverSource": "Music Vault Auto Generated",
+      "coverDriveId": "",
       "metadataStatus": "INCOMPLETE",
       "warnings": [
         "Artist metadata missing from Hi-Res audio track"
-      ],
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
+      ]
     },
     {
       "id": "1bVOrZI6-I1bw8ZlX-SLTouHGaBeRdij5",
@@ -945,13 +960,14 @@
         "title": "Hi-Res Apple Lossless (ALAC) 24-bit 44.1kHz By GCP",
         "composer": ""
       },
+      "cover": "covers/1bVOrZI6-I1bw8ZlX-SLTouHGaBeRdij5.jpg",
+      "coverType": "drive",
+      "coverSource": "Hame Tora Dil Deli.jpg",
+      "coverDriveId": "1w62BaP7K6YZXwlJNy5pvL1L7Lxmt0dH1",
       "metadataStatus": "INCOMPLETE",
       "warnings": [
         "Artist metadata missing from Hi-Res audio track"
-      ],
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "No supported original audio codec",
-      "audioTracksDetected": []
+      ]
     },
     {
       "id": "17BUJhyefcUYLHm5csjtZr4om2pxXMnu2",
@@ -1057,12 +1073,14 @@
         "title": "Hi-Res Apple Lossless (ALAC) 24-bit 44.1kHz By GCP",
         "composer": ""
       },
+      "cover": "covers/17BUJhyefcUYLHm5csjtZr4om2pxXMnu2.svg",
+      "coverType": "generated",
+      "coverSource": "Music Vault Auto Generated",
+      "coverDriveId": "",
       "metadataStatus": "INCOMPLETE",
       "warnings": [
         "Artist metadata missing from Hi-Res audio track"
-      ],
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
+      ]
     }
   ]
 }
