@@ -149,6 +149,10 @@ function renderMusicLibrary(files) {
 // Create Music Card
 // ---------------------------------------------------------
 
+// ---------------------------------------------------------
+// Create Music Card
+// ---------------------------------------------------------
+
 function createMusicCard(
   file,
   index
@@ -208,6 +212,14 @@ function createMusicCard(
       file,
       title
     );
+
+
+  // -------------------------------------------------------
+  // Download URL
+  // -------------------------------------------------------
+
+  const downloadURL =
+    getVideoDownloadURL(file);
 
 
   // -------------------------------------------------------
@@ -277,6 +289,24 @@ function createMusicCard(
       </div>
 
 
+      ${
+        downloadURL
+          ? `
+            <a
+              class="music-download"
+              href="${escapeHTML(downloadURL)}"
+              target="_blank"
+              rel="noopener"
+              aria-label="Download ${escapeHTML(title)}">
+
+              ⬇ Download Video
+
+            </a>
+          `
+          : ""
+      }
+
+
     </div>
 
   `;
@@ -286,6 +316,61 @@ function createMusicCard(
 
 }
 
+
+// ---------------------------------------------------------
+// Get Original Video Download URL
+// ---------------------------------------------------------
+
+function getVideoDownloadURL(file) {
+
+  if (!file) {
+    return "";
+  }
+
+
+  // Existing downloadUrl
+  if (file.downloadUrl) {
+
+    return file.downloadUrl;
+
+  }
+
+
+  // Google Drive file ID
+  if (file.id) {
+
+    return (
+      "https://drive.google.com/uc?export=download&id=" +
+      encodeURIComponent(file.id)
+    );
+
+  }
+
+
+  // Extract ID from driveUrl
+  if (file.driveUrl) {
+
+    const match =
+      file.driveUrl.match(
+        /\/d\/([^/]+)/
+      );
+
+
+    if (match && match[1]) {
+
+      return (
+        "https://drive.google.com/uc?export=download&id=" +
+        encodeURIComponent(match[1])
+      );
+
+    }
+
+  }
+
+
+  return "";
+
+}
 
 // ---------------------------------------------------------
 // Build Card Filter Tags
