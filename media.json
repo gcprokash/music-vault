@@ -86,7 +86,9 @@
       "metadataStatus": "INCOMPLETE",
       "warnings": [
         "Artist metadata missing from Hi-Res audio track"
-      ]
+      ],
+      "audioPlaybackAvailable": false,
+      "audioPlaybackReason": "Unable to inspect audio tracks"
     },
     {
       "id": "1TIYX3F47Dg6kfVc8Ymvkuq2aff6jkkf9",
@@ -195,7 +197,9 @@
       "metadataStatus": "INCOMPLETE",
       "warnings": [
         "Artist metadata missing from Hi-Res audio track"
-      ]
+      ],
+      "audioPlaybackAvailable": false,
+      "audioPlaybackReason": "Unable to inspect audio tracks"
     },
     {
       "id": "1mvr_Gj6NTnblkQzu3j-qe7yP4OzPePb1",
@@ -279,7 +283,9 @@
       "metadataStatus": "INCOMPLETE",
       "warnings": [
         "Artist metadata missing from Hi-Res audio track"
-      ]
+      ],
+      "audioPlaybackAvailable": false,
+      "audioPlaybackReason": "Unable to inspect audio tracks"
     },
     {
       "id": "1FrigSYrscjY9BloRg2oPNnR8WMUSBuhz",
@@ -420,7 +426,10 @@
       "metadataStatus": "INCOMPLETE",
       "warnings": [
         "Artist metadata missing from Hi-Res audio track"
-      ]
+      ],
+      "audioPlaybackAvailable": false,
+      "audioPlaybackReason": "No supported original audio codec",
+      "audioTracksDetected": []
     },
     {
       "id": "18lt8N-Nzs0Bt7r2XsD-73edabPVs5o2-",
@@ -504,7 +513,9 @@
       "metadataStatus": "INCOMPLETE",
       "warnings": [
         "Artist metadata missing from Hi-Res audio track"
-      ]
+      ],
+      "audioPlaybackAvailable": false,
+      "audioPlaybackReason": "Unable to inspect audio tracks"
     },
     {
       "id": "15U7ZY94ER6xpAgzxDOjpUMHVIv72wM0b",
@@ -588,7 +599,9 @@
       "metadataStatus": "INCOMPLETE",
       "warnings": [
         "Artist metadata missing from Hi-Res audio track"
-      ]
+      ],
+      "audioPlaybackAvailable": false,
+      "audioPlaybackReason": "Unable to inspect audio tracks"
     },
     {
       "id": "1LQk_aOde4MtwID7EjBmR1vPqXAhpKYNB",
@@ -697,7 +710,9 @@
       "metadataStatus": "INCOMPLETE",
       "warnings": [
         "Artist metadata missing from Hi-Res audio track"
-      ]
+      ],
+      "audioPlaybackAvailable": false,
+      "audioPlaybackReason": "Unable to inspect audio tracks"
     },
     {
       "id": "1uofh1-iX9SIHDZcXZEUUb_T5IA7gfWP3",
@@ -790,7 +805,9 @@
       "metadataStatus": "INCOMPLETE",
       "warnings": [
         "Artist metadata missing from Hi-Res audio track"
-      ]
+      ],
+      "audioPlaybackAvailable": false,
+      "audioPlaybackReason": "Unable to inspect audio tracks"
     },
     {
       "id": "1bVOrZI6-I1bw8ZlX-SLTouHGaBeRdij5",
@@ -931,7 +948,10 @@
       "metadataStatus": "INCOMPLETE",
       "warnings": [
         "Artist metadata missing from Hi-Res audio track"
-      ]
+      ],
+      "audioPlaybackAvailable": false,
+      "audioPlaybackReason": "No supported original audio codec",
+      "audioTracksDetected": []
     },
     {
       "id": "17BUJhyefcUYLHm5csjtZr4om2pxXMnu2",
@@ -1040,7 +1060,9 @@
       "metadataStatus": "INCOMPLETE",
       "warnings": [
         "Artist metadata missing from Hi-Res audio track"
-      ]
+      ],
+      "audioPlaybackAvailable": false,
+      "audioPlaybackReason": "Unable to inspect audio tracks"
     }
   ]
 }
