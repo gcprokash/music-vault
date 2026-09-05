@@ -3,7 +3,8 @@ name: Music Vault Metadata Scanner
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 */15 * * *"
+    # Every 15 minutes
+    - cron: "*/15 * * * *"
 
 permissions:
   contents: write
@@ -13,11 +14,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
       # ==========================================
       # 1. Checkout GitHub Repository
       # ==========================================
       - name: Checkout repository
         uses: actions/checkout@v4
+
 
       # ==========================================
       # 2. Install FFmpeg / FFprobe
@@ -26,24 +29,20 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y ffmpeg
-
-      # ==========================================
-      # 3. Check FFprobe
-      # ==========================================
-      - name: Check FFprobe
-        run: |
           ffprobe -version
 
+
       # ==========================================
-      # 4. Install Python packages
+      # 3. Install Python packages
       # ==========================================
       - name: Install Python packages
         run: |
           python -m pip install --upgrade pip
           pip install google-api-python-client google-auth google-auth-httplib2
 
+
       # ==========================================
-      # 5. Create Scanner
+      # 4. Create Scanner
       # ==========================================
       - name: Create scanner
         env:
@@ -54,8 +53,11 @@ jobs:
 
           import os
           import json
+          import html
+          import re
           import subprocess
           import tempfile
+          import unicodedata
           from datetime import datetime, timezone
           from pathlib import Path
 
@@ -65,14 +67,36 @@ jobs:
 
 
           # ============================================================
-          # MUSIC VAULT — METADATA SCANNER
-          # Google Drive → FFprobe → media.json
+          # MUSIC VAULT — METADATA + COVER SCANNER
+          #
+          # Google Drive → FFprobe → Cover → media.json
+          #
+          # COVER PRIORITY:
+          #
+          # 1. Google Drive / cover
+          # 2. Embedded Album Art inside media
+          # 3. Auto-generated Music Vault cover
           # ============================================================
 
           FOLDER_NAME = "Music Vault"
+
+          COVER_FOLDER_NAMES = {
+              "cover",
+              "covers"
+          }
+
+          MEDIA_FOLDER_NAMES = {
+              "media",
+              "medias"
+          }
+
           OUTPUT_FILE = "media.json"
 
-          SERVICE_ACCOUNT_JSON = os.environ["GOOGLE_SERVICE_ACCOUNT_JSON"]
+          COVERS_DIR = Path("covers")
+
+          SERVICE_ACCOUNT_JSON = os.environ[
+              "GOOGLE_SERVICE_ACCOUNT_JSON"
+          ]
 
           SCOPES = [
               "https://www.googleapis.com/auth/drive.readonly"
@@ -80,12 +104,52 @@ jobs:
 
 
           # ============================================================
+          # SUPPORTED MEDIA
+          # ============================================================
+
+          MEDIA_EXTENSIONS = {
+              "mkv",
+              "mp4",
+              "webm",
+              "avi",
+              "mov",
+              "m4v",
+              "mp3",
+              "flac",
+              "wav",
+              "m4a",
+              "aac",
+              "ogg",
+              "opus"
+          }
+
+
+          # ============================================================
+          # SUPPORTED COVER
+          # ============================================================
+
+          COVER_EXTENSIONS = {
+              "jpg",
+              "jpeg",
+              "png",
+              "webp",
+              "gif"
+          }
+
+
+          # ============================================================
           # GOOGLE DRIVE
           # ============================================================
 
-          credentials = service_account.Credentials.from_service_account_info(
-              json.loads(SERVICE_ACCOUNT_JSON),
-              scopes=SCOPES
+          credentials = (
+              service_account
+              .Credentials
+              .from_service_account_info(
+                  json.loads(
+                      SERVICE_ACCOUNT_JSON
+                  ),
+                  scopes=SCOPES
+              )
           )
 
           drive = build(
@@ -99,85 +163,97 @@ jobs:
           # HELPERS
           # ============================================================
 
+          def normalize_name(value):
+
+              value = Path(
+                  str(value)
+              ).stem
+
+              value = unicodedata.normalize(
+                  "NFKC",
+                  value
+              )
+
+              value = value.lower().strip()
+
+              if "[" in value:
+                  value = value.split(
+                      "[",
+                      1
+                  )[0]
+
+              value = re.sub(
+                  r"[()\[\]{}]",
+                  " ",
+                  value
+              )
+
+              value = re.sub(
+                  r"[^a-z0-9\u0980-\u09ff]+",
+                  " ",
+                  value
+              )
+
+              return re.sub(
+                  r"\s+",
+                  " ",
+                  value
+              ).strip()
+
+
           def clean_title(filename):
 
-              name = Path(filename).stem
-
-              # Remove everything beginning with the first metadata tag.
-              # Example:
-              # Chumu 2K [1440p] [VP9] [Multi Audio] [GCP]
-              #
-              # becomes:
-              # Chumu 2K
+              name = Path(
+                  filename
+              ).stem
 
               if "[" in name:
-                  name = name.split("[", 1)[0]
+                  name = name.split(
+                      "[",
+                      1
+                  )[0]
 
               return name.strip()
 
 
           def get_extension(filename):
 
-              return Path(filename).suffix.lower().replace(".", "")
+              return (
+                  Path(filename)
+                  .suffix
+                  .lower()
+                  .replace(
+                      ".",
+                      ""
+                  )
+              )
 
 
           def is_media_file(filename):
 
-              extensions = {
-                  "mkv",
-                  "mp4",
-                  "webm",
-                  "avi",
-                  "mov",
-                  "m4v",
-                  "mp3",
-                  "flac",
-                  "wav",
-                  "m4a",
-                  "aac",
-                  "ogg",
-                  "opus"
-              }
-
-              return get_extension(filename) in extensions
-
-
-          def run_ffprobe(file_path):
-
-              command = [
-                  "ffprobe",
-                  "-v",
-                  "error",
-                  "-show_format",
-                  "-show_streams",
-                  "-of",
-                  "json",
-                  str(file_path)
-              ]
-
-              result = subprocess.run(
-                  command,
-                  capture_output=True,
-                  text=True,
-                  check=True
+              return (
+                  get_extension(filename)
+                  in MEDIA_EXTENSIONS
               )
 
-              return json.loads(result.stdout)
+
+          def is_cover_file(filename):
+
+              return (
+                  get_extension(filename)
+                  in COVER_EXTENSIONS
+              )
 
 
-          def safe_int(value, default=0):
+          def safe_int(
+              value,
+              default=0
+          ):
 
               try:
                   return int(value)
-              except:
-                  return default
 
-
-          def safe_float(value, default=0):
-
-              try:
-                  return float(value)
-              except:
+              except Exception:
                   return default
 
 
@@ -187,8 +263,16 @@ jobs:
                   return ""
 
               try:
+
                   if "/" in str(value):
-                      a, b = value.split("/", 1)
+
+                      a, b = (
+                          str(value)
+                          .split(
+                              "/",
+                              1
+                          )
+                      )
 
                       a = float(a)
                       b = float(b)
@@ -199,27 +283,309 @@ jobs:
                       fps = a / b
 
                       if fps.is_integer():
-                          return str(int(fps))
+                          return str(
+                              int(fps)
+                          )
 
-                      return f"{fps:.3f}".rstrip("0").rstrip(".")
+                      return (
+                          f"{fps:.3f}"
+                          .rstrip("0")
+                          .rstrip(".")
+                      )
 
                   return str(value)
 
-              except:
+              except Exception:
                   return str(value)
 
 
           def get_tags(stream):
 
-              tags = stream.get("tags", {})
+              tags = (
+                  stream.get(
+                      "tags",
+                      {}
+                  )
+                  or {}
+              )
 
-              result = {}
+              return {
+                  str(key).lower(): value
+                  for key, value in tags.items()
+              }
 
-              for key, value in tags.items():
 
-                  result[str(key).lower()] = value
+          def run_command(command):
+
+              result = subprocess.run(
+                  command,
+                  capture_output=True,
+                  text=True
+              )
+
+              if result.returncode != 0:
+
+                  raise RuntimeError(
+                      result.stderr.strip()
+                      or
+                      "Command failed"
+                  )
 
               return result
+
+
+          def run_ffprobe(file_path):
+
+              command = [
+
+                  "ffprobe",
+
+                  "-v",
+                  "error",
+
+                  "-show_format",
+
+                  "-show_streams",
+
+                  "-of",
+                  "json",
+
+                  str(file_path)
+              ]
+
+              result = subprocess.run(
+                  command,
+                  capture_output=True,
+                  text=True,
+                  check=True
+              )
+
+              return json.loads(
+                  result.stdout
+              )
+
+
+          # ============================================================
+          # GOOGLE DRIVE — LIST CHILDREN
+          # ============================================================
+
+          def list_children(parent_id):
+
+              all_files = []
+
+              page_token = None
+
+              while True:
+
+                  response = (
+                      drive.files()
+                      .list(
+
+                          q=(
+                              f"'{parent_id}' "
+                              "in parents "
+                              "and trashed = false"
+                          ),
+
+                          spaces="drive",
+
+                          pageSize=1000,
+
+                          pageToken=page_token,
+
+                          fields=(
+                              "nextPageToken,"
+                              "files("
+                              "id,"
+                              "name,"
+                              "mimeType,"
+                              "size,"
+                              "createdTime,"
+                              "modifiedTime,"
+                              "webViewLink"
+                              ")"
+                          )
+                      )
+                      .execute()
+                  )
+
+                  all_files.extend(
+                      response.get(
+                          "files",
+                          []
+                      )
+                  )
+
+                  page_token = (
+                      response.get(
+                          "nextPageToken"
+                      )
+                  )
+
+                  if not page_token:
+                      break
+
+              return all_files
+
+
+          # ============================================================
+          # FIND FOLDER
+          # ============================================================
+
+          def find_folder_by_name(
+              parent_id,
+              names
+          ):
+
+              for item in list_children(
+                  parent_id
+              ):
+
+                  if (
+                      item.get(
+                          "mimeType"
+                      )
+                      !=
+                      "application/vnd.google-apps.folder"
+                  ):
+                      continue
+
+                  if (
+                      item.get(
+                          "name",
+                          ""
+                      )
+                      .strip()
+                      .lower()
+                      in names
+                  ):
+
+                      return item
+
+              return None
+
+
+          # ============================================================
+          # COLLECT MEDIA FILES
+          # ============================================================
+
+          def collect_media_files(
+              folder_id
+          ):
+
+              collected = []
+
+              visited = set()
+
+
+              def walk(current_id):
+
+                  if current_id in visited:
+                      return
+
+                  visited.add(
+                      current_id
+                  )
+
+                  for item in list_children(
+                      current_id
+                  ):
+
+                      mime = item.get(
+                          "mimeType",
+                          ""
+                      )
+
+                      name = item.get(
+                          "name",
+                          ""
+                      )
+
+
+                      if (
+                          mime
+                          ==
+                          "application/vnd.google-apps.folder"
+                      ):
+
+                          walk(
+                              item["id"]
+                          )
+
+                      elif is_media_file(
+                          name
+                      ):
+
+                          collected.append(
+                              item
+                          )
+
+
+              walk(
+                  folder_id
+              )
+
+
+              unique = {
+                  item["id"]: item
+                  for item in collected
+              }
+
+              return list(
+                  unique.values()
+              )
+
+
+          # ============================================================
+          # DOWNLOAD DRIVE FILE
+          # ============================================================
+
+          def download_drive_file(
+              file_id,
+              local_path
+          ):
+
+              request = (
+                  drive.files()
+                  .get_media(
+                      fileId=file_id
+                  )
+              )
+
+              with open(
+                  local_path,
+                  "wb"
+              ) as output:
+
+                  downloader = (
+                      MediaIoBaseDownload(
+                          output,
+                          request,
+                          chunksize=(
+                              8 * 1024 * 1024
+                          )
+                      )
+                  )
+
+                  done = False
+
+                  while not done:
+
+                      status, done = (
+                          downloader
+                          .next_chunk()
+                      )
+
+                      if status:
+
+                          progress = int(
+                              status.progress()
+                              * 100
+                          )
+
+                          print(
+                              f"Download: {progress}%"
+                          )
 
 
           # ============================================================
@@ -229,213 +595,408 @@ jobs:
           def scan_video(streams):
 
               video_streams = [
-                  s for s in streams
-                  if s.get("codec_type") == "video"
+
+                  s
+
+                  for s in streams
+
+                  if (
+                      s.get(
+                          "codec_type"
+                      )
+                      ==
+                      "video"
+                  )
+
+                  and not (
+                      s.get(
+                          "disposition",
+                          {}
+                      )
+                      .get(
+                          "attached_pic",
+                          0
+                      )
+                  )
               ]
+
 
               if not video_streams:
                   return None
 
-              stream = video_streams[0]
 
-              width = safe_int(stream.get("width"))
-              height = safe_int(stream.get("height"))
+              stream = (
+                  video_streams[0]
+              )
+
+
+              width = safe_int(
+                  stream.get(
+                      "width"
+                  )
+              )
+
+              height = safe_int(
+                  stream.get(
+                      "height"
+                  )
+              )
+
 
               return {
-                  "codec": stream.get("codec_name", ""),
-                  "codecLong": stream.get("codec_long_name", ""),
-                  "width": width,
-                  "height": height,
+
+                  "codec":
+                      stream.get(
+                          "codec_name",
+                          ""
+                      ),
+
+                  "codecLong":
+                      stream.get(
+                          "codec_long_name",
+                          ""
+                      ),
+
+                  "width":
+                      width,
+
+                  "height":
+                      height,
+
                   "resolution": (
+
                       f"{width}x{height}"
+
                       if width and height
+
                       else ""
                   ),
-                  "fps": fraction_to_fps(
-                      stream.get("r_frame_rate", "")
-                  ),
-                  "bitrate": stream.get("bit_rate", ""),
-                  "pixelFormat": stream.get("pix_fmt", "")
+
+                  "fps":
+                      fraction_to_fps(
+                          stream.get(
+                              "r_frame_rate",
+                              ""
+                          )
+                      ),
+
+                  "bitrate":
+                      stream.get(
+                          "bit_rate",
+                          ""
+                      ),
+
+                  "pixelFormat":
+                      stream.get(
+                          "pix_fmt",
+                          ""
+                      )
               }
+
+
+          # ============================================================
+          # HI-RES DETECTION
+          # ============================================================
+
+          def is_hi_res_candidate(
+              stream
+          ):
+
+              codec = str(
+                  stream.get(
+                      "codec_name",
+                      ""
+                  )
+              ).lower()
+
+
+              sample_rate = safe_int(
+                  stream.get(
+                      "sample_rate"
+                  )
+              )
+
+
+              bit_depth = safe_int(
+                  stream.get(
+                      "bits_per_raw_sample"
+                  )
+              )
+
+
+              title = str(
+                  get_tags(stream)
+                  .get(
+                      "title",
+                      ""
+                  )
+              ).lower()
+
+
+              if codec in {
+
+                  "alac",
+                  "flac",
+                  "wavpack",
+                  "pcm_s16le",
+                  "pcm_s24le",
+                  "pcm_s32le",
+                  "ape"
+
+              }:
+
+                  return True
+
+
+              if (
+                  "hi-res" in title
+                  or
+                  "hi res" in title
+              ):
+
+                  return True
+
+
+              if sample_rate >= 96000:
+                  return True
+
+
+              if bit_depth >= 24:
+                  return True
+
+
+              return False
 
 
           # ============================================================
           # AUDIO METADATA
           # ============================================================
 
-          def is_hi_res_candidate(stream):
-
-              codec = str(
-                  stream.get("codec_name", "")
-              ).lower()
-
-              sample_rate = safe_int(
-                  stream.get("sample_rate")
-              )
-
-              bit_depth = safe_int(
-                  stream.get("bits_per_raw_sample")
-              )
-
-              title = str(
-                  get_tags(stream).get("title", "")
-              ).lower()
-
-              # Lossless formats commonly used for Hi-Res.
-              if codec in {"alac", "flac", "wavpack", "pcm_s16le",
-                           "pcm_s24le", "pcm_s32le", "ape"}:
-
-                  return True
-
-              # Metadata title explicitly says Hi-Res.
-              if "hi-res" in title or "hi res" in title:
-
-                  return True
-
-              # High sample rate.
-              if sample_rate >= 96000:
-
-                  return True
-
-              # 24-bit / higher.
-              if bit_depth >= 24:
-
-                  return True
-
-              return False
-
-
           def scan_audio(streams):
 
               audio_streams = [
-                  s for s in streams
-                  if s.get("codec_type") == "audio"
+
+                  s
+
+                  for s in streams
+
+                  if (
+                      s.get(
+                          "codec_type"
+                      )
+                      ==
+                      "audio"
+                  )
               ]
+
 
               tracks = []
 
               hi_res_index = None
 
-              for position, stream in enumerate(audio_streams, start=1):
 
-                  tags = get_tags(stream)
+              for position, stream in enumerate(
+
+                  audio_streams,
+
+                  start=1
+
+              ):
+
+                  tags = get_tags(
+                      stream
+                  )
+
 
                   codec = stream.get(
                       "codec_name",
                       ""
                   )
 
+
                   sample_rate = safe_int(
-                      stream.get("sample_rate")
+                      stream.get(
+                          "sample_rate"
+                      )
                   )
 
+
                   bit_depth = safe_int(
-                      stream.get("bits_per_raw_sample")
+                      stream.get(
+                          "bits_per_raw_sample"
+                      )
                   )
+
 
                   track = {
 
-                      "index": position,
+                      "index":
+                          position,
 
-                      "codec": codec,
+                      "codec":
+                          codec,
 
-                      "codecLong": stream.get(
-                          "codec_long_name",
-                          ""
-                      ),
+                      "codecLong":
+                          stream.get(
+                              "codec_long_name",
+                              ""
+                          ),
 
-                      "language": tags.get(
-                          "language",
-                          ""
-                      ),
+                      "language":
+                          tags.get(
+                              "language",
+                              ""
+                          ),
 
-                      "title": tags.get(
-                          "title",
-                          ""
-                      ),
+                      "title":
+                          tags.get(
+                              "title",
+                              ""
+                          ),
 
-                      "artist": tags.get(
-                          "artist",
-                          ""
-                      ),
+                      "artist":
+                          tags.get(
+                              "artist",
+                              ""
+                          ),
 
-                      "album": tags.get(
-                          "album",
-                          ""
-                      ),
+                      "album":
+                          tags.get(
+                              "album",
+                              ""
+                          ),
 
-                      "composer": tags.get(
-                          "composer",
-                          ""
-                      ),
+                      "composer":
+                          tags.get(
+                              "composer",
+                              ""
+                          ),
 
                       "sampleRate": (
+
                           str(sample_rate)
+
                           if sample_rate
+
                           else ""
                       ),
 
-                      "bitDepth": bit_depth,
+                      "bitDepth":
+                          bit_depth,
 
-                      "channels": safe_int(
-                          stream.get("channels")
-                      ),
+                      "channels":
+                          safe_int(
+                              stream.get(
+                                  "channels"
+                              )
+                          ),
 
-                      "channelLayout": stream.get(
-                          "channel_layout",
-                          ""
-                      ),
+                      "channelLayout":
+                          stream.get(
+                              "channel_layout",
+                              ""
+                          ),
 
-                      "bitrate": stream.get(
-                          "bit_rate",
-                          ""
-                      ),
+                      "bitrate":
+                          stream.get(
+                              "bit_rate",
+                              ""
+                          ),
 
                       "default": (
-                          stream.get("disposition", {})
-                          .get("default", 0) == 1
+
+                          stream.get(
+                              "disposition",
+                              {}
+                          )
+                          .get(
+                              "default",
+                              0
+                          )
+                          == 1
                       ),
 
                       "forced": (
-                          stream.get("disposition", {})
-                          .get("forced", 0) == 1
+
+                          stream.get(
+                              "disposition",
+                              {}
+                          )
+                          .get(
+                              "forced",
+                              0
+                          )
+                          == 1
                       )
                   }
 
-                  tracks.append(track)
+
+                  tracks.append(
+                      track
+                  )
+
 
                   if (
-                      hi_res_index is None
-                      and is_hi_res_candidate(stream)
+
+                      hi_res_index
+                      is None
+
+                      and
+                      is_hi_res_candidate(
+                          stream
+                      )
+
                   ):
 
-                      hi_res_index = position
+                      hi_res_index = (
+                          position
+                      )
 
 
-              # If no candidate was detected, look specifically
-              # for ALAC/FLAC as the Hi-Res track.
+              # --------------------------------------------------------
+              # ALAC / FLAC FALLBACK
+              # --------------------------------------------------------
+
               if hi_res_index is None:
 
                   for position, track in enumerate(
+
                       tracks,
+
                       start=1
+
                   ):
 
-                      if track["codec"].lower() in {
-                          "alac",
-                          "flac"
-                      }:
+                      if (
+                          track[
+                              "codec"
+                          ]
+                          .lower()
+                          in {
+                              "alac",
+                              "flac"
+                          }
+                      ):
 
-                          hi_res_index = position
+                          hi_res_index = (
+                              position
+                          )
+
                           break
 
 
+              # --------------------------------------------------------
+              # HI-RES METADATA
+              # --------------------------------------------------------
+
               hi_res_metadata = {
+
                   "artist": "",
                   "album": "",
                   "title": "",
                   "composer": ""
               }
+
 
               if hi_res_index:
 
@@ -443,40 +1004,49 @@ jobs:
                       hi_res_index - 1
                   ]
 
-                  # IMPORTANT:
-                  # Artist is taken ONLY from the
-                  # Hi-Res Audio track.
+
                   hi_res_metadata = {
-                      "artist": selected.get(
-                          "artist",
-                          ""
-                      ),
 
-                      "album": selected.get(
-                          "album",
-                          ""
-                      ),
+                      "artist":
+                          selected.get(
+                              "artist",
+                              ""
+                          ),
 
-                      "title": selected.get(
-                          "title",
-                          ""
-                      ),
+                      "album":
+                          selected.get(
+                              "album",
+                              ""
+                          ),
 
-                      "composer": selected.get(
-                          "composer",
-                          ""
-                      )
+                      "title":
+                          selected.get(
+                              "title",
+                              ""
+                          ),
+
+                      "composer":
+                          selected.get(
+                              "composer",
+                              ""
+                          )
                   }
 
 
               return {
-                  "trackCount": len(tracks),
 
-                  "multiAudio": len(tracks) > 1,
+                  "trackCount":
+                      len(tracks),
 
-                  "hiResTrack": hi_res_index,
+                  "multiAudio":
+                      len(tracks) > 1,
 
-                  "tracks": tracks
+                  "hiResTrack":
+                      hi_res_index,
+
+                  "tracks":
+                      tracks
+
               }, hi_res_metadata
 
 
@@ -484,97 +1054,898 @@ jobs:
           # SUBTITLE METADATA
           # ============================================================
 
-          def scan_subtitles(streams):
+          def scan_subtitles(
+              streams
+          ):
 
               subtitle_streams = [
-                  s for s in streams
-                  if s.get("codec_type") == "subtitle"
+
+                  s
+
+                  for s in streams
+
+                  if (
+                      s.get(
+                          "codec_type"
+                      )
+                      ==
+                      "subtitle"
+                  )
               ]
+
 
               tracks = []
 
+
               for position, stream in enumerate(
+
                   subtitle_streams,
+
                   start=1
+
               ):
 
-                  tags = get_tags(stream)
+                  tags = get_tags(
+                      stream
+                  )
+
 
                   tracks.append({
 
-                      "index": position,
+                      "index":
+                          position,
 
-                      "codec": stream.get(
-                          "codec_name",
-                          ""
-                      ),
+                      "codec":
+                          stream.get(
+                              "codec_name",
+                              ""
+                          ),
 
-                      "language": tags.get(
-                          "language",
-                          ""
-                      ),
+                      "language":
+                          tags.get(
+                              "language",
+                              ""
+                          ),
 
-                      "title": tags.get(
-                          "title",
-                          ""
-                      ),
+                      "title":
+                          tags.get(
+                              "title",
+                              ""
+                          ),
 
                       "default": (
+
                           stream.get(
                               "disposition",
                               {}
-                          ).get(
+                          )
+                          .get(
                               "default",
                               0
-                          ) == 1
+                          )
+                          == 1
                       ),
 
                       "forced": (
+
                           stream.get(
                               "disposition",
                               {}
-                          ).get(
+                          )
+                          .get(
                               "forced",
                               0
-                          ) == 1
+                          )
+                          == 1
                       )
                   })
 
 
               return {
-                  "trackCount": len(tracks),
-                  "tracks": tracks
+
+                  "trackCount":
+                      len(tracks),
+
+                  "tracks":
+                      tracks
               }
 
 
           # ============================================================
-          # FIND MUSIC VAULT FOLDER
+          # DRIVE COVER INDEX
           # ============================================================
 
-          print("========================================")
-          print(" MUSIC VAULT METADATA SCANNER")
-          print("========================================")
+          def build_drive_cover_index(
+              cover_folder_id
+          ):
+
+              index = {}
 
 
-          folder_results = drive.files().list(
-
-              q=(
-                  f"name = '{FOLDER_NAME}' "
-                  "and mimeType = "
-                  "'application/vnd.google-apps.folder' "
-                  "and trashed = false"
-              ),
-
-              spaces="drive",
-
-              fields="files(id,name)"
-
-          ).execute()
+              if not cover_folder_id:
+                  return index
 
 
-          folders = folder_results.get(
-              "files",
-              []
+              for item in list_children(
+                  cover_folder_id
+              ):
+
+                  if not is_cover_file(
+                      item.get(
+                          "name",
+                          ""
+                      )
+                  ):
+                      continue
+
+
+                  key = normalize_name(
+                      item["name"]
+                  )
+
+
+                  if (
+                      key
+                      and
+                      key not in index
+                  ):
+
+                      index[key] = item
+
+
+              return index
+
+
+          # ============================================================
+          # FIND DRIVE COVER
+          # ============================================================
+
+          def find_drive_cover(
+
+              media_file,
+
+              hi_res_metadata,
+
+              cover_index
+
+          ):
+
+              candidates = [
+
+                  clean_title(
+                      media_file["name"]
+                  )
+              ]
+
+
+              if hi_res_metadata.get(
+                  "title"
+              ):
+
+                  candidates.append(
+                      hi_res_metadata[
+                          "title"
+                      ]
+                  )
+
+
+              if hi_res_metadata.get(
+                  "album"
+              ):
+
+                  candidates.append(
+                      hi_res_metadata[
+                          "album"
+                      ]
+                  )
+
+
+              checked = set()
+
+
+              for candidate in candidates:
+
+                  key = normalize_name(
+                      candidate
+                  )
+
+
+                  if (
+                      not key
+                      or
+                      key in checked
+                  ):
+
+                      continue
+
+
+                  checked.add(
+                      key
+                  )
+
+
+                  if key in cover_index:
+
+                      return (
+                          cover_index[key]
+                      )
+
+
+              return None
+
+
+          # ============================================================
+          # FIND EMBEDDED ALBUM ART
+          # ============================================================
+
+          def find_embedded_cover_stream(
+              streams
+          ):
+
+              for stream in streams:
+
+                  if (
+
+                      stream.get(
+                          "codec_type"
+                      )
+                      ==
+                      "video"
+
+                      and
+
+                      stream.get(
+                          "disposition",
+                          {}
+                      )
+                      .get(
+                          "attached_pic",
+                          0
+                      )
+                      == 1
+
+                  ):
+
+                      return stream
+
+
+              return None
+
+
+          # ============================================================
+          # EXTRACT EMBEDDED COVER
+          # ============================================================
+
+          def extract_embedded_cover(
+
+              media_path,
+
+              streams,
+
+              output_path
+
+          ):
+
+              stream = (
+                  find_embedded_cover_stream(
+                      streams
+                  )
+              )
+
+
+              if not stream:
+                  return False
+
+
+              stream_index = (
+                  stream.get(
+                      "index"
+                  )
+              )
+
+
+              if stream_index is None:
+                  return False
+
+
+              try:
+
+                  run_command([
+
+                      "ffmpeg",
+
+                      "-y",
+
+                      "-i",
+
+                      str(media_path),
+
+                      "-map",
+
+                      f"0:{stream_index}",
+
+                      "-frames:v",
+                      "1",
+
+                      "-vf",
+
+                      "scale='min(1200,iw)':-2",
+
+                      "-q:v",
+                      "2",
+
+                      str(output_path)
+
+                  ])
+
+
+                  return (
+
+                      output_path.exists()
+
+                      and
+
+                      output_path.stat().st_size > 0
+                  )
+
+
+              except Exception as error:
+
+                  print(
+                      "Embedded cover extraction failed:",
+                      error
+                  )
+
+                  return False
+
+
+          # ============================================================
+          # AUTO-GENERATED COVER
+          # ============================================================
+
+          def create_generated_cover(
+
+              output_path,
+
+              title,
+
+              artist,
+
+              album
+
+          ):
+
+              title = (
+                  str(title or "").strip()
+                  or
+                  "Music Vault"
+              )
+
+
+              artist = (
+                  str(artist or "").strip()
+                  or
+                  "GCP"
+              )
+
+
+              album = (
+                  str(album or "").strip()
+                  or
+                  "Original Collection"
+              )
+
+
+              title = html.escape(
+                  title
+              )
+
+              artist = html.escape(
+                  artist
+              )
+
+              album = html.escape(
+                  album
+              )
+
+
+              if len(title) > 30:
+
+                  title = (
+                      title[:30]
+                      + "..."
+                  )
+
+
+              title_font = (
+                  "48"
+                  if len(title) <= 22
+                  else
+                  "38"
+              )
+
+
+              svg = f"""<svg xmlns="http://www.w3.org/2000/svg"
+          width="1200" height="1200" viewBox="0 0 1200 1200">
+
+            <defs>
+
+              <linearGradient
+                  id="bg"
+                  x1="0"
+                  y1="0"
+                  x2="1"
+                  y2="1">
+
+                <stop
+                    offset="0%"
+                    stop-color="#12072b"/>
+
+                <stop
+                    offset="48%"
+                    stop-color="#30206f"/>
+
+                <stop
+                    offset="100%"
+                    stop-color="#6d28d9"/>
+
+              </linearGradient>
+
+
+              <radialGradient
+                  id="glow"
+                  cx="50%"
+                  cy="35%"
+                  r="65%">
+
+                <stop
+                    offset="0%"
+                    stop-color="#a78bfa"
+                    stop-opacity="0.55"/>
+
+                <stop
+                    offset="100%"
+                    stop-color="#7c3aed"
+                    stop-opacity="0"/>
+
+              </radialGradient>
+
+
+              <filter id="blur">
+
+                <feGaussianBlur
+                    stdDeviation="55"/>
+
+              </filter>
+
+            </defs>
+
+
+            <rect
+                width="1200"
+                height="1200"
+                fill="url(#bg)"/>
+
+
+            <circle
+                cx="600"
+                cy="340"
+                r="360"
+                fill="url(#glow)"
+                filter="url(#blur)"/>
+
+
+            <circle
+                cx="600"
+                cy="355"
+                r="190"
+                fill="none"
+                stroke="#ffffff"
+                stroke-opacity="0.16"
+                stroke-width="3"/>
+
+
+            <circle
+                cx="600"
+                cy="355"
+                r="125"
+                fill="#ffffff"
+                fill-opacity="0.08"/>
+
+
+            <text
+                x="600"
+                y="90"
+                text-anchor="middle"
+                font-family="Arial, sans-serif"
+                font-size="28"
+                letter-spacing="7"
+                fill="#ffffff"
+                fill-opacity="0.82">
+
+              MUSIC VAULT
+
+            </text>
+
+
+            <text
+                x="600"
+                y="690"
+                text-anchor="middle"
+                font-family="Arial, sans-serif"
+                font-size="{title_font}"
+                font-weight="700"
+                fill="#ffffff">
+
+              {title}
+
+            </text>
+
+
+            <text
+                x="600"
+                y="750"
+                text-anchor="middle"
+                font-family="Arial, sans-serif"
+                font-size="28"
+                fill="#ffffff"
+                fill-opacity="0.78">
+
+              {artist}
+
+            </text>
+
+
+            <text
+                x="600"
+                y="805"
+                text-anchor="middle"
+                font-family="Arial, sans-serif"
+                font-size="22"
+                fill="#ffffff"
+                fill-opacity="0.58">
+
+              {album}
+
+            </text>
+
+
+            <line
+                x1="360"
+                y1="875"
+                x2="840"
+                y2="875"
+                stroke="#ffffff"
+                stroke-opacity="0.20"/>
+
+
+            <text
+                x="600"
+                y="945"
+                text-anchor="middle"
+                font-family="Arial, sans-serif"
+                font-size="20"
+                letter-spacing="5"
+                fill="#ffffff"
+                fill-opacity="0.55">
+
+              GCP COLLECTION
+
+            </text>
+
+          </svg>"""
+
+
+              output_path.write_text(
+                  svg,
+                  encoding="utf-8"
+              )
+
+
+              return (
+
+                  output_path.exists()
+
+                  and
+
+                  output_path.stat().st_size > 0
+              )
+
+
+          # ============================================================
+          # COVER RESOLVER
+          # ============================================================
+
+          def prepare_cover(
+
+              media_file,
+
+              local_media,
+
+              streams,
+
+              hi_res_metadata,
+
+              cover_index,
+
+              temp_dir
+
+          ):
+
+              media_id = (
+                  media_file["id"]
+              )
+
+
+              # --------------------------------------------------------
+              # 1. GOOGLE DRIVE / COVER
+              # --------------------------------------------------------
+
+              drive_cover = (
+                  find_drive_cover(
+                      media_file,
+                      hi_res_metadata,
+                      cover_index
+                  )
+              )
+
+
+              if drive_cover:
+
+                  source_ext = (
+                      get_extension(
+                          drive_cover["name"]
+                      )
+                  )
+
+
+                  temp_cover = (
+
+                      Path(temp_dir)
+                      /
+                      f"drive_cover.{source_ext}"
+
+                  )
+
+
+                  try:
+
+                      print(
+                          "Cover source: "
+                          "Google Drive / cover"
+                      )
+
+
+                      download_drive_file(
+
+                          drive_cover["id"],
+
+                          temp_cover
+
+                      )
+
+
+                      output_path = (
+
+                          COVERS_DIR
+                          /
+                          f"{media_id}.jpg"
+
+                      )
+
+
+                      run_command([
+
+                          "ffmpeg",
+
+                          "-y",
+
+                          "-i",
+
+                          str(temp_cover),
+
+                          "-frames:v",
+                          "1",
+
+                          "-q:v",
+                          "2",
+
+                          str(output_path)
+
+                      ])
+
+
+                      if (
+
+                          output_path.exists()
+
+                          and
+
+                          output_path.stat().st_size > 0
+
+                      ):
+
+                          return {
+
+                              "cover":
+                                  f"covers/{media_id}.jpg",
+
+                              "coverType":
+                                  "drive",
+
+                              "coverSource":
+                                  drive_cover[
+                                      "name"
+                                  ],
+
+                              "coverDriveId":
+                                  drive_cover[
+                                      "id"
+                                  ]
+                          }
+
+
+                  except Exception as error:
+
+                      print(
+                          "Drive cover failed:",
+                          error
+                      )
+
+
+              # --------------------------------------------------------
+              # 2. EMBEDDED ALBUM ART
+              # --------------------------------------------------------
+
+              embedded_output = (
+
+                  COVERS_DIR
+                  /
+                  f"{media_id}.jpg"
+
+              )
+
+
+              print(
+                  "Checking embedded Album Art..."
+              )
+
+
+              if extract_embedded_cover(
+
+                  local_media,
+
+                  streams,
+
+                  embedded_output
+
+              ):
+
+                  print(
+                      "Cover source: "
+                      "Embedded Album Art"
+                  )
+
+
+                  return {
+
+                      "cover":
+                          f"covers/{media_id}.jpg",
+
+                      "coverType":
+                          "embedded",
+
+                      "coverSource":
+                          "Embedded Album Art",
+
+                      "coverDriveId":
+                          ""
+                  }
+
+
+              # --------------------------------------------------------
+              # 3. AUTO GENERATED COVER
+              # --------------------------------------------------------
+
+              generated_output = (
+
+                  COVERS_DIR
+                  /
+                  f"{media_id}.svg"
+
+              )
+
+
+              print(
+                  "Cover source: "
+                  "Auto Generated"
+              )
+
+
+              create_generated_cover(
+
+                  generated_output,
+
+                  clean_title(
+                      media_file["name"]
+                  ),
+
+                  hi_res_metadata.get(
+                      "artist",
+                      ""
+                  ),
+
+                  hi_res_metadata.get(
+                      "album",
+                      ""
+                  )
+              )
+
+
+              return {
+
+                  "cover":
+                      f"covers/{media_id}.svg",
+
+                  "coverType":
+                      "generated",
+
+                  "coverSource":
+                      "Music Vault Auto Generated",
+
+                  "coverDriveId":
+                      ""
+              }
+
+
+          # ============================================================
+          # FIND MUSIC VAULT
+          # ============================================================
+
+          print(
+              "========================================"
+          )
+
+          print(
+              " MUSIC VAULT METADATA SCANNER"
+          )
+
+          print(
+              "========================================"
+          )
+
+
+          folder_results = (
+
+              drive.files()
+              .list(
+
+                  q=(
+
+                      f"name = '{FOLDER_NAME}' "
+
+                      "and mimeType = "
+
+                      "'application/vnd.google-apps.folder' "
+
+                      "and trashed = false"
+
+                  ),
+
+                  spaces="drive",
+
+                  fields="files(id,name)"
+
+              )
+              .execute()
+          )
+
+
+          folders = (
+              folder_results.get(
+                  "files",
+                  []
+              )
           )
 
 
@@ -585,59 +1956,186 @@ jobs:
               )
 
 
-          folder = folders[0]
-
-          folder_id = folder["id"]
-
-          print("Folder:", folder["name"])
-          print("Folder ID:", folder_id)
-
-
-          # ============================================================
-          # GET FILES
-          # ============================================================
-
-          results = drive.files().list(
-
-              q=(
-                  f"'{folder_id}' in parents "
-                  "and trashed = false"
-              ),
-
-              spaces="drive",
-
-              fields=(
-                  "files("
-                  "id,"
-                  "name,"
-                  "mimeType,"
-                  "size,"
-                  "createdTime,"
-                  "modifiedTime,"
-                  "webViewLink"
-                  ")"
-              )
-
-          ).execute()
-
-
-          files = results.get(
-              "files",
-              []
+          folder = (
+              folders[0]
           )
 
 
-          media_files = [
-              f for f in files
-              if is_media_file(f["name"])
-          ]
+          folder_id = (
+              folder["id"]
+          )
+
+
+          print(
+              "Folder:",
+              folder["name"]
+          )
+
+
+          print(
+              "Folder ID:",
+              folder_id
+          )
+
+
+          # ============================================================
+          # OPTIONAL MEDIA / COVER FOLDERS
+          # ============================================================
+
+          media_folder = (
+              find_folder_by_name(
+
+                  folder_id,
+
+                  MEDIA_FOLDER_NAMES
+
+              )
+          )
+
+
+          cover_folder = (
+              find_folder_by_name(
+
+                  folder_id,
+
+                  COVER_FOLDER_NAMES
+
+              )
+          )
+
+
+          if media_folder:
+
+              print(
+                  "Media folder:",
+                  media_folder["name"]
+              )
+
+          else:
+
+              print(
+                  "Media folder not found."
+              )
+
+              print(
+                  "Scanning Music Vault directly."
+              )
+
+
+          if cover_folder:
+
+              print(
+                  "Cover folder:",
+                  cover_folder["name"]
+              )
+
+          else:
+
+              print(
+                  "Cover folder not found."
+              )
+
+
+          # ============================================================
+          # GET MEDIA FILES
+          # ============================================================
+
+          if media_folder:
+
+              media_files = (
+                  collect_media_files(
+                      media_folder["id"]
+                  )
+              )
+
+
+              # Also support media directly
+              # inside Music Vault.
+
+              for item in list_children(
+                  folder_id
+              ):
+
+                  if is_media_file(
+                      item.get(
+                          "name",
+                          ""
+                      )
+                  ):
+
+                      media_files.append(
+                          item
+                      )
+
+
+              media_files = list({
+
+                  item["id"]: item
+
+                  for item in media_files
+
+              }.values())
+
+
+          else:
+
+              media_files = (
+                  collect_media_files(
+                      folder_id
+                  )
+              )
 
 
           print("")
+
           print(
               "Media files found:",
               len(media_files)
           )
+
+
+          # ============================================================
+          # BUILD COVER INDEX
+          # ============================================================
+
+          cover_index = {}
+
+
+          if cover_folder:
+
+              cover_index = (
+                  build_drive_cover_index(
+                      cover_folder["id"]
+                  )
+              )
+
+
+          print(
+              "Custom covers found:",
+              len(cover_index)
+          )
+
+
+          # ============================================================
+          # PREPARE COVERS DIRECTORY
+          # ============================================================
+
+          COVERS_DIR.mkdir(
+              parents=True,
+              exist_ok=True
+          )
+
+
+          # Remove old generated copies
+          # before rebuilding the catalog.
+
+          for old_cover in (
+              COVERS_DIR.iterdir()
+          ):
+
+              if old_cover.is_file():
+
+                  old_cover.unlink()
 
 
           # ============================================================
@@ -646,59 +2144,78 @@ jobs:
 
           catalog_files = []
 
+
           with tempfile.TemporaryDirectory() as temp_dir:
 
-              temp_dir = Path(temp_dir)
+              temp_dir = Path(
+                  temp_dir
+              )
+
 
               for file in media_files:
 
-                  file_id = file["id"]
-                  file_name = file["name"]
+                  file_id = (
+                      file["id"]
+                  )
 
-                  print("")
-                  print("----------------------------------------")
-                  print("Scanning:", file_name)
-                  print("----------------------------------------")
-
-                  local_file = temp_dir / file_name
-
-                  print("Downloading...")
-
-
-                  request = drive.files().get_media(
-                      fileId=file_id
+                  file_name = (
+                      file["name"]
                   )
 
 
-                  with open(
-                      local_file,
-                      "wb"
-                  ) as output:
+                  print("")
 
-                      downloader = MediaIoBaseDownload(
-                          output,
-                          request,
-                          chunksize=8 * 1024 * 1024
+                  print(
+                      "----------------------------------------"
+                  )
+
+                  print(
+                      "Scanning:",
+                      file_name
+                  )
+
+                  print(
+                      "----------------------------------------"
+                  )
+
+
+                  local_file = (
+
+                      temp_dir
+                      /
+                      file_name
+
+                  )
+
+
+                  print(
+                      "Downloading media..."
+                  )
+
+
+                  try:
+
+                      download_drive_file(
+
+                          file_id,
+
+                          local_file
+
                       )
 
-                      done = False
+                  except Exception as error:
 
-                      while not done:
+                      print(
+                          "Download ERROR:",
+                          error
+                      )
 
-                          status, done = downloader.next_chunk()
-
-                          if status:
-
-                              progress = int(
-                                  status.progress() * 100
-                              )
-
-                              print(
-                                  f"Download: {progress} %"
-                              )
+                      continue
 
 
-                  print("Running FFprobe...")
+                  print(
+                      "Running FFprobe..."
+                  )
 
 
                   try:
@@ -717,14 +2234,19 @@ jobs:
                       continue
 
 
-                  streams = probe.get(
-                      "streams",
-                      []
+                  streams = (
+                      probe.get(
+                          "streams",
+                          []
+                      )
                   )
 
-                  format_info = probe.get(
-                      "format",
-                      {}
+
+                  format_info = (
+                      probe.get(
+                          "format",
+                          {}
+                      )
                   )
 
 
@@ -741,8 +2263,10 @@ jobs:
                   # AUDIO
                   # ----------------------------------------------
 
-                  audio, hi_res_metadata = scan_audio(
-                      streams
+                  audio, hi_res_metadata = (
+                      scan_audio(
+                          streams
+                      )
                   )
 
 
@@ -750,8 +2274,37 @@ jobs:
                   # SUBTITLES
                   # ----------------------------------------------
 
-                  subtitles = scan_subtitles(
-                      streams
+                  subtitles = (
+                      scan_subtitles(
+                          streams
+                      )
+                  )
+
+
+                  # ----------------------------------------------
+                  # COVER
+                  # ----------------------------------------------
+
+                  cover_info = (
+                      prepare_cover(
+
+                          media_file=file,
+
+                          local_media=local_file,
+
+                          streams=streams,
+
+                          hi_res_metadata=(
+                              hi_res_metadata
+                          ),
+
+                          cover_index=(
+                              cover_index
+                          ),
+
+                          temp_dir=temp_dir
+
+                      )
                   )
 
 
@@ -762,37 +2315,55 @@ jobs:
                   warnings = []
 
 
-                  if not hi_res_metadata["artist"]:
+                  if not hi_res_metadata[
+                      "artist"
+                  ]:
 
                       warnings.append(
-                          "Artist metadata missing from Hi-Res audio track"
+                          "Artist metadata missing "
+                          "from Hi-Res audio track"
                       )
 
 
-                  if not audio["tracks"]:
+                  if not audio[
+                      "tracks"
+                  ]:
 
                       warnings.append(
                           "No audio tracks found"
                       )
 
 
-                  if len(audio["tracks"]) < 2:
+                  if len(
+                      audio["tracks"]
+                  ) < 2:
 
                       warnings.append(
                           "Multi Audio not detected"
                       )
 
 
-                  if video is None and get_extension(
-                      file_name
-                  ) in {
-                      "mkv",
-                      "mp4",
-                      "webm",
-                      "avi",
-                      "mov",
-                      "m4v"
-                  }:
+                  if (
+
+                      video is None
+
+                      and
+
+                      get_extension(
+                          file_name
+                      )
+                      in {
+
+                          "mkv",
+                          "mp4",
+                          "webm",
+                          "avi",
+                          "mov",
+                          "m4v"
+
+                      }
+
+                  ):
 
                       warnings.append(
                           "Video stream not found"
@@ -800,9 +2371,15 @@ jobs:
 
 
                   metadata_status = (
+
                       "OK"
+
                       if not warnings
-                      else "INCOMPLETE"
+
+                      else
+
+                      "INCOMPLETE"
+
                   )
 
 
@@ -812,92 +2389,142 @@ jobs:
 
                   record = {
 
-                      "id": file_id,
+                      "id":
+                          file_id,
 
-                      "fileName": file_name,
+                      "fileName":
+                          file_name,
 
-                      "title": clean_title(
-                          file_name
-                      ),
+                      "title":
+                          clean_title(
+                              file_name
+                          ),
 
                       # Artist ONLY from Hi-Res track
-                      "artist": hi_res_metadata[
-                          "artist"
-                      ],
 
-                      "album": hi_res_metadata[
-                          "album"
-                      ],
+                      "artist":
+                          hi_res_metadata[
+                              "artist"
+                          ],
 
-                      "composer": hi_res_metadata[
-                          "composer"
-                      ],
+                      "album":
+                          hi_res_metadata[
+                              "album"
+                          ],
 
-                      "year": "",
+                      "composer":
+                          hi_res_metadata[
+                              "composer"
+                          ],
 
-                      "genre": "",
+                      "year":
+                          "",
 
-                      "container": get_extension(
-                          file_name
-                      ),
+                      "genre":
+                          "",
 
-                      "mimeType": file.get(
-                          "mimeType",
-                          ""
-                      ),
+                      "container":
+                          get_extension(
+                              file_name
+                          ),
 
-                      "size": safe_int(
+                      "mimeType":
                           file.get(
-                              "size",
-                              0
-                          )
-                      ),
+                              "mimeType",
+                              ""
+                          ),
 
-                      "created": file.get(
-                          "createdTime",
-                          ""
-                      ),
+                      "size":
+                          safe_int(
+                              file.get(
+                                  "size",
+                                  0
+                              )
+                          ),
 
-                      "updated": file.get(
-                          "modifiedTime",
-                          ""
-                      ),
+                      "created":
+                          file.get(
+                              "createdTime",
+                              ""
+                          ),
+
+                      "updated":
+                          file.get(
+                              "modifiedTime",
+                              ""
+                          ),
 
                       "driveUrl": (
+
                           file.get(
                               "webViewLink",
                               ""
                           )
+
                           or
-                          f"https://drive.google.com/file/d/{file_id}/view"
+
+                          f"https://drive.google.com/file/"
+                          f"{file_id}/view"
+
                       ),
 
-                      "duration": format_info.get(
-                          "duration",
-                          ""
-                      ),
+                      "duration":
+                          format_info.get(
+                              "duration",
+                              ""
+                          ),
 
-                      "format": format_info.get(
-                          "format_name",
-                          ""
-                      ),
+                      "format":
+                          format_info.get(
+                              "format_name",
+                              ""
+                          ),
 
-                      "formatLong": format_info.get(
-                          "format_long_name",
-                          ""
-                      ),
+                      "formatLong":
+                          format_info.get(
+                              "format_long_name",
+                              ""
+                          ),
 
-                      "video": video,
+                      "video":
+                          video,
 
-                      "audio": audio,
+                      "audio":
+                          audio,
 
-                      "subtitles": subtitles,
+                      "subtitles":
+                          subtitles,
 
-                      "hiResMetadata": hi_res_metadata,
+                      "hiResMetadata":
+                          hi_res_metadata,
 
-                      "metadataStatus": metadata_status,
+                      # COVER
 
-                      "warnings": warnings
+                      "cover":
+                          cover_info[
+                              "cover"
+                          ],
+
+                      "coverType":
+                          cover_info[
+                              "coverType"
+                          ],
+
+                      "coverSource":
+                          cover_info[
+                              "coverSource"
+                          ],
+
+                      "coverDriveId":
+                          cover_info[
+                              "coverDriveId"
+                          ],
+
+                      "metadataStatus":
+                          metadata_status,
+
+                      "warnings":
+                          warnings
                   }
 
 
@@ -911,10 +2538,13 @@ jobs:
           # ============================================================
 
           catalog_files.sort(
-              key=lambda item: item.get(
-                  "title",
-                  ""
-              ).lower()
+
+              key=lambda item:
+                  item.get(
+                      "title",
+                      ""
+                  ).lower()
+
           )
 
 
@@ -924,54 +2554,97 @@ jobs:
 
           catalog = {
 
-              "project": "Music Vault",
+              "project":
+                  "Music Vault",
 
-              "version": "5.0",
+              "version":
+                  "6.0",
 
-              "generatedAt": datetime.now(
-                  timezone.utc
-              ).isoformat(),
+              "generatedAt":
+                  datetime.now(
+                      timezone.utc
+                  ).isoformat(),
 
-              "totalFiles": len(
+              "totalFiles":
+                  len(
+                      catalog_files
+                  ),
+
+              "files":
                   catalog_files
-              ),
-
-              "files": catalog_files
           }
 
 
           with open(
+
               OUTPUT_FILE,
+
               "w",
+
               encoding="utf-8"
+
           ) as output:
 
               json.dump(
+
                   catalog,
+
                   output,
+
                   ensure_ascii=False,
+
                   indent=2
+
               )
 
 
+          # ============================================================
+          # COMPLETE
+          # ============================================================
+
           print("")
-          print("========================================")
-          print(" SCAN COMPLETE")
-          print("========================================")
+
+          print(
+              "========================================"
+          )
+
+          print(
+              " SCAN COMPLETE"
+          )
+
+          print(
+              "========================================"
+          )
+
           print(
               "Total Media:",
               len(catalog_files)
           )
+
+          print(
+              "Cover files:",
+              len([
+                  p
+                  for p
+                  in COVERS_DIR.iterdir()
+                  if p.is_file()
+              ])
+          )
+
           print(
               "Output:",
               OUTPUT_FILE
           )
-          print("========================================")
+
+          print(
+              "========================================"
+          )
 
           PY
 
+
       # ==========================================
-      # 6. Run Scanner
+      # 5. Run Scanner
       # ==========================================
       - name: Scan Music Vault
         env:
@@ -979,28 +2652,138 @@ jobs:
         run: |
           python scanner.py
 
-      # ==========================================
-      # 7. Update media.json in GitHub
-      # ==========================================
-      - name: Update media.json
-        run: |
-          git config user.name "Music Vault Bot"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add media.json
+      # ==========================================
+      # 6. Check Generated Catalog
+      # ==========================================
+      - name: Check generated catalog
+        run: |
+
+          python - <<'PY'
+
+          import json
+
+          with open(
+              "media.json",
+              "r",
+              encoding="utf-8"
+          ) as f:
+
+              data = json.load(f)
+
+
+          print(
+              "========================================"
+          )
+
+          print(
+              " MUSIC VAULT COVER RESULTS"
+          )
+
+          print(
+              "========================================"
+          )
+
+
+          for item in data.get(
+              "files",
+              []
+          ):
+
+              print(
+
+                  item.get(
+                      "title",
+                      ""
+                  ),
+
+                  "|",
+
+                  item.get(
+                      "coverType",
+                      ""
+                  ),
+
+                  "|",
+
+                  item.get(
+                      "cover",
+                      ""
+                  )
+
+              )
+
+
+          print(
+              "========================================"
+          )
+
+          PY
+
+
+      # ==========================================
+      # 7. Update GitHub
+      # ==========================================
+      - name: Update Music Vault
+        run: |
+
+          git config user.name \
+            "Music Vault Bot"
+
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
+
+          git add \
+            media.json \
+            covers/
+
 
           if git diff --cached --quiet; then
-            echo "No metadata changes detected."
+
+            echo \
+              "No metadata or cover changes detected."
+
           else
-            git commit -m "Auto-update Music Vault metadata"
+
+            git commit \
+              -m \
+              "Auto-update Music Vault metadata and covers"
+
             git push
+
           fi
+
 
       # ==========================================
       # 8. Complete
       # ==========================================
       - name: Complete job
         run: |
-          echo "========================================"
-          echo " MUSIC VAULT AUTOMATION COMPLETE"
-          echo "========================================"
+
+          echo \
+            "========================================"
+
+          echo \
+            " MUSIC VAULT AUTOMATION COMPLETE"
+
+          echo \
+            "========================================"
+
+          echo \
+            "Metadata scanned."
+
+          echo \
+            "Cover priority:"
+
+          echo \
+            "1. Google Drive / cover"
+
+          echo \
+            "2. Embedded Album Art"
+
+          echo \
+            "3. Auto-generated cover"
+
+          echo \
+            "========================================"
