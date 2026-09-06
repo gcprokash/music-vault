@@ -90,8 +90,7 @@
       ],
       "cover": "covers/188AomWna1mXnsEdul9cINC6G0KdAgwu5.jpg",
       "coverSource": "google-drive-custom",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
+      "audioPlaybackAvailable": false
     },
     {
       "id": "1tUmndTUknJ_EeUD4-Td-iXJfVenAKqM_",
@@ -137,8 +136,7 @@
       "subtitles": [],
       "cover": "covers/1tUmndTUknJ_EeUD4-Td-iXJfVenAKqM_.jpg",
       "coverSource": "google-drive-custom",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
+      "audioPlaybackAvailable": false
     },
     {
       "id": "1uofh1-iX9SIHDZcXZEUUb_T5IA7gfWP3",
@@ -191,8 +189,7 @@
       ],
       "cover": "covers/1uofh1-iX9SIHDZcXZEUUb_T5IA7gfWP3.svg",
       "coverSource": "generated",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
+      "audioPlaybackAvailable": false
     },
     {
       "id": "1LQk_aOde4MtwID7EjBmR1vPqXAhpKYNB",
@@ -257,8 +254,7 @@
       ],
       "cover": "covers/1LQk_aOde4MtwID7EjBmR1vPqXAhpKYNB.svg",
       "coverSource": "generated",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
+      "audioPlaybackAvailable": false
     },
     {
       "id": "17BUJhyefcUYLHm5csjtZr4om2pxXMnu2",
@@ -323,55 +319,7 @@
       ],
       "cover": "covers/17BUJhyefcUYLHm5csjtZr4om2pxXMnu2.svg",
       "coverSource": "generated",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
-    },
-    {
-      "id": "15U7ZY94ER6xpAgzxDOjpUMHVIv72wM0b",
-      "fileName": "Dhadke Mor Dil [1440p] [VP9] [Multi Audio] [GCP].mkv",
-      "title": "Dhadke Mor Dil [1440p] [VP9] [Multi Audio] [GCP]",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/15U7ZY94ER6xpAgzxDOjpUMHVIv72wM0b/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=15U7ZY94ER6xpAgzxDOjpUMHVIv72wM0b",
-      "video": {
-        "width": 2560,
-        "height": 1440,
-        "resolution": "2560x1440",
-        "codec": "vp9"
-      },
-      "audio": {
-        "trackCount": 2,
-        "tracks": [
-          {
-            "index": 0,
-            "codec": "opus",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "title": "Original YouTube Opus"
-          },
-          {
-            "index": 1,
-            "codec": "alac",
-            "sampleRate": 44100,
-            "bitDepth": 16,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "title": "Hi-Res Apple Lossless (ALAC) 16-bit 44.1kHz By GCP"
-          }
-        ],
-        "hiResTrack": 1
-      },
-      "subtitles": [],
-      "cover": "covers/15U7ZY94ER6xpAgzxDOjpUMHVIv72wM0b.svg",
-      "coverSource": "generated",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
+      "audioPlaybackAvailable": false
     },
     {
       "id": "1wjoUQUJLcH-Z9mwrqtgJjIHjFITvIMUH",
@@ -424,55 +372,7 @@
       ],
       "cover": "covers/1wjoUQUJLcH-Z9mwrqtgJjIHjFITvIMUH.svg",
       "coverSource": "generated",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
-    },
-    {
-      "id": "1mvr_Gj6NTnblkQzu3j-qe7yP4OzPePb1",
-      "fileName": "Beli Chameli [1440p] [VP9] [Multi Audio] [GCP].mkv",
-      "title": "Beli Chameli [1440p] [VP9] [Multi Audio] [GCP]",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/1mvr_Gj6NTnblkQzu3j-qe7yP4OzPePb1/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=1mvr_Gj6NTnblkQzu3j-qe7yP4OzPePb1",
-      "video": {
-        "width": 2560,
-        "height": 1440,
-        "resolution": "2560x1440",
-        "codec": "vp9"
-      },
-      "audio": {
-        "trackCount": 2,
-        "tracks": [
-          {
-            "index": 0,
-            "codec": "opus",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "title": "Original YouTube Opus"
-          },
-          {
-            "index": 1,
-            "codec": "alac",
-            "sampleRate": 44100,
-            "bitDepth": 16,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "title": "Hi-Res Apple Lossless (ALAC) 16-bit 44.1kHz By GCP"
-          }
-        ],
-        "hiResTrack": 1
-      },
-      "subtitles": [],
-      "cover": "covers/1mvr_Gj6NTnblkQzu3j-qe7yP4OzPePb1.svg",
-      "coverSource": "generated",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
+      "audioPlaybackAvailable": false
     },
     {
       "id": "1RFcMjfJbVMuGI9sEbruQS_zmYXNo2A8g",
@@ -518,55 +418,7 @@
       "subtitles": [],
       "cover": "covers/1RFcMjfJbVMuGI9sEbruQS_zmYXNo2A8g.svg",
       "coverSource": "generated",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
-    },
-    {
-      "id": "18lt8N-Nzs0Bt7r2XsD-73edabPVs5o2-",
-      "fileName": "Chumu 2K [1440p] [VP9] [Multi Audio] [GCP].mkv",
-      "title": "Chumu 2K [1440p] [VP9] [Multi Audio] [GCP]",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/18lt8N-Nzs0Bt7r2XsD-73edabPVs5o2-/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=18lt8N-Nzs0Bt7r2XsD-73edabPVs5o2-",
-      "video": {
-        "width": 2560,
-        "height": 1440,
-        "resolution": "2560x1440",
-        "codec": "vp9"
-      },
-      "audio": {
-        "trackCount": 2,
-        "tracks": [
-          {
-            "index": 0,
-            "codec": "opus",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "title": "Original YouTube Opus"
-          },
-          {
-            "index": 1,
-            "codec": "alac",
-            "sampleRate": 48000,
-            "bitDepth": 24,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "title": "Hi-Res Apple Lossless (ALAC) 24-bit 48.0kHz By GCP"
-          }
-        ],
-        "hiResTrack": 1
-      },
-      "subtitles": [],
-      "cover": "covers/18lt8N-Nzs0Bt7r2XsD-73edabPVs5o2-.svg",
-      "coverSource": "generated",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
+      "audioPlaybackAvailable": false
     },
     {
       "id": "1M6ICOTkc7D7QOMT36oyPB83yCK2HZhSD",
@@ -612,8 +464,7 @@
       "subtitles": [],
       "cover": "covers/1M6ICOTkc7D7QOMT36oyPB83yCK2HZhSD.svg",
       "coverSource": "generated",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
+      "audioPlaybackAvailable": false
     },
     {
       "id": "1HkmGaeEb0XeocSsG1nYNy9_4YOkpIC10",
@@ -702,8 +553,7 @@
       ],
       "cover": "covers/1HkmGaeEb0XeocSsG1nYNy9_4YOkpIC10.svg",
       "coverSource": "generated",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
+      "audioPlaybackAvailable": false
     },
     {
       "id": "1aNIqHpvxJBC4UY8ls1xtP4VnT-tEzyQr",
@@ -749,8 +599,7 @@
       "subtitles": [],
       "cover": "covers/1aNIqHpvxJBC4UY8ls1xtP4VnT-tEzyQr.svg",
       "coverSource": "generated",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
+      "audioPlaybackAvailable": false
     },
     {
       "id": "1s-79TsZVgboNZx-NTleha7vhQawHFm2j",
@@ -889,55 +738,7 @@
       ],
       "cover": "covers/1s-79TsZVgboNZx-NTleha7vhQawHFm2j.svg",
       "coverSource": "generated",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
-    },
-    {
-      "id": "1UYIq8jRE4-VCM7UgMDEpyTpxuJCgIJB3",
-      "fileName": "A Nani Beautiful [1440p] [VP9] [Hi-Res ALAC] [Multi Audio] [GCP].mkv",
-      "title": "A Nani Beautiful [1440p] [VP9] [Hi-Res ALAC] [Multi Audio] [GCP]",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/1UYIq8jRE4-VCM7UgMDEpyTpxuJCgIJB3/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=1UYIq8jRE4-VCM7UgMDEpyTpxuJCgIJB3",
-      "video": {
-        "width": 2560,
-        "height": 1440,
-        "resolution": "2560x1440",
-        "codec": "vp9"
-      },
-      "audio": {
-        "trackCount": 2,
-        "tracks": [
-          {
-            "index": 0,
-            "codec": "alac",
-            "sampleRate": 44100,
-            "bitDepth": 16,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "title": "Hi-Res Apple Lossless (ALAC) 16-bit 44.1kHz + Intro By GCP"
-          },
-          {
-            "index": 1,
-            "codec": "opus",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "title": "Original YouTube Opus"
-          }
-        ],
-        "hiResTrack": 0
-      },
-      "subtitles": [],
-      "cover": "covers/1UYIq8jRE4-VCM7UgMDEpyTpxuJCgIJB3.svg",
-      "coverSource": "generated",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
+      "audioPlaybackAvailable": false
     },
     {
       "id": "1bVOrZI6-I1bw8ZlX-SLTouHGaBeRdij5",
@@ -1026,100 +827,7 @@
       ],
       "cover": "covers/1bVOrZI6-I1bw8ZlX-SLTouHGaBeRdij5.jpg",
       "coverSource": "google-drive-custom",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "No supported original audio codec",
-      "audioTracksDetected": []
-    },
-    {
-      "id": "1FrigSYrscjY9BloRg2oPNnR8WMUSBuhz",
-      "fileName": "Bolbe Kabe (Nagpuri) [1440p] [VP9] [Hi-Res ALAC] [Dual Audio] [Tri-Lingual Subs] [GCP].mkv",
-      "title": "Bolbe Kabe (Nagpuri) (Dual Audio) [GCP]",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/1FrigSYrscjY9BloRg2oPNnR8WMUSBuhz/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=1FrigSYrscjY9BloRg2oPNnR8WMUSBuhz",
-      "video": {
-        "width": 2560,
-        "height": 1440,
-        "resolution": "2560x1440",
-        "codec": "vp9"
-      },
-      "audio": {
-        "trackCount": 2,
-        "tracks": [
-          {
-            "index": 0,
-            "codec": "alac",
-            "sampleRate": 44100,
-            "bitDepth": 24,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "title": "Hi-Res Apple Lossless (ALAC) 24-bit 44.1kHz By GCP"
-          },
-          {
-            "index": 1,
-            "codec": "opus",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "title": "Original YouTube Audio (Opus)"
-          }
-        ],
-        "hiResTrack": 0
-      },
-      "subtitles": [
-        {
-          "index": 3,
-          "codec": "subrip",
-          "language": "",
-          "title": "BK GCP Tri-Lingual"
-        },
-        {
-          "index": 4,
-          "codec": "subrip",
-          "language": "",
-          "title": "BK GCP Romanized + Bangla"
-        },
-        {
-          "index": 5,
-          "codec": "subrip",
-          "language": "",
-          "title": "BK GCP Romanized + English"
-        },
-        {
-          "index": 6,
-          "codec": "subrip",
-          "language": "",
-          "title": "BK GCP Bangla + English"
-        },
-        {
-          "index": 7,
-          "codec": "subrip",
-          "language": "",
-          "title": "BK GCP Romanized"
-        },
-        {
-          "index": 8,
-          "codec": "subrip",
-          "language": "",
-          "title": "BK GCP Bangla"
-        },
-        {
-          "index": 9,
-          "codec": "subrip",
-          "language": "",
-          "title": "BK GCP English"
-        }
-      ],
-      "cover": "covers/1FrigSYrscjY9BloRg2oPNnR8WMUSBuhz.svg",
-      "coverSource": "generated",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "No supported original audio codec",
-      "audioTracksDetected": []
+      "audioPlaybackAvailable": false
     },
     {
       "id": "1PsmrkoqeoV4Cc5-XLWIHr8a104YUT4Tz",
@@ -1228,9 +936,7 @@
       ],
       "cover": "covers/1PsmrkoqeoV4Cc5-XLWIHr8a104YUT4Tz.svg",
       "coverSource": "generated",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "No supported original audio codec",
-      "audioTracksDetected": []
+      "audioPlaybackAvailable": false
     },
     {
       "id": "1pIjjOb8ECDJYTjcnRiZ_81mFimHusDUZ",
@@ -1319,74 +1025,7 @@
       ],
       "cover": "covers/1pIjjOb8ECDJYTjcnRiZ_81mFimHusDUZ.jpg",
       "coverSource": "google-drive-custom",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
-    },
-    {
-      "id": "1TIYX3F47Dg6kfVc8Ymvkuq2aff6jkkf9",
-      "fileName": "Amer Achaar [1440p] [VP9] [Hi-Res ALAC] [Multi Audio] [Bi-Lingual Subs] [GCP].mkv",
-      "title": "Amer Achaar (Multi Audio) [GCP]",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/1TIYX3F47Dg6kfVc8Ymvkuq2aff6jkkf9/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=1TIYX3F47Dg6kfVc8Ymvkuq2aff6jkkf9",
-      "video": {
-        "width": 2560,
-        "height": 1350,
-        "resolution": "2560x1350",
-        "codec": "vp9"
-      },
-      "audio": {
-        "trackCount": 2,
-        "tracks": [
-          {
-            "index": 0,
-            "codec": "alac",
-            "sampleRate": 44100,
-            "bitDepth": 16,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "title": "Hi-Res Apple Lossless (ALAC) 16-bit 44.1kHz By GCP"
-          },
-          {
-            "index": 1,
-            "codec": "opus",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "eng",
-            "title": "Original YouTube Opus"
-          }
-        ],
-        "hiResTrack": 0
-      },
-      "subtitles": [
-        {
-          "index": 3,
-          "codec": "subrip",
-          "language": "ben",
-          "title": "Bilingual Subtitle By GCP"
-        },
-        {
-          "index": 4,
-          "codec": "subrip",
-          "language": "eng",
-          "title": "English Subtitle By GCP"
-        },
-        {
-          "index": 5,
-          "codec": "subrip",
-          "language": "ben",
-          "title": "Bangla Subtitle By GCP"
-        }
-      ],
-      "cover": "covers/1TIYX3F47Dg6kfVc8Ymvkuq2aff6jkkf9.jpg",
-      "coverSource": "google-drive-custom",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
+      "audioPlaybackAvailable": false
     }
   ]
 }
