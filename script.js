@@ -149,10 +149,6 @@ function renderMusicLibrary(files) {
 // Create Music Card
 // ---------------------------------------------------------
 
-// ---------------------------------------------------------
-// Create Music Card
-// ---------------------------------------------------------
-
 function createMusicCard(
   file,
   index
@@ -372,6 +368,7 @@ function getVideoDownloadURL(file) {
 
 }
 
+
 // ---------------------------------------------------------
 // Build Card Filter Tags
 // ---------------------------------------------------------
@@ -456,7 +453,9 @@ function buildTechnicalTags(file) {
     } else {
 
       tags.push(
-        `<span>${escapeHTML(file.video.resolution)}</span>`
+        `<span>${escapeHTML(
+          file.video.resolution
+        )}</span>`
       );
 
     }
@@ -570,6 +569,66 @@ function getHiResTrack(file) {
 
 
 // ---------------------------------------------------------
+// Resolve Cover URL
+// ---------------------------------------------------------
+
+function getCoverURL(file) {
+
+  if (!file) {
+    return "";
+  }
+
+
+  let cover =
+    file.cover ||
+    file.coverUrl ||
+    "";
+
+
+  if (!cover) {
+    return "";
+  }
+
+
+  cover =
+    String(cover).trim();
+
+
+  if (!cover) {
+    return "";
+  }
+
+
+  // Absolute URL
+  if (
+    cover.startsWith("http://") ||
+    cover.startsWith("https://") ||
+    cover.startsWith("data:")
+  ) {
+
+    return cover;
+
+  }
+
+
+  // Remove leading ./ or /
+  cover =
+    cover.replace(
+      /^\.?\//,
+      ""
+    );
+
+
+  // GitHub Pages project path
+  return (
+    "./" +
+    cover
+  );
+
+}
+
+
+// ---------------------------------------------------------
 // Create Cover
 // ---------------------------------------------------------
 
@@ -578,27 +637,32 @@ function createCoverHTML(
   title
 ) {
 
-  /*
-   * media.json may later contain:
-   *
-   * cover: "cover.jpg"
-   *
-   * Until then, use the premium fallback cover.
-   */
+  const coverURL =
+    getCoverURL(file);
 
-  if (file.cover) {
+
+  // -------------------------------------------------------
+  // Real Cover
+  // -------------------------------------------------------
+
+  if (coverURL) {
 
     return `
       <img
         class="music-cover-image"
-        src="${escapeHTML(file.cover)}"
+        src="${escapeHTML(coverURL)}"
         alt="${escapeHTML(title)}"
         loading="lazy"
-        onerror="this.style.display='none';">
+        decoding="async"
+        onerror="handleCoverError(this);">
     `;
 
   }
 
+
+  // -------------------------------------------------------
+  // Premium Fallback
+  // -------------------------------------------------------
 
   return `
     <div class="music-cover-glow"></div>
@@ -607,6 +671,43 @@ function createCoverHTML(
       MUSIC
     </span>
   `;
+
+}
+
+
+// ---------------------------------------------------------
+// Cover Error Handler
+// ---------------------------------------------------------
+
+function handleCoverError(image) {
+
+  if (!image) {
+    return;
+  }
+
+
+  const fallback =
+    document.createElement(
+      "div"
+    );
+
+
+  fallback.className =
+    "music-cover-fallback";
+
+
+  fallback.innerHTML = `
+    <div class="music-cover-glow"></div>
+
+    <span class="music-cover-title">
+      MUSIC
+    </span>
+  `;
+
+
+  image.replaceWith(
+    fallback
+  );
 
 }
 
@@ -666,7 +767,9 @@ function setupMusicPlayButtons() {
 
           // Scroll to player
           const player =
-            document.querySelector("#player");
+            document.querySelector(
+              "#player"
+            );
 
 
           if (player) {
@@ -704,9 +807,11 @@ libraryFilters.forEach(
         // Active button
         libraryFilters.forEach(
           (item) => {
+
             item.classList.remove(
               "active"
             );
+
           }
         );
 
@@ -766,7 +871,9 @@ function applyLibraryFilter() {
 
 
       if (
-        tags.includes(currentFilter)
+        tags.includes(
+          currentFilter
+        )
       ) {
 
         card.style.display = "";
@@ -792,8 +899,14 @@ function cleanFileName(
 ) {
 
   return fileName
-    .replace(/\.[^/.]+$/, "")
-    .replace(/\s*\[[^\]]*\]/g, "")
+    .replace(
+      /\.[^/.]+$/,
+      ""
+    )
+    .replace(
+      /\s*\[[^\]]*\]/g,
+      ""
+    )
     .trim();
 
 }
@@ -803,14 +916,31 @@ function cleanFileName(
 // Escape HTML
 // ---------------------------------------------------------
 
-function escapeHTML(value = "") {
+function escapeHTML(
+  value = ""
+) {
 
   return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
 
 }
 
