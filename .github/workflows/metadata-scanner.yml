@@ -1,20 +1,41 @@
 name: Music Vault Metadata Scanner
 
 on:
+
   workflow_dispatch:
 
   schedule:
     # প্রতি ৫ মিনিটে অটো রান
     - cron: "*/5 * * * *"
 
+
+# =========================================================
+# PERMISSIONS
+# =========================================================
+
 permissions:
   contents: write
+
+
+# =========================================================
+# PREVENT OVERLAPPING RUNS
+# =========================================================
+
+concurrency:
+  group: music-vault-metadata-scanner
+  cancel-in-progress: false
+
+
+# =========================================================
+# JOB
+# =========================================================
 
 jobs:
 
   scan:
 
     runs-on: ubuntu-latest
+
 
     steps:
 
@@ -32,12 +53,19 @@ jobs:
 
       - name: Install FFmpeg / FFprobe
         run: |
+
           sudo apt-get update
+
           sudo apt-get install -y ffmpeg
 
 
+      # =====================================================
+      # CHECK FFPROBE
+      # =====================================================
+
       - name: Check FFprobe
         run: |
+
           ffprobe -version
 
 
@@ -47,6 +75,7 @@ jobs:
 
       - name: Install Python Packages
         run: |
+
           python -m pip install --upgrade pip
 
           pip install \
@@ -60,7 +89,9 @@ jobs:
       # =====================================================
 
       - name: Create Scanner
+
         env:
+
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
 
         run: |
@@ -95,12 +126,14 @@ jobs:
 
 
           MEDIA_EXTENSIONS = {
+
               ".mkv",
               ".mp4",
               ".webm",
               ".avi",
               ".mov",
               ".m4v",
+
               ".mp3",
               ".flac",
               ".wav",
@@ -108,14 +141,17 @@ jobs:
               ".aac",
               ".ogg",
               ".opus"
+
           }
 
 
           IMAGE_EXTENSIONS = {
+
               ".jpg",
               ".jpeg",
               ".png",
               ".webp"
+
           }
 
 
@@ -141,6 +177,7 @@ jobs:
           service_account_json = os.environ.get(
               "GOOGLE_SERVICE_ACCOUNT_JSON"
           )
+
 
           if not service_account_json:
 
@@ -181,11 +218,13 @@ jobs:
 
               value = value.lower()
 
+
               value = re.sub(
                   r"\.[a-z0-9]{2,5}$",
                   "",
                   value
               )
+
 
               value = re.sub(
                   r"\[[^\]]*\]",
@@ -193,11 +232,13 @@ jobs:
                   value
               )
 
+
               value = re.sub(
                   r"\([^)]*\)",
                   "",
                   value
               )
+
 
               value = re.sub(
                   r"[_\-]+",
@@ -205,17 +246,20 @@ jobs:
                   value
               )
 
+
               value = re.sub(
                   r"[^a-z0-9\u0980-\u09ff]+",
                   " ",
                   value
               )
 
+
               value = re.sub(
                   r"\s+",
                   " ",
                   value
               )
+
 
               return value.strip()
 
@@ -230,11 +274,13 @@ jobs:
                   filename
               ).stem
 
+
               name = re.sub(
                   r"\s*\[[^\]]*\].*$",
                   "",
                   name
               )
+
 
               name = re.sub(
                   r"\s+(2160p|1440p|1080p|720p)\b",
@@ -242,6 +288,7 @@ jobs:
                   name,
                   flags=re.I
               )
+
 
               return name.strip()
 
@@ -253,15 +300,23 @@ jobs:
           def run_ffprobe(path):
 
               command = [
+
                   "ffprobe",
+
                   "-v",
                   "quiet",
+
                   "-print_format",
                   "json",
+
                   "-show_format",
+
                   "-show_streams",
+
                   str(path)
+
               ]
+
 
               result = subprocess.run(
                   command,
@@ -269,11 +324,13 @@ jobs:
                   text=True
               )
 
+
               if result.returncode != 0:
 
                   raise RuntimeError(
                       result.stderr
                   )
+
 
               return json.loads(
                   result.stdout
@@ -289,12 +346,19 @@ jobs:
               destination
           ):
 
+              destination.parent.mkdir(
+                  parents=True,
+                  exist_ok=True
+              )
+
+
               request = (
                   drive.files()
                   .get_media(
                       fileId=file_id
                   )
               )
+
 
               with open(
                   destination,
@@ -308,7 +372,9 @@ jobs:
                       )
                   )
 
+
                   done = False
+
 
                   while not done:
 
@@ -329,6 +395,7 @@ jobs:
 
               page_token = None
 
+
               while True:
 
                   response = (
@@ -348,6 +415,7 @@ jobs:
                       .execute()
                   )
 
+
                   files.extend(
                       response.get(
                           "files",
@@ -355,14 +423,18 @@ jobs:
                       )
                   )
 
+
                   page_token = (
                       response.get(
                           "nextPageToken"
                       )
                   )
 
+
                   if not page_token:
+
                       break
+
 
               return files
 
@@ -388,16 +460,19 @@ jobs:
                   .execute()
               )
 
+
               folders = response.get(
                   "files",
                   []
               )
+
 
               if not folders:
 
                   raise RuntimeError(
                       "Music Vault folder not found."
                   )
+
 
               return folders[0]
 
@@ -414,22 +489,30 @@ jobs:
                   music_vault_id
               )
 
+
               for item in children:
 
                   if (
-                      item.get("mimeType")
+
+                      item.get(
+                          "mimeType"
+                      )
                       ==
                       "application/vnd.google-apps.folder"
+
                       and
+
                       item.get(
                           "name",
                           ""
-                      ).lower()
+                      ).strip().lower()
                       ==
                       "cover"
+
                   ):
 
                       return item
+
 
               return None
 
@@ -446,11 +529,14 @@ jobs:
 
                   return []
 
+
               children = list_drive_children(
                   cover_folder_id
               )
 
+
               covers = []
+
 
               for item in children:
 
@@ -459,16 +545,21 @@ jobs:
                       ""
                   )
 
+
                   ext = Path(
                       name
                   ).suffix.lower()
 
+
                   if ext not in IMAGE_EXTENSIONS:
+
                       continue
+
 
                   covers.append(
                       item
                   )
+
 
               return covers
 
@@ -492,15 +583,23 @@ jobs:
                   normalize_text(
                       media_title
                   )
+
               ]
+
 
               targets = [
+
                   value
+
                   for value in targets
+
                   if value
+
               ]
 
+
               if not targets:
+
                   return None
 
 
@@ -516,6 +615,7 @@ jobs:
                           ""
                       )
                   )
+
 
                   for target in targets:
 
@@ -537,16 +637,26 @@ jobs:
                       )
                   )
 
+
+                  if not cover_name:
+
+                      continue
+
+
                   for target in targets:
 
                       if (
+
                           cover_name.startswith(
                               target
                           )
+
                           or
+
                           target.startswith(
                               cover_name
                           )
+
                       ):
 
                           return cover
@@ -579,19 +689,37 @@ jobs:
                   "-frames:v",
                   "1",
 
+                  "-q:v",
+                  "2",
+
                   str(output_path)
+
               ]
 
+
               result = subprocess.run(
+
                   command,
+
                   stdout=subprocess.DEVNULL,
+
                   stderr=subprocess.DEVNULL
+
               )
 
+
               return (
+
                   result.returncode == 0
-                  and output_path.exists()
-                  and output_path.stat().st_size > 0
+
+                  and
+
+                  output_path.exists()
+
+                  and
+
+                  output_path.stat().st_size > 0
+
               )
 
 
@@ -608,6 +736,7 @@ jobs:
               safe_title = html.escape(
                   title or "Music"
               )
+
 
               safe_artist = html.escape(
                   artist or "Music Vault"
@@ -750,6 +879,7 @@ jobs:
 
                 </text>
 
+
               </svg>'''
 
 
@@ -778,6 +908,7 @@ jobs:
                   )
                   ==
                   "audio"
+
               ]
 
 
@@ -795,22 +926,29 @@ jobs:
                       {}
                   )
 
+
                   codec = (
+
                       stream.get(
                           "codec_name"
                       )
+
                       or ""
+
                   ).lower()
 
 
                   try:
 
                       sample_rate = int(
+
                           stream.get(
                               "sample_rate",
                               0
                           )
+
                           or 0
+
                       )
 
                   except Exception:
@@ -821,11 +959,14 @@ jobs:
                   try:
 
                       bits = int(
+
                           stream.get(
                               "bits_per_raw_sample",
                               0
                           )
+
                           or 0
+
                       )
 
                   except Exception:
@@ -837,6 +978,7 @@ jobs:
                       "title",
                       ""
                   )
+
 
                   language = tags.get(
                       "language",
@@ -873,6 +1015,7 @@ jobs:
 
                       "title":
                           title
+
                   }
 
 
@@ -889,33 +1032,49 @@ jobs:
                   is_hires = (
 
                       codec in {
+
                           "alac",
                           "flac",
                           "wavpack",
                           "ape",
+
                           "pcm_s16le",
                           "pcm_s24le",
-                          "pcm_s32le"
+                          "pcm_s32le",
+
+                          "pcm_s16be",
+                          "pcm_s24be",
+                          "pcm_s32be"
+
                       }
 
                       or
+
                       "hi-res" in title_lower
 
                       or
+
                       "hires" in title_lower
 
                       or
+
                       sample_rate >= 96000
 
                       or
+
                       bits >= 24
+
                   )
 
 
                   if (
+
                       is_hires
+
                       and
+
                       hi_res_index is None
+
                   ):
 
                       hi_res_index = index
@@ -931,6 +1090,7 @@ jobs:
 
                   "hiResTrack":
                       hi_res_index
+
               }
 
 
@@ -949,14 +1109,17 @@ jobs:
                   for stream in streams
 
                   if (
+
                       stream.get(
                           "codec_type"
                       )
                       ==
                       "video"
+
                   )
-                  and
-                  not (
+
+                  and not (
+
                       stream.get(
                           "disposition",
                           {}
@@ -964,7 +1127,9 @@ jobs:
                           "attached_pic",
                           0
                       )
+
                   )
+
               ]
 
 
@@ -977,20 +1142,26 @@ jobs:
 
 
               width = int(
+
                   stream.get(
                       "width",
                       0
                   )
+
                   or 0
+
               )
 
 
               height = int(
+
                   stream.get(
                       "height",
                       0
                   )
+
                   or 0
+
               )
 
 
@@ -1010,6 +1181,7 @@ jobs:
                           "codec_name",
                           ""
                       )
+
               }
 
 
@@ -1029,11 +1201,15 @@ jobs:
               ):
 
                   if (
+
                       stream.get(
                           "codec_type"
                       )
+
                       !=
+
                       "subtitle"
+
                   ):
 
                       continue
@@ -1067,6 +1243,7 @@ jobs:
                               "title",
                               ""
                           )
+
                   })
 
 
@@ -1105,6 +1282,7 @@ jobs:
                   clean_title(
                       filename
                   )
+
               )
 
 
@@ -1121,7 +1299,9 @@ jobs:
                   )
 
                   or
+
                   ""
+
               )
 
 
@@ -1132,7 +1312,9 @@ jobs:
                   )
 
                   or
+
                   ""
+
               )
 
 
@@ -1143,7 +1325,9 @@ jobs:
                   )
 
                   or
+
                   ""
+
               )
 
 
@@ -1160,6 +1344,7 @@ jobs:
 
                   "composer":
                       composer.strip()
+
               }
 
 
@@ -1169,30 +1354,30 @@ jobs:
 
           def main():
 
+              print()
               print(
-                  "=========================================="
+                  "=================================================="
               )
-
               print(
                   " MUSIC VAULT METADATA SCANNER"
               )
-
               print(
                   " COVER AUTOMATION ENABLED"
               )
-
               print(
-                  "=========================================="
+                  "=================================================="
               )
+              print()
 
 
-              # ---------------------------------------------
+              # =================================================
               # MUSIC VAULT
-              # ---------------------------------------------
+              # =================================================
 
               music_vault = (
                   find_music_vault_folder()
               )
+
 
               music_vault_id = (
                   music_vault["id"]
@@ -1205,9 +1390,9 @@ jobs:
               )
 
 
-              # ---------------------------------------------
+              # =================================================
               # COVER FOLDER
-              # ---------------------------------------------
+              # =================================================
 
               cover_folder = (
                   find_cover_folder(
@@ -1237,6 +1422,7 @@ jobs:
                       "Cover folder not found."
                   )
 
+
                   custom_covers = []
 
 
@@ -1246,9 +1432,9 @@ jobs:
               )
 
 
-              # ---------------------------------------------
-              # LOAD OLD media.json
-              # ---------------------------------------------
+              # =================================================
+              # LOAD OLD MEDIA.JSON
+              # =================================================
 
               old_data = {}
 
@@ -1258,9 +1444,11 @@ jobs:
                   try:
 
                       old_data = json.loads(
+
                           OUTPUT_JSON.read_text(
                               encoding="utf-8"
                           )
+
                       )
 
                   except Exception:
@@ -1279,12 +1467,13 @@ jobs:
                   )
 
                   if item.get("id")
+
               }
 
 
-              # ---------------------------------------------
+              # =================================================
               # DRIVE MEDIA FILES
-              # ---------------------------------------------
+              # =================================================
 
               drive_files = (
                   list_drive_children(
@@ -1325,9 +1514,9 @@ jobs:
               records = []
 
 
-              # ---------------------------------------------
+              # =================================================
               # PROCESS MEDIA
-              # ---------------------------------------------
+              # =================================================
 
               for number, drive_file in enumerate(
                   media_files,
@@ -1338,6 +1527,7 @@ jobs:
                       drive_file["id"]
                   )
 
+
                   filename = (
                       drive_file["name"]
                   )
@@ -1345,27 +1535,50 @@ jobs:
 
                   print()
                   print(
-                      f"[{number}/{len(media_files)}]",
-                      filename
+                      "--------------------------------------------------"
                   )
 
 
-                  # IMPORTANT:
-                  # temporary file path
+                  print(
+                      f"[{number}/{len(media_files)}] {filename}"
+                  )
+
+
+                  print(
+                      "Drive ID:",
+                      file_id
+                  )
+
+
+                  # =================================================
+                  # TEMP FILE
+                  # =================================================
+
                   temp_path = (
-                      TEMP_DIR /
+
+                      TEMP_DIR
+
+                      /
+
                       (
                           file_id
-                          + Path(filename).suffix
+                          +
+                          Path(filename).suffix
                       )
+
                   )
 
 
                   try:
 
-                      # -------------------------------------
-                      # DOWNLOAD MEDIA
-                      # -------------------------------------
+                      # =================================================
+                      # DOWNLOAD ORIGINAL MEDIA
+                      # =================================================
+
+                      print(
+                          "Downloading media..."
+                      )
+
 
                       download_drive_file(
                           file_id,
@@ -1373,18 +1586,29 @@ jobs:
                       )
 
 
-                      # -------------------------------------
+                      # =================================================
                       # FFPROBE
-                      # -------------------------------------
+                      # =================================================
+
+                      print(
+                          "Reading metadata..."
+                      )
+
 
                       probe = run_ffprobe(
                           temp_path
                       )
 
 
-                      # -------------------------------------
+                      streams = probe.get(
+                          "streams",
+                          []
+                      )
+
+
+                      # =================================================
                       # METADATA
-                      # -------------------------------------
+                      # =================================================
 
                       metadata = get_metadata(
                           probe,
@@ -1402,55 +1626,76 @@ jobs:
                       ]
 
 
-                      # -------------------------------------
+                      print(
+                          "Title:",
+                          title
+                      )
+
+
+                      print(
+                          "Artist:",
+                          artist
+                      )
+
+
+                      # =================================================
                       # VIDEO
-                      # -------------------------------------
+                      # =================================================
 
                       video = scan_video(
-                          probe.get(
-                              "streams",
-                              []
-                          )
+                          streams
                       )
 
 
-                      # -------------------------------------
+                      # =================================================
                       # AUDIO
-                      # -------------------------------------
+                      # =================================================
 
                       audio = scan_audio(
-                          probe.get(
-                              "streams",
-                              []
-                          )
+                          streams
                       )
 
 
-                      # -------------------------------------
+                      # =================================================
                       # SUBTITLES
-                      # -------------------------------------
+                      # =================================================
 
                       subtitles = scan_subtitles(
-                          probe.get(
-                              "streams",
-                              []
-                          )
+                          streams
                       )
 
 
-                      # =====================================
+                      print(
+                          "Audio tracks:",
+                          audio["trackCount"]
+                      )
+
+
+                      print(
+                          "Subtitle tracks:",
+                          len(subtitles)
+                      )
+
+
+                      # =================================================
                       # COVER SYSTEM
-                      # =====================================
+                      #
+                      # PRIORITY:
+                      #
+                      # 1. CUSTOM DRIVE COVER
+                      # 2. EMBEDDED COVER
+                      # 3. GENERATED COVER
+                      # =================================================
 
                       cover_relative = ""
 
                       cover_source = ""
 
 
-                      # -------------------------------------
+                      # =================================================
                       # PRIORITY 1
                       # CUSTOM DRIVE COVER
-                      # -------------------------------------
+                      # =================================================
 
                       matching_cover = (
                           find_matching_cover(
@@ -1473,20 +1718,34 @@ jobs:
 
 
                           cover_filename = (
+
                               file_id
-                              + cover_ext
+
+                              +
+
+                              cover_ext
+
                           )
 
 
                           cover_path = (
+
                               COVERS_DIR
+
                               /
+
                               cover_filename
+
                           )
 
 
                           print(
-                              "Custom cover:",
+                              "Cover source: CUSTOM DRIVE"
+                          )
+
+
+                          print(
+                              "Cover:",
                               matching_cover[
                                   "name"
                               ]
@@ -1494,16 +1753,24 @@ jobs:
 
 
                           download_drive_file(
+
                               matching_cover[
                                   "id"
                               ],
+
                               cover_path
+
                           )
 
 
                           cover_relative = (
+
                               "covers/"
-                              + cover_filename
+
+                              +
+
+                              cover_filename
+
                           )
 
 
@@ -1512,20 +1779,25 @@ jobs:
                           )
 
 
-                      # -------------------------------------
+                      # =================================================
                       # PRIORITY 2
                       # EMBEDDED COVER
-                      # -------------------------------------
+                      # =================================================
 
                       if not cover_relative:
 
                           embedded_path = (
+
                               COVERS_DIR
+
                               /
+
                               (
                                   file_id
-                                  + ".jpg"
+                                  +
+                                  ".jpg"
                               )
+
                           )
 
 
@@ -1535,14 +1807,25 @@ jobs:
 
 
                           if extract_embedded_cover(
+
                               temp_path,
+
                               embedded_path
+
                           ):
 
                               cover_relative = (
+
                                   "covers/"
-                                  + file_id
-                                  + ".jpg"
+
+                                  +
+
+                                  file_id
+
+                                  +
+
+                                  ".jpg"
+
                               )
 
 
@@ -1551,20 +1834,30 @@ jobs:
                               )
 
 
-                      # -------------------------------------
+                              print(
+                                  "Cover source: EMBEDDED"
+                              )
+
+
+                      # =================================================
                       # PRIORITY 3
                       # GENERATED COVER
-                      # -------------------------------------
+                      # =================================================
 
                       if not cover_relative:
 
                           fallback_path = (
+
                               COVERS_DIR
+
                               /
+
                               (
                                   file_id
-                                  + ".svg"
+                                  +
+                                  ".svg"
                               )
+
                           )
 
 
@@ -1574,16 +1867,28 @@ jobs:
 
 
                           generate_fallback_cover(
+
                               title,
+
                               artist,
+
                               fallback_path
+
                           )
 
 
                           cover_relative = (
+
                               "covers/"
-                              + file_id
-                              + ".svg"
+
+                              +
+
+                              file_id
+
+                              +
+
+                              ".svg"
+
                           )
 
 
@@ -1592,9 +1897,14 @@ jobs:
                           )
 
 
-                      # =====================================
+                          print(
+                              "Cover source: GENERATED"
+                          )
+
+
+                      # =================================================
                       # RECORD
-                      # =====================================
+                      # =================================================
 
                       record = {
 
@@ -1624,15 +1934,18 @@ jobs:
                               (
                                   "https://drive.google.com/"
                                   "file/d/"
-                                  + file_id
-                                  + "/view"
+                                  +
+                                  file_id
+                                  +
+                                  "/view"
                               ),
 
                           "downloadUrl":
                               (
                                   "https://drive.google.com/"
                                   "uc?export=download&id="
-                                  + file_id
+                                  +
+                                  file_id
                               ),
 
                           "video":
@@ -1649,12 +1962,13 @@ jobs:
 
                           "coverSource":
                               cover_source
+
                       }
 
 
-                      # =====================================
+                      # =================================================
                       # PRESERVE PLAYBACK DATA
-                      # =====================================
+                      # =================================================
 
                       old_record = (
                           old_files.get(
@@ -1676,6 +1990,7 @@ jobs:
                               "audioPlaybackUrl",
 
                               "audioPlaybackFile"
+
                           ]
 
 
@@ -1688,6 +2003,10 @@ jobs:
                                   )
 
 
+                      # =================================================
+                      # ADD RECORD
+                      # =================================================
+
                       records.append(
                           record
                       )
@@ -1699,18 +2018,28 @@ jobs:
                       )
 
 
-                  except Exception as error:
-
                       print(
-                          "ERROR:",
-                          filename,
-                          error
+                          "Scan successful."
                       )
 
 
-                      # -------------------------------------
-                      # KEEP OLD RECORD
-                      # -------------------------------------
+                  except Exception as error:
+
+                      print()
+                      print(
+                          "ERROR PROCESSING:",
+                          filename
+                      )
+
+
+                      print(
+                          str(error)
+                      )
+
+
+                      # =================================================
+                      # KEEP OLD RECORD IF AVAILABLE
+                      # =================================================
 
                       old_record = (
                           old_files.get(
@@ -1721,6 +2050,11 @@ jobs:
 
                       if old_record:
 
+                          print(
+                              "Keeping previous record."
+                          )
+
+
                           records.append(
                               old_record
                           )
@@ -1728,17 +2062,23 @@ jobs:
 
                   finally:
 
-                      # -------------------------------------
-                      # REMOVE TEMP FILE
-                      # -------------------------------------
+                      # =================================================
+                      # REMOVE TEMP MEDIA
+                      # =================================================
 
                       if temp_path.exists():
 
-                          temp_path.unlink()
+                          try:
+
+                              temp_path.unlink()
+
+                          except Exception:
+
+                              pass
 
 
               # =================================================
-              # SAVE media.json
+              # SAVE MEDIA.JSON
               # =================================================
 
               output = {
@@ -1752,42 +2092,62 @@ jobs:
                   "coverSystem":
                       "custom-drive > embedded > generated",
 
+                  "coverFolder":
+                      "Music Vault/cover",
+
                   "files":
                       records
+
               }
 
 
               OUTPUT_JSON.write_text(
 
                   json.dumps(
+
                       output,
+
                       ensure_ascii=False,
+
                       indent=2
+
                   ),
 
                   encoding="utf-8"
+
               )
 
 
               # =================================================
-              # CLEAN TEMP DIRECTORY
+              # REMOVE TEMP DIRECTORY
               # =================================================
 
               if TEMP_DIR.exists():
 
                   shutil.rmtree(
+
                       TEMP_DIR,
+
                       ignore_errors=True
+
                   )
 
 
+              # =================================================
+              # FINAL RESULT
+              # =================================================
+
               print()
               print(
-                  "=========================================="
+                  "=================================================="
               )
 
               print(
-                  "SCAN COMPLETE"
+                  " SCAN COMPLETE"
+              )
+
+              print(
+                  "=================================================="
               )
 
               print(
@@ -1796,7 +2156,12 @@ jobs:
               )
 
               print(
-                  "=========================================="
+                  "Cover system:",
+                  "custom-drive > embedded > generated"
+              )
+
+              print(
+                  "=================================================="
               )
 
 
@@ -1808,7 +2173,7 @@ jobs:
 
               main()
 
-                    PYTHON
+          PYTHON
 
 
       # =====================================================
@@ -1816,9 +2181,13 @@ jobs:
       # =====================================================
 
       - name: Run Metadata Scanner
+
         env:
+
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+
         run: |
+
           python scanner.py
 
 
@@ -1827,15 +2196,33 @@ jobs:
       # =====================================================
 
       - name: Show Media JSON
+
         run: |
 
-          echo "=========================================="
+          echo "=================================================="
 
           echo "MEDIA.JSON"
 
-          echo "=========================================="
+          echo "=================================================="
 
           cat media.json
+
+
+      # =====================================================
+      # SHOW COVERS
+      # =====================================================
+
+      - name: Show Generated Covers
+
+        run: |
+
+          echo "=================================================="
+
+          echo "COVERS"
+
+          echo "=================================================="
+
+          find covers -maxdepth 1 -type f -print | sort || true
 
 
       # =====================================================
@@ -1843,6 +2230,7 @@ jobs:
       # =====================================================
 
       - name: Commit Metadata and Covers
+
         run: |
 
           git config user.name \
