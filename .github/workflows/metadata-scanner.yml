@@ -1808,7 +1808,7 @@ jobs:
 
               main()
 
-          PYTHON
+                    PYTHON
 
 
       # =====================================================
@@ -1816,6 +1816,8 @@ jobs:
       # =====================================================
 
       - name: Run Metadata Scanner
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
         run: |
           python scanner.py
 
