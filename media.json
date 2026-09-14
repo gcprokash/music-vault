@@ -90,7 +90,8 @@
       ],
       "cover": "covers/188AomWna1mXnsEdul9cINC6G0KdAgwu5.jpg",
       "coverSource": "google-drive-custom",
-      "audioPlaybackAvailable": false
+      "audioPlaybackAvailable": false,
+      "audioPlaybackReason": "Unable to inspect audio tracks"
     },
     {
       "id": "1tUmndTUknJ_EeUD4-Td-iXJfVenAKqM_",
@@ -136,7 +137,8 @@
       "subtitles": [],
       "cover": "covers/1tUmndTUknJ_EeUD4-Td-iXJfVenAKqM_.jpg",
       "coverSource": "google-drive-custom",
-      "audioPlaybackAvailable": false
+      "audioPlaybackAvailable": false,
+      "audioPlaybackReason": "Unable to inspect audio tracks"
     },
     {
       "id": "1uofh1-iX9SIHDZcXZEUUb_T5IA7gfWP3",
@@ -189,7 +191,8 @@
       ],
       "cover": "covers/1uofh1-iX9SIHDZcXZEUUb_T5IA7gfWP3.svg",
       "coverSource": "generated",
-      "audioPlaybackAvailable": false
+      "audioPlaybackAvailable": false,
+      "audioPlaybackReason": "Unable to inspect audio tracks"
     },
     {
       "id": "1LQk_aOde4MtwID7EjBmR1vPqXAhpKYNB",
@@ -254,7 +257,8 @@
       ],
       "cover": "covers/1LQk_aOde4MtwID7EjBmR1vPqXAhpKYNB.svg",
       "coverSource": "generated",
-      "audioPlaybackAvailable": false
+      "audioPlaybackAvailable": false,
+      "audioPlaybackReason": "Unable to inspect audio tracks"
     },
     {
       "id": "17BUJhyefcUYLHm5csjtZr4om2pxXMnu2",
@@ -319,7 +323,8 @@
       ],
       "cover": "covers/17BUJhyefcUYLHm5csjtZr4om2pxXMnu2.svg",
       "coverSource": "generated",
-      "audioPlaybackAvailable": false
+      "audioPlaybackAvailable": false,
+      "audioPlaybackReason": "Unable to inspect audio tracks"
     },
     {
       "id": "1wjoUQUJLcH-Z9mwrqtgJjIHjFITvIMUH",
@@ -372,7 +377,8 @@
       ],
       "cover": "covers/1wjoUQUJLcH-Z9mwrqtgJjIHjFITvIMUH.svg",
       "coverSource": "generated",
-      "audioPlaybackAvailable": false
+      "audioPlaybackAvailable": false,
+      "audioPlaybackReason": "Unable to inspect audio tracks"
     },
     {
       "id": "1RFcMjfJbVMuGI9sEbruQS_zmYXNo2A8g",
@@ -418,7 +424,8 @@
       "subtitles": [],
       "cover": "covers/1RFcMjfJbVMuGI9sEbruQS_zmYXNo2A8g.svg",
       "coverSource": "generated",
-      "audioPlaybackAvailable": false
+      "audioPlaybackAvailable": false,
+      "audioPlaybackReason": "Unable to inspect audio tracks"
     },
     {
       "id": "1M6ICOTkc7D7QOMT36oyPB83yCK2HZhSD",
@@ -464,7 +471,8 @@
       "subtitles": [],
       "cover": "covers/1M6ICOTkc7D7QOMT36oyPB83yCK2HZhSD.svg",
       "coverSource": "generated",
-      "audioPlaybackAvailable": false
+      "audioPlaybackAvailable": false,
+      "audioPlaybackReason": "Unable to inspect audio tracks"
     },
     {
       "id": "1HkmGaeEb0XeocSsG1nYNy9_4YOkpIC10",
@@ -553,7 +561,8 @@
       ],
       "cover": "covers/1HkmGaeEb0XeocSsG1nYNy9_4YOkpIC10.svg",
       "coverSource": "generated",
-      "audioPlaybackAvailable": false
+      "audioPlaybackAvailable": false,
+      "audioPlaybackReason": "Unable to inspect audio tracks"
     },
     {
       "id": "1aNIqHpvxJBC4UY8ls1xtP4VnT-tEzyQr",
@@ -599,7 +608,8 @@
       "subtitles": [],
       "cover": "covers/1aNIqHpvxJBC4UY8ls1xtP4VnT-tEzyQr.svg",
       "coverSource": "generated",
-      "audioPlaybackAvailable": false
+      "audioPlaybackAvailable": false,
+      "audioPlaybackReason": "Unable to inspect audio tracks"
     },
     {
       "id": "1s-79TsZVgboNZx-NTleha7vhQawHFm2j",
@@ -738,7 +748,8 @@
       ],
       "cover": "covers/1s-79TsZVgboNZx-NTleha7vhQawHFm2j.svg",
       "coverSource": "generated",
-      "audioPlaybackAvailable": false
+      "audioPlaybackAvailable": false,
+      "audioPlaybackReason": "Unable to inspect audio tracks"
     },
     {
       "id": "1bVOrZI6-I1bw8ZlX-SLTouHGaBeRdij5",
@@ -827,7 +838,9 @@
       ],
       "cover": "covers/1bVOrZI6-I1bw8ZlX-SLTouHGaBeRdij5.jpg",
       "coverSource": "google-drive-custom",
-      "audioPlaybackAvailable": false
+      "audioPlaybackAvailable": false,
+      "audioPlaybackReason": "No supported original audio codec",
+      "audioTracksDetected": []
     },
     {
       "id": "1PsmrkoqeoV4Cc5-XLWIHr8a104YUT4Tz",
@@ -936,7 +949,9 @@
       ],
       "cover": "covers/1PsmrkoqeoV4Cc5-XLWIHr8a104YUT4Tz.svg",
       "coverSource": "generated",
-      "audioPlaybackAvailable": false
+      "audioPlaybackAvailable": false,
+      "audioPlaybackReason": "No supported original audio codec",
+      "audioTracksDetected": []
     },
     {
       "id": "1pIjjOb8ECDJYTjcnRiZ_81mFimHusDUZ",
@@ -1025,7 +1040,8 @@
       ],
       "cover": "covers/1pIjjOb8ECDJYTjcnRiZ_81mFimHusDUZ.jpg",
       "coverSource": "google-drive-custom",
-      "audioPlaybackAvailable": false
+      "audioPlaybackAvailable": false,
+      "audioPlaybackReason": "Unable to inspect audio tracks"
     }
   ]
 }
