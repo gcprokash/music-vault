@@ -22,7 +22,7 @@ jobs:
       # CHECKOUT
       # =====================================================
 
-      - name: Checkout GitHub Repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
 
@@ -73,7 +73,6 @@ jobs:
           import subprocess
           import shutil
           import html
-
           from pathlib import Path
 
           from google.oauth2 import service_account
@@ -82,10 +81,12 @@ jobs:
 
 
           # =================================================
-          # CONFIG
+          # CONFIGURATION
           # =================================================
 
-          DRIVE_FOLDER_NAME = "Music Vault"
+          VIDEO_FOLDER_ID = "1lu8rV1ctx4nAJ1pRKJguJJS5bUpKGXql"
+
+          SPREADSHEET_ID = "13t2hCpG87CGhOuSdd2yX-6yLnSfufTCR4Jrca_dvg-0"
 
           OUTPUT_JSON = Path("media.json")
 
@@ -100,14 +101,7 @@ jobs:
               ".webm",
               ".avi",
               ".mov",
-              ".m4v",
-              ".mp3",
-              ".flac",
-              ".wav",
-              ".m4a",
-              ".aac",
-              ".ogg",
-              ".opus"
+              ".m4v"
           }
 
 
@@ -116,6 +110,99 @@ jobs:
               ".jpeg",
               ".png",
               ".webp"
+          }
+
+
+          # =================================================
+          # SHEET HEADERS
+          # =================================================
+
+          SHEET_HEADERS = {
+
+              "Media": [
+                  "Media_ID",
+                  "Title",
+                  "File_Name",
+                  "Artist",
+                  "Album",
+                  "Composer",
+                  "Resolution",
+                  "Video_Codec",
+                  "Video_Quality",
+                  "Audio_Count",
+                  "Hi_Res_Audio",
+                  "Subtitle_Count",
+                  "Cover",
+                  "Cover_Source",
+                  "Drive_URL",
+                  "Download_URL"
+              ],
+
+              "Files": [
+                  "File_ID",
+                  "Media_ID",
+                  "File_Name",
+                  "File_Type",
+                  "File_Size",
+                  "Modified_Time",
+                  "Drive_URL",
+                  "Download_URL"
+              ],
+
+              "Video": [
+                  "Video_ID",
+                  "Media_ID",
+                  "File_Name",
+                  "Codec",
+                  "Profile",
+                  "Width",
+                  "Height",
+                  "Resolution",
+                  "Aspect_Ratio",
+                  "FPS",
+                  "Bitrate",
+                  "Bit_Depth",
+                  "Pixel_Format",
+                  "HDR",
+                  "Scan_Type",
+                  "Default"
+              ],
+
+              "Audio": [
+                  "Audio_ID",
+                  "Media_ID",
+                  "Track_No",
+                  "Title",
+                  "Codec",
+                  "Sample_Rate",
+                  "Bit_Depth",
+                  "Channels",
+                  "Channel_Layout",
+                  "Language",
+                  "Hi_Res",
+                  "Default"
+              ],
+
+              "Subtitle": [
+                  "Subtitle_ID",
+                  "Media_ID",
+                  "Track_No",
+                  "Codec",
+                  "Language",
+                  "Title",
+                  "Default",
+                  "Forced"
+              ],
+
+              "Covers": [
+                  "Cover_ID",
+                  "Media_ID",
+                  "File_Name",
+                  "Cover_Source",
+                  "Cover_URL",
+                  "Drive_URL"
+              ]
+
           }
 
 
@@ -135,7 +222,7 @@ jobs:
 
 
           # =================================================
-          # GOOGLE DRIVE AUTH
+          # GOOGLE AUTH
           # =================================================
 
           service_account_json = os.environ.get(
@@ -156,7 +243,8 @@ jobs:
                       service_account_json
                   ),
                   scopes=[
-                      "https://www.googleapis.com/auth/drive.readonly"
+                      "https://www.googleapis.com/auth/drive.readonly",
+                      "https://www.googleapis.com/auth/spreadsheets"
                   ]
               )
           )
@@ -169,15 +257,20 @@ jobs:
           )
 
 
+          sheets = build(
+              "sheets",
+              "v4",
+              credentials=credentials
+          )
+
+
           # =================================================
           # NORMALIZE TEXT
           # =================================================
 
           def normalize_text(value):
 
-              value = str(
-                  value or ""
-              )
+              value = str(value or "")
 
               value = value.lower()
 
@@ -226,9 +319,7 @@ jobs:
 
           def clean_title(filename):
 
-              name = Path(
-                  filename
-              ).stem
+              name = Path(filename).stem
 
               name = re.sub(
                   r"\s*\[[^\]]*\].*$",
@@ -237,7 +328,7 @@ jobs:
               )
 
               name = re.sub(
-                  r"\s+(2160p|1440p|1080p|720p)\b",
+                  r"\s+(2160p|1440p|1080p|720p|4k|2k)\b",
                   "",
                   name,
                   flags=re.I
@@ -281,7 +372,7 @@ jobs:
 
 
           # =================================================
-          # DOWNLOAD DRIVE FILE
+          # DRIVE DOWNLOAD
           # =================================================
 
           def download_drive_file(
@@ -340,7 +431,13 @@ jobs:
                           ),
                           fields=(
                               "nextPageToken,"
-                              "files(id,name,mimeType,size)"
+                              "files("
+                              "id,"
+                              "name,"
+                              "mimeType,"
+                              "size,"
+                              "modifiedTime"
+                              ")"
                           ),
                           pageSize=1000,
                           pageToken=page_token
@@ -368,50 +465,39 @@ jobs:
 
 
           # =================================================
-          # FIND MUSIC VAULT
+          # FIND COVER FOLDER
           # =================================================
 
-          def find_music_vault_folder():
+          def find_cover_folder():
+
+              children = list_drive_children(
+                  VIDEO_FOLDER_ID
+              )
+
+              # Cover folder is normally beside Video File,
+              # so we look in the parent folder separately.
 
               response = (
                   drive.files()
-                  .list(
-                      q=(
-                          "name = 'Music Vault' "
-                          "and mimeType = "
-                          "'application/vnd.google-apps.folder' "
-                          "and trashed = false"
-                      ),
-                      fields="files(id,name)",
-                      pageSize=100
+                  .get(
+                      fileId=VIDEO_FOLDER_ID,
+                      fields="parents"
                   )
                   .execute()
               )
 
-              folders = response.get(
-                  "files",
+              parents = response.get(
+                  "parents",
                   []
               )
 
-              if not folders:
+              if not parents:
+                  return None
 
-                  raise RuntimeError(
-                      "Music Vault folder not found."
-                  )
-
-              return folders[0]
-
-
-          # =================================================
-          # FIND COVER FOLDER
-          # =================================================
-
-          def find_cover_folder(
-              music_vault_id
-          ):
+              parent_id = parents[0]
 
               children = list_drive_children(
-                  music_vault_id
+                  parent_id
               )
 
               for item in children:
@@ -443,7 +529,6 @@ jobs:
           ):
 
               if not cover_folder_id:
-
                   return []
 
               children = list_drive_children(
@@ -463,12 +548,11 @@ jobs:
                       name
                   ).suffix.lower()
 
-                  if ext not in IMAGE_EXTENSIONS:
-                      continue
+                  if ext in IMAGE_EXTENSIONS:
 
-                  covers.append(
-                      item
-                  )
+                      covers.append(
+                          item
+                      )
 
               return covers
 
@@ -496,17 +580,14 @@ jobs:
               ]
 
               targets = [
-                  value
-                  for value in targets
-                  if value
+                  x
+                  for x in targets
+                  if x
               ]
-
-              if not targets:
-                  return None
 
 
               # -------------------------------------------------
-              # EXACT MATCH
+              # EXACT
               # -------------------------------------------------
 
               for cover in custom_covers:
@@ -526,7 +607,7 @@ jobs:
 
 
               # -------------------------------------------------
-              # PARTIAL MATCH
+              # PARTIAL
               # -------------------------------------------------
 
               for cover in custom_covers:
@@ -557,7 +638,7 @@ jobs:
 
 
           # =================================================
-          # EXTRACT EMBEDDED COVER
+          # EMBEDDED COVER
           # =================================================
 
           def extract_embedded_cover(
@@ -581,6 +662,7 @@ jobs:
                   "1",
 
                   str(output_path)
+
               ]
 
               result = subprocess.run(
@@ -597,7 +679,7 @@ jobs:
 
 
           # =================================================
-          # PREMIUM GENERATED FALLBACK COVER
+          # GENERATED FALLBACK COVER
           # =================================================
 
           def generate_fallback_cover(
@@ -605,10 +687,6 @@ jobs:
               artist,
               output_path
           ):
-
-              # -------------------------------------------------
-              # CLEAN DISPLAY TITLE
-              # -------------------------------------------------
 
               display_title = str(
                   title or "Music"
@@ -619,7 +697,6 @@ jobs:
               )
 
 
-              # Remove technical tags
               display_title = re.sub(
                   r"\s*\[[^\]]*\]",
                   "",
@@ -633,7 +710,7 @@ jobs:
               )
 
               display_title = re.sub(
-                  r"\s+(2160p|1440p|1080p|720p)\b",
+                  r"\s+(2160p|1440p|1080p|720p|4k|2k)\b",
                   "",
                   display_title,
                   flags=re.I
@@ -647,22 +724,13 @@ jobs:
 
 
               if not display_title:
-
                   display_title = "Music"
 
-
-              # -------------------------------------------------
-              # ESCAPE SVG TEXT
-              # -------------------------------------------------
 
               safe_artist = html.escape(
                   display_artist
               )
 
-
-              # -------------------------------------------------
-              # TITLE WRAPPING
-              # -------------------------------------------------
 
               words = display_title.split()
 
@@ -681,7 +749,6 @@ jobs:
                       else current_line + " " + word
                   )
 
-
                   if len(test_line) <= MAX_CHARS:
 
                       current_line = test_line
@@ -689,7 +756,6 @@ jobs:
                   else:
 
                       if current_line:
-
                           title_lines.append(
                               current_line
                           )
@@ -698,19 +764,13 @@ jobs:
 
 
               if current_line:
-
                   title_lines.append(
                       current_line
                   )
 
 
-              # Maximum 3 lines
               title_lines = title_lines[:3]
 
-
-              # -------------------------------------------------
-              # SVG TITLE ELEMENTS
-              # -------------------------------------------------
 
               title_svg = ""
 
@@ -729,9 +789,9 @@ jobs:
 
                   y = (
                       start_y
-                      + (index * line_gap)
+                      +
+                      index * line_gap
                   )
-
 
                   title_svg += f'''
           <text
@@ -742,16 +802,10 @@ jobs:
               font-size="46"
               font-family="Arial, sans-serif"
               font-weight="700">
-
               {safe_line}
-
           </text>
           '''
 
-
-              # -------------------------------------------------
-              # SVG
-              # -------------------------------------------------
 
               svg = f'''<svg
           xmlns="http://www.w3.org/2000/svg"
@@ -760,8 +814,6 @@ jobs:
           viewBox="0 0 1000 1000">
 
           <defs>
-
-              <!-- Premium Background -->
 
               <linearGradient
                   id="bg"
@@ -785,10 +837,7 @@ jobs:
               </linearGradient>
 
 
-              <!-- Main Glow -->
-
-              <radialGradient
-                  id="glow">
+              <radialGradient id="glow">
 
                   <stop
                       offset="0%"
@@ -808,10 +857,7 @@ jobs:
               </radialGradient>
 
 
-              <!-- Secondary Glow -->
-
-              <radialGradient
-                  id="glow2">
+              <radialGradient id="glow2">
 
                   <stop
                       offset="0%"
@@ -825,8 +871,6 @@ jobs:
 
               </radialGradient>
 
-
-              <!-- Glass Ring -->
 
               <linearGradient
                   id="ring"
@@ -850,19 +894,11 @@ jobs:
           </defs>
 
 
-          <!-- =========================================
-               BACKGROUND
-               ========================================= -->
-
           <rect
               width="1000"
               height="1000"
               fill="url(#bg)"/>
 
-
-          <!-- =========================================
-               DECORATIVE GLOWS
-               ========================================= -->
 
           <circle
               cx="210"
@@ -884,10 +920,6 @@ jobs:
               r="360"
               fill="url(#glow)"/>
 
-
-          <!-- =========================================
-               OUTER RINGS
-               ========================================= -->
 
           <circle
               cx="500"
@@ -918,10 +950,6 @@ jobs:
               stroke-width="2"/>
 
 
-          <!-- =========================================
-               CENTER DISC
-               ========================================= -->
-
           <circle
               cx="500"
               cy="380"
@@ -933,10 +961,6 @@ jobs:
               stroke-width="2"/>
 
 
-          <!-- =========================================
-               MUSIC ICON
-               ========================================= -->
-
           <text
               x="500"
               y="415"
@@ -945,15 +969,9 @@ jobs:
               font-size="105"
               font-family="Arial, sans-serif"
               font-weight="700">
-
               ♪
-
           </text>
 
-
-          <!-- =========================================
-               SMALL LABEL
-               ========================================= -->
 
           <text
               x="500"
@@ -964,22 +982,12 @@ jobs:
               font-family="Arial, sans-serif"
               font-weight="600"
               letter-spacing="7">
-
               MUSIC RELEASE
-
           </text>
 
 
-          <!-- =========================================
-               SONG TITLE
-               ========================================= -->
-
           {title_svg}
 
-
-          <!-- =========================================
-               ARTIST
-               ========================================= -->
 
           <text
               x="500"
@@ -988,15 +996,9 @@ jobs:
               fill="#ddd6fe"
               font-size="28"
               font-family="Arial, sans-serif">
-
               {safe_artist}
-
           </text>
 
-
-          <!-- =========================================
-               MUSIC VAULT BRAND
-               ========================================= -->
 
           <text
               x="500"
@@ -1008,23 +1010,71 @@ jobs:
               font-family="Arial, sans-serif"
               font-weight="600"
               letter-spacing="6">
-
               MUSIC VAULT
-
           </text>
 
 
           </svg>'''
 
 
-              # -------------------------------------------------
-              # SAVE SVG
-              # -------------------------------------------------
-
               output_path.write_text(
                   svg,
                   encoding="utf-8"
               )
+
+
+          # =================================================
+          # VIDEO QUALITY
+          # =================================================
+
+          def video_quality(
+              width,
+              height
+          ):
+
+              if width >= 3800 or height >= 2100:
+                  return "4K"
+
+              if width >= 2500 or height >= 1300:
+                  return "2K"
+
+              if width >= 1900 or height >= 1000:
+                  return "1080p"
+
+              if width >= 1200 or height >= 700:
+                  return "720p"
+
+              return f"{width}x{height}"
+
+
+          # =================================================
+          # FPS
+          # =================================================
+
+          def parse_fps(value):
+
+              if not value:
+                  return ""
+
+              try:
+
+                  if "/" in str(value):
+
+                      a, b = str(value).split(
+                          "/",
+                          1
+                      )
+
+                      return round(
+                          float(a) / float(b),
+                          3
+                      )
+
+                  return float(value)
+
+              except Exception:
+
+                  return ""
 
 
           # =================================================
@@ -1052,15 +1102,23 @@ jobs:
 
               tracks = []
 
+              hi_res_count = 0
+
               hi_res_index = None
 
 
-              for index, stream in enumerate(
-                  audio_streams
+              for track_no, stream in enumerate(
+                  audio_streams,
+                  start=1
               ):
 
                   tags = stream.get(
                       "tags",
+                      {}
+                  )
+
+                  disposition = stream.get(
+                      "disposition",
                       {}
                   )
 
@@ -1108,17 +1166,55 @@ jobs:
                       ""
                   )
 
-
                   language = tags.get(
                       "language",
                       ""
                   )
 
 
-                  track = {
+                  is_hires = (
 
-                      "index":
-                          index,
+                      codec in {
+                          "alac",
+                          "flac",
+                          "wavpack",
+                          "ape",
+                          "pcm_s24le",
+                          "pcm_s32le",
+                          "pcm_f32le",
+                          "pcm_f64le"
+                      }
+
+                      or
+                      "hi-res" in title.lower()
+
+                      or
+                      "hires" in title.lower()
+
+                      or
+                      sample_rate >= 96000
+
+                      or
+                      bits >= 24
+
+                  )
+
+
+                  if is_hires:
+
+                      hi_res_count += 1
+
+                      if hi_res_index is None:
+                          hi_res_index = track_no
+
+
+                  tracks.append({
+
+                      "trackNo":
+                          track_no,
+
+                      "title":
+                          title,
 
                       "codec":
                           codec,
@@ -1131,67 +1227,31 @@ jobs:
 
                       "channels":
                           stream.get(
-                              "channels"
+                              "channels",
+                              ""
                           ),
 
                       "channelLayout":
                           stream.get(
-                              "channel_layout"
+                              "channel_layout",
+                              ""
                           ),
 
                       "language":
                           language,
 
-                      "title":
-                          title
+                      "hiRes":
+                          is_hires,
 
-                  }
+                      "default":
+                          bool(
+                              disposition.get(
+                                  "default",
+                                  0
+                              )
+                          )
 
-
-                  tracks.append(
-                      track
-                  )
-
-
-                  title_lower = (
-                      title.lower()
-                  )
-
-
-                  is_hires = (
-
-                      codec in {
-                          "alac",
-                          "flac",
-                          "wavpack",
-                          "ape",
-                          "pcm_s16le",
-                          "pcm_s24le",
-                          "pcm_s32le"
-                      }
-
-                      or
-                      "hi-res" in title_lower
-
-                      or
-                      "hires" in title_lower
-
-                      or
-                      sample_rate >= 96000
-
-                      or
-                      bits >= 24
-
-                  )
-
-
-                  if (
-                      is_hires
-                      and
-                      hi_res_index is None
-                  ):
-
-                      hi_res_index = index
+                  })
 
 
               return {
@@ -1199,11 +1259,14 @@ jobs:
                   "trackCount":
                       len(tracks),
 
-                  "tracks":
-                      tracks,
+                  "hiResCount":
+                      hi_res_count,
 
                   "hiResTrack":
-                      hi_res_index
+                      hi_res_index,
+
+                  "tracks":
+                      tracks
 
               }
 
@@ -1244,7 +1307,6 @@ jobs:
 
 
               if not video_streams:
-
                   return None
 
 
@@ -1269,7 +1331,70 @@ jobs:
               )
 
 
+              tags = stream.get(
+                  "tags",
+                  {}
+              )
+
+
+              disposition = stream.get(
+                  "disposition",
+                  {}
+              )
+
+
+              color_transfer = (
+                  stream.get(
+                      "color_transfer"
+                  )
+                  or ""
+              )
+
+
+              color_primaries = (
+                  stream.get(
+                      "color_primaries"
+                  )
+                  or ""
+              )
+
+
+              hdr = ""
+
+
+              if (
+                  color_transfer
+                  in {
+                      "smpte2084",
+                      "arib-std-b67"
+                  }
+              ):
+
+                  hdr = "HDR"
+
+
+              elif (
+                  "hdr" in str(
+                      tags
+                  ).lower()
+              ):
+
+                  hdr = "HDR"
+
+
               return {
+
+                  "codec":
+                      stream.get(
+                          "codec_name",
+                          ""
+                      ),
+
+                  "profile":
+                      stream.get(
+                          "profile",
+                          ""
+                      ),
 
                   "width":
                       width,
@@ -1280,10 +1405,58 @@ jobs:
                   "resolution":
                       f"{width}x{height}",
 
-                  "codec":
+                  "quality":
+                      video_quality(
+                          width,
+                          height
+                      ),
+
+                  "aspectRatio":
                       stream.get(
-                          "codec_name",
+                          "display_aspect_ratio",
                           ""
+                      ),
+
+                  "fps":
+                      parse_fps(
+                          stream.get(
+                              "avg_frame_rate"
+                          )
+                      ),
+
+                  "bitrate":
+                      stream.get(
+                          "bit_rate",
+                          ""
+                      ),
+
+                  "bitDepth":
+                      stream.get(
+                          "bits_per_raw_sample",
+                          ""
+                      ),
+
+                  "pixelFormat":
+                      stream.get(
+                          "pix_fmt",
+                          ""
+                      ),
+
+                  "hdr":
+                      hdr,
+
+                  "scanType":
+                      stream.get(
+                          "field_order",
+                          ""
+                      ),
+
+                  "default":
+                      bool(
+                          disposition.get(
+                              "default",
+                              0
+                          )
                       )
 
               }
@@ -1300,31 +1473,41 @@ jobs:
               subtitles = []
 
 
-              for index, stream in enumerate(
-                  streams
+              subtitle_streams = [
+
+                  stream
+
+                  for stream in streams
+
+                  if stream.get(
+                      "codec_type"
+                  )
+                  ==
+                  "subtitle"
+
+              ]
+
+
+              for track_no, stream in enumerate(
+                  subtitle_streams,
+                  start=1
               ):
-
-                  if (
-                      stream.get(
-                          "codec_type"
-                      )
-                      !=
-                      "subtitle"
-                  ):
-
-                      continue
-
 
                   tags = stream.get(
                       "tags",
                       {}
                   )
 
+                  disposition = stream.get(
+                      "disposition",
+                      {}
+                  )
+
 
                   subtitles.append({
 
-                      "index":
-                          index,
+                      "trackNo":
+                          track_no,
 
                       "codec":
                           stream.get(
@@ -1342,6 +1525,22 @@ jobs:
                           tags.get(
                               "title",
                               ""
+                          ),
+
+                      "default":
+                          bool(
+                              disposition.get(
+                                  "default",
+                                  0
+                              )
+                          ),
+
+                      "forced":
+                          bool(
+                              disposition.get(
+                                  "forced",
+                                  0
+                              )
                           )
 
                   })
@@ -1405,44 +1604,198 @@ jobs:
 
 
               album = (
-
                   tags.get(
                       "album"
                   )
-
                   or
                   ""
-
               )
 
 
               composer = (
-
                   tags.get(
                       "composer"
                   )
-
                   or
                   ""
-
               )
 
 
               return {
 
                   "title":
-                      title.strip(),
+                      str(title).strip(),
 
                   "artist":
-                      artist.strip(),
+                      str(artist).strip(),
 
                   "album":
-                      album.strip(),
+                      str(album).strip(),
 
                   "composer":
-                      composer.strip()
+                      str(composer).strip()
 
               }
+
+
+          # =================================================
+          # DRIVE COVER URL
+          # =================================================
+
+          def drive_view_url(
+              file_id
+          ):
+
+              return (
+                  "https://drive.google.com/file/d/"
+                  +
+                  file_id
+                  +
+                  "/view"
+              )
+
+
+          def drive_download_url(
+              file_id
+          ):
+
+              return (
+                  "https://drive.google.com/uc?"
+                  "export=download&id="
+                  +
+                  file_id
+              )
+
+
+          # =================================================
+          # GOOGLE SHEET HELPERS
+          # =================================================
+
+          def get_sheet_names():
+
+              spreadsheet = (
+                  sheets.spreadsheets()
+                  .get(
+                      spreadsheetId=SPREADSHEET_ID,
+                      fields="sheets.properties"
+                  )
+                  .execute()
+              )
+
+              return {
+
+                  item["properties"]["title"]
+
+                  for item in spreadsheet.get(
+                      "sheets",
+                      []
+                  )
+
+              }
+
+
+          def create_missing_sheets():
+
+              existing = get_sheet_names()
+
+              requests = []
+
+
+              for sheet_name in SHEET_HEADERS:
+
+                  if sheet_name not in existing:
+
+                      requests.append({
+
+                          "addSheet": {
+
+                              "properties": {
+
+                                  "title":
+                                      sheet_name
+
+                              }
+
+                          }
+
+                      })
+
+
+              if requests:
+
+                  (
+                      sheets.spreadsheets()
+                      .batchUpdate(
+                          spreadsheetId=SPREADSHEET_ID,
+                          body={
+                              "requests":
+                                  requests
+                          }
+                      )
+                      .execute()
+                  )
+
+
+          def update_sheet(
+              sheet_name,
+              rows
+          ):
+
+              values = [
+
+                  SHEET_HEADERS[
+                      sheet_name
+                  ]
+
+              ]
+
+              values.extend(
+                  rows
+              )
+
+
+              # -------------------------------------------------
+              # CLEAR OLD DATA
+              # -------------------------------------------------
+
+              (
+                  sheets.spreadsheets()
+                  .values()
+                  .clear(
+                      spreadsheetId=SPREADSHEET_ID,
+                      range=f"{sheet_name}!A:ZZ",
+                      body={}
+                  )
+                  .execute()
+              )
+
+
+              # -------------------------------------------------
+              # WRITE NEW DATA
+              # -------------------------------------------------
+
+              (
+                  sheets.spreadsheets()
+                  .values()
+                  .update(
+                      spreadsheetId=SPREADSHEET_ID,
+                      range=f"{sheet_name}!A1",
+                      valueInputOption="RAW",
+                      body={
+                          "values":
+                              values
+                      }
+                  )
+                  .execute()
+              )
+
+
+              print(
+                  "Sheet updated:",
+                  sheet_name,
+                  "Rows:",
+                  len(rows)
+              )
 
 
           # =================================================
@@ -1451,90 +1804,31 @@ jobs:
 
           def main():
 
+              print()
               print(
                   "=========================================="
               )
-
               print(
                   " MUSIC VAULT METADATA SCANNER"
               )
-
               print(
-                  " COVER AUTOMATION ENABLED"
+                  " GOOGLE SHEETS DATABASE"
               )
-
-              print(
-                  " PRIORITY: CUSTOM > EMBEDDED > GENERATED"
-              )
-
               print(
                   "=========================================="
               )
 
 
-              # ---------------------------------------------
-              # MUSIC VAULT
-              # ---------------------------------------------
+              # -------------------------------------------------
+              # CREATE REQUIRED SHEETS
+              # -------------------------------------------------
 
-              music_vault = (
-                  find_music_vault_folder()
-              )
-
-              music_vault_id = (
-                  music_vault["id"]
-              )
+              create_missing_sheets()
 
 
-              print(
-                  "Music Vault ID:",
-                  music_vault_id
-              )
-
-
-              # ---------------------------------------------
-              # COVER FOLDER
-              # ---------------------------------------------
-
-              cover_folder = (
-                  find_cover_folder(
-                      music_vault_id
-                  )
-              )
-
-
-              if cover_folder:
-
-                  print(
-                      "Cover folder found:",
-                      cover_folder["id"]
-                  )
-
-
-                  custom_covers = (
-                      load_custom_covers(
-                          cover_folder["id"]
-                      )
-                  )
-
-
-              else:
-
-                  print(
-                      "Cover folder not found."
-                  )
-
-                  custom_covers = []
-
-
-              print(
-                  "Custom covers:",
-                  len(custom_covers)
-              )
-
-
-              # ---------------------------------------------
-              # LOAD OLD media.json
-              # ---------------------------------------------
+              # -------------------------------------------------
+              # LOAD OLD JSON
+              # -------------------------------------------------
 
               old_data = {}
 
@@ -1569,78 +1863,132 @@ jobs:
               }
 
 
-              # ---------------------------------------------
-              # DRIVE MEDIA FILES
-              # ---------------------------------------------
+              # -------------------------------------------------
+              # COVER FOLDER
+              # -------------------------------------------------
+
+              cover_folder = (
+                  find_cover_folder()
+              )
+
+
+              if cover_folder:
+
+                  print(
+                      "Cover folder:",
+                      cover_folder["name"]
+                  )
+
+                  custom_covers = (
+                      load_custom_covers(
+                          cover_folder["id"]
+                      )
+                  )
+
+              else:
+
+                  print(
+                      "WARNING: Cover folder not found."
+                  )
+
+                  custom_covers = []
+
+
+              print(
+                  "Custom covers:",
+                  len(custom_covers)
+              )
+
+
+              # -------------------------------------------------
+              # VIDEO FILES
+              # -------------------------------------------------
 
               drive_files = (
                   list_drive_children(
-                      music_vault_id
+                      VIDEO_FOLDER_ID
                   )
               )
 
 
-              media_files = []
+              media_files = [
 
+                  item
 
-              for item in drive_files:
+                  for item in drive_files
 
-                  name = item.get(
-                      "name",
-                      ""
-                  )
-
-
-                  ext = Path(
-                      name
-                  ).suffix.lower()
-
-
-                  if ext in MEDIA_EXTENSIONS:
-
-                      media_files.append(
-                          item
+                  if Path(
+                      item.get(
+                          "name",
+                          ""
                       )
+                  ).suffix.lower()
+                  in MEDIA_EXTENSIONS
+
+              ]
 
 
               print(
-                  "Media files found:",
+                  "Video files found:",
                   len(media_files)
               )
 
 
               records = []
 
+              files_rows = []
 
-              # ---------------------------------------------
-              # PROCESS MEDIA
-              # ---------------------------------------------
+              video_rows = []
+
+              audio_rows = []
+
+              subtitle_rows = []
+
+              cover_rows = []
+
+              media_rows = []
+
+
+              # -------------------------------------------------
+              # PROCESS
+              # -------------------------------------------------
 
               for number, drive_file in enumerate(
                   media_files,
                   start=1
               ):
 
-                  file_id = (
-                      drive_file["id"]
+                  file_id = drive_file["id"]
+
+                  filename = drive_file["name"]
+
+                  modified_time = drive_file.get(
+                      "modifiedTime",
+                      ""
                   )
 
-                  filename = (
-                      drive_file["name"]
+                  file_size = drive_file.get(
+                      "size",
+                      ""
                   )
 
 
                   print()
-
                   print(
-                      f"[{number}/{len(media_files)}]",
-                      filename
+                      f"[{number}/{len(media_files)}] {filename}"
                   )
 
 
-                  # -----------------------------------------
-                  # TEMPORARY FILE
-                  # -----------------------------------------
+                  old_record = (
+                      old_files.get(
+                          file_id
+                      )
+                  )
+
+
+                  # -------------------------------------------------
+                  # TEMP PATH
+                  # -------------------------------------------------
 
                   temp_path = (
                       TEMP_DIR
@@ -1657,12 +2005,12 @@ jobs:
 
                   try:
 
-                      # -------------------------------------
-                      # DOWNLOAD MEDIA
-                      # -------------------------------------
+                      # -------------------------------------------------
+                      # DOWNLOAD
+                      # -------------------------------------------------
 
                       print(
-                          "Downloading media..."
+                          "Downloading..."
                       )
 
 
@@ -1672,12 +2020,12 @@ jobs:
                       )
 
 
-                      # -------------------------------------
+                      # -------------------------------------------------
                       # FFPROBE
-                      # -------------------------------------
+                      # -------------------------------------------------
 
                       print(
-                          "Running FFprobe..."
+                          "FFprobe..."
                       )
 
 
@@ -1686,9 +2034,9 @@ jobs:
                       )
 
 
-                      # -------------------------------------
+                      # -------------------------------------------------
                       # METADATA
-                      # -------------------------------------
+                      # -------------------------------------------------
 
                       metadata = get_metadata(
                           probe,
@@ -1700,27 +2048,14 @@ jobs:
                           "title"
                       ]
 
-
                       artist = metadata[
                           "artist"
                       ]
 
 
-                      print(
-                          "Title:",
-                          title
-                      )
-
-
-                      print(
-                          "Artist:",
-                          artist
-                      )
-
-
-                      # -------------------------------------
-                      # VIDEO
-                      # -------------------------------------
+                      # -------------------------------------------------
+                      # SCAN VIDEO
+                      # -------------------------------------------------
 
                       video = scan_video(
                           probe.get(
@@ -1730,9 +2065,9 @@ jobs:
                       )
 
 
-                      # -------------------------------------
-                      # AUDIO
-                      # -------------------------------------
+                      # -------------------------------------------------
+                      # SCAN AUDIO
+                      # -------------------------------------------------
 
                       audio = scan_audio(
                           probe.get(
@@ -1742,9 +2077,9 @@ jobs:
                       )
 
 
-                      # -------------------------------------
-                      # SUBTITLES
-                      # -------------------------------------
+                      # -------------------------------------------------
+                      # SCAN SUBTITLES
+                      # -------------------------------------------------
 
                       subtitles = scan_subtitles(
                           probe.get(
@@ -1754,19 +2089,20 @@ jobs:
                       )
 
 
-                      # =====================================
-                      # COVER SYSTEM
-                      # =====================================
+                      # =================================================
+                      # COVER
+                      # =================================================
 
                       cover_relative = ""
 
                       cover_source = ""
 
+                      cover_drive_id = ""
 
-                      # -------------------------------------
-                      # PRIORITY 1
+
+                      # -------------------------------------------------
                       # CUSTOM DRIVE COVER
-                      # -------------------------------------
+                      # -------------------------------------------------
 
                       matching_cover = (
                           find_matching_cover(
@@ -1830,10 +2166,16 @@ jobs:
                           )
 
 
-                      # -------------------------------------
-                      # PRIORITY 2
+                          cover_drive_id = (
+                              matching_cover[
+                                  "id"
+                              ]
+                          )
+
+
+                      # -------------------------------------------------
                       # EMBEDDED COVER
-                      # -------------------------------------
+                      # -------------------------------------------------
 
                       if not cover_relative:
 
@@ -1866,7 +2208,6 @@ jobs:
                                   ".jpg"
                               )
 
-
                               cover_source = (
                                   "embedded"
                               )
@@ -1877,10 +2218,9 @@ jobs:
                               )
 
 
-                      # -------------------------------------
-                      # PRIORITY 3
+                      # -------------------------------------------------
                       # GENERATED COVER
-                      # -------------------------------------
+                      # -------------------------------------------------
 
                       if not cover_relative:
 
@@ -1896,7 +2236,7 @@ jobs:
 
 
                           print(
-                              "Generating premium fallback cover..."
+                              "Generating fallback cover..."
                           )
 
 
@@ -1915,15 +2255,14 @@ jobs:
                               ".svg"
                           )
 
-
                           cover_source = (
                               "generated"
                           )
 
 
-                      # =====================================
+                      # =================================================
                       # RECORD
-                      # =====================================
+                      # =================================================
 
                       record = {
 
@@ -1932,6 +2271,12 @@ jobs:
 
                           "fileName":
                               filename,
+
+                          "fileSize":
+                              file_size,
+
+                          "modifiedTime":
+                              modified_time,
 
                           "title":
                               title,
@@ -1950,20 +2295,12 @@ jobs:
                               ],
 
                           "driveUrl":
-                              (
-                                  "https://drive.google.com/"
-                                  "file/d/"
-                                  +
+                              drive_view_url(
                                   file_id
-                                  +
-                                  "/view"
                               ),
 
                           "downloadUrl":
-                              (
-                                  "https://drive.google.com/"
-                                  "uc?export=download&id="
-                                  +
+                              drive_download_url(
                                   file_id
                               ),
 
@@ -1985,16 +2322,9 @@ jobs:
                       }
 
 
-                      # =====================================
+                      # -------------------------------------------------
                       # PRESERVE PLAYBACK DATA
-                      # =====================================
-
-                      old_record = (
-                          old_files.get(
-                              file_id
-                          )
-                      )
-
+                      # -------------------------------------------------
 
                       if old_record:
 
@@ -2027,8 +2357,404 @@ jobs:
                       )
 
 
+                      # =================================================
+                      # FILES SHEET
+                      # =================================================
+
+                      files_rows.append([
+
+                          file_id,
+
+                          file_id,
+
+                          filename,
+
+                          Path(
+                              filename
+                          ).suffix.lower().replace(
+                              ".",
+                              ""
+                          ),
+
+                          file_size,
+
+                          modified_time,
+
+                          drive_view_url(
+                              file_id
+                          ),
+
+                          drive_download_url(
+                              file_id
+                          )
+
+                      ])
+
+
+                      # =================================================
+                      # VIDEO SHEET
+                      # =================================================
+
+                      if video:
+
+                          video_rows.append([
+
+                              file_id,
+
+                              file_id,
+
+                              filename,
+
+                              video.get(
+                                  "codec",
+                                  ""
+                              ),
+
+                              video.get(
+                                  "profile",
+                                  ""
+                              ),
+
+                              video.get(
+                                  "width",
+                                  ""
+                              ),
+
+                              video.get(
+                                  "height",
+                                  ""
+                              ),
+
+                              video.get(
+                                  "resolution",
+                                  ""
+                              ),
+
+                              video.get(
+                                  "aspectRatio",
+                                  ""
+                              ),
+
+                              video.get(
+                                  "fps",
+                                  ""
+                              ),
+
+                              video.get(
+                                  "bitrate",
+                                  ""
+                              ),
+
+                              video.get(
+                                  "bitDepth",
+                                  ""
+                              ),
+
+                              video.get(
+                                  "pixelFormat",
+                                  ""
+                              ),
+
+                              video.get(
+                                  "hdr",
+                                  ""
+                              ),
+
+                              video.get(
+                                  "scanType",
+                                  ""
+                              ),
+
+                              video.get(
+                                  "default",
+                                  ""
+                              )
+
+                          ])
+
+
+                      # =================================================
+                      # AUDIO SHEET
+                      # =================================================
+
+                      for track in audio[
+                          "tracks"
+                      ]:
+
+                          audio_id = (
+
+                              file_id
+                              +
+                              "_A"
+                              +
+                              str(
+                                  track[
+                                      "trackNo"
+                                  ]
+                              )
+
+                          )
+
+
+                          audio_rows.append([
+
+                              audio_id,
+
+                              file_id,
+
+                              track[
+                                  "trackNo"
+                              ],
+
+                              track[
+                                  "title"
+                              ],
+
+                              track[
+                                  "codec"
+                              ],
+
+                              track[
+                                  "sampleRate"
+                              ],
+
+                              track[
+                                  "bitDepth"
+                              ],
+
+                              track[
+                                  "channels"
+                              ],
+
+                              track[
+                                  "channelLayout"
+                              ],
+
+                              track[
+                                  "language"
+                              ],
+
+                              track[
+                                  "hiRes"
+                              ],
+
+                              track[
+                                  "default"
+                              ]
+
+                          ])
+
+
+                      # =================================================
+                      # SUBTITLE SHEET
+                      # =================================================
+
+                      for subtitle in subtitles:
+
+                          subtitle_id = (
+
+                              file_id
+                              +
+                              "_S"
+                              +
+                              str(
+                                  subtitle[
+                                      "trackNo"
+                                  ]
+                              )
+
+                          )
+
+
+                          subtitle_rows.append([
+
+                              subtitle_id,
+
+                              file_id,
+
+                              subtitle[
+                                  "trackNo"
+                              ],
+
+                              subtitle[
+                                  "codec"
+                              ],
+
+                              subtitle[
+                                  "language"
+                              ],
+
+                              subtitle[
+                                  "title"
+                              ],
+
+                              subtitle[
+                                  "default"
+                              ],
+
+                              subtitle[
+                                  "forced"
+                              ]
+
+                          ])
+
+
+                      # =================================================
+                      # COVERS SHEET
+                      # =================================================
+
+                      if cover_relative:
+
+                          if cover_drive_id:
+
+                              cover_url = drive_view_url(
+                                  cover_drive_id
+                              )
+
+                              cover_download = (
+                                  drive_download_url(
+                                      cover_drive_id
+                                  )
+                              )
+
+                          else:
+
+                              cover_url = ""
+
+                              cover_download = ""
+
+
+                          cover_rows.append([
+
+                              file_id,
+
+                              file_id,
+
+                              Path(
+                                  cover_relative
+                              ).name,
+
+                              cover_source,
+
+                              cover_relative,
+
+                              cover_url
+
+                          ])
+
+
+                      # =================================================
+                      # MEDIA SHEET
+                      # =================================================
+
+                      resolution = ""
+
+                      video_codec = ""
+
+                      quality = ""
+
+                      if video:
+
+                          resolution = video.get(
+                              "resolution",
+                              ""
+                          )
+
+                          video_codec = video.get(
+                              "codec",
+                              ""
+                          )
+
+                          quality = video.get(
+                              "quality",
+                              ""
+                          )
+
+
+                      media_rows.append([
+
+                          file_id,
+
+                          title,
+
+                          filename,
+
+                          artist,
+
+                          metadata[
+                              "album"
+                          ],
+
+                          metadata[
+                              "composer"
+                          ],
+
+                          resolution,
+
+                          video_codec,
+
+                          quality,
+
+                          audio[
+                              "trackCount"
+                          ],
+
+                          audio[
+                              "hiResCount"
+                          ],
+
+                          len(
+                              subtitles
+                          ),
+
+                          cover_relative,
+
+                          cover_source,
+
+                          drive_view_url(
+                              file_id
+                          ),
+
+                          drive_download_url(
+                              file_id
+                          )
+
+                      ])
+
+
                       print(
-                          "Cover source:",
+                          "Title:",
+                          title
+                      )
+
+                      print(
+                          "Video:",
+                          quality
+                      )
+
+                      print(
+                          "Audio tracks:",
+                          audio[
+                              "trackCount"
+                          ]
+                      )
+
+                      print(
+                          "Hi-Res audio:",
+                          audio[
+                              "hiResCount"
+                          ]
+                      )
+
+                      print(
+                          "Subtitles:",
+                          len(
+                              subtitles
+                          )
+                      )
+
+                      print(
+                          "Cover:",
                           cover_source
                       )
 
@@ -2042,16 +2768,9 @@ jobs:
                       )
 
 
-                      # -------------------------------------
+                      # -------------------------------------------------
                       # KEEP OLD RECORD
-                      # -------------------------------------
-
-                      old_record = (
-                          old_files.get(
-                              file_id
-                          )
-                      )
-
+                      # -------------------------------------------------
 
                       if old_record:
 
@@ -2062,17 +2781,13 @@ jobs:
 
                   finally:
 
-                      # -------------------------------------
-                      # REMOVE TEMP MEDIA
-                      # -------------------------------------
-
                       if temp_path.exists():
 
                           temp_path.unlink()
 
 
               # =================================================
-              # SAVE media.json
+              # SAVE JSON
               # =================================================
 
               output = {
@@ -2082,6 +2797,15 @@ jobs:
 
                   "scanner":
                       "Music Vault Metadata Scanner",
+
+                  "version":
+                      "2.0",
+
+                  "videoFolderId":
+                      VIDEO_FOLDER_ID,
+
+                  "spreadsheetId":
+                      SPREADSHEET_ID,
 
                   "coverSystem":
                       "custom-drive > embedded > generated",
@@ -2106,7 +2830,61 @@ jobs:
 
 
               # =================================================
-              # CLEAN TEMP DIRECTORY
+              # GOOGLE SHEETS
+              # =================================================
+
+              print()
+              print(
+                  "=========================================="
+              )
+
+              print(
+                  "UPDATING GOOGLE SHEETS"
+              )
+
+              print(
+                  "=========================================="
+              )
+
+
+              update_sheet(
+                  "Media",
+                  media_rows
+              )
+
+
+              update_sheet(
+                  "Files",
+                  files_rows
+              )
+
+
+              update_sheet(
+                  "Video",
+                  video_rows
+              )
+
+
+              update_sheet(
+                  "Audio",
+                  audio_rows
+              )
+
+
+              update_sheet(
+                  "Subtitle",
+                  subtitle_rows
+              )
+
+
+              update_sheet(
+                  "Covers",
+                  cover_rows
+              )
+
+
+              # =================================================
+              # CLEAN
               # =================================================
 
               if TEMP_DIR.exists():
@@ -2118,7 +2896,6 @@ jobs:
 
 
               print()
-
               print(
                   "=========================================="
               )
@@ -2128,12 +2905,42 @@ jobs:
               )
 
               print(
-                  "Files:",
-                  len(records)
+                  "Media:",
+                  len(
+                      media_rows
+                  )
               )
 
               print(
-                  "==========================================" 
+                  "Video:",
+                  len(
+                      video_rows
+                  )
+              )
+
+              print(
+                  "Audio:",
+                  len(
+                      audio_rows
+                  )
+              )
+
+              print(
+                  "Subtitle:",
+                  len(
+                      subtitle_rows
+                  )
+              )
+
+              print(
+                  "Covers:",
+                  len(
+                      cover_rows
+                  )
+              )
+
+              print(
+                  "=========================================="
               )
 
 
@@ -2161,7 +2968,7 @@ jobs:
 
 
       # =====================================================
-      # SHOW RESULT
+      # SHOW JSON
       # =====================================================
 
       - name: Show Media JSON
@@ -2200,7 +3007,7 @@ jobs:
           else
 
             git commit \
-              -m "Auto update Music Vault metadata and covers"
+              -m "Auto update MediaVerse metadata"
 
             git push
 
