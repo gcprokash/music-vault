@@ -1,1861 +1,2193 @@
-{
-  "generated": true,
-  "scanner": "Music Vault Metadata Scanner",
-  "version": "2.0",
-  "videoFolderId": "1lu8rV1ctx4nAJ1pRKJguJJS5bUpKGXql",
-  "spreadsheetId": "13t2hCpG87CGhOuSdd2yX-6yLnSfufTCR4Jrca_dvg-0",
-  "coverSystem": "custom-drive > embedded > generated",
-  "files": [
-    {
-      "id": "1wjoUQUJLcH-Z9mwrqtgJjIHjFITvIMUH",
-      "fileName": "Patar Bashori.mkv",
-      "fileSize": "210993621",
-      "modifiedTime": "2026-09-16T20:15:34.706Z",
-      "title": "Patar Bashori [1440p] [VP9] [Multi Audio] [Single Subtitle] [GCP]",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/1wjoUQUJLcH-Z9mwrqtgJjIHjFITvIMUH/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=1wjoUQUJLcH-Z9mwrqtgJjIHjFITvIMUH",
-      "video": {
-        "codec": "vp9",
-        "profile": "Profile 0",
-        "width": 2560,
-        "height": 1440,
-        "resolution": "2560x1440",
-        "quality": "2K",
-        "aspectRatio": "16:9",
-        "fps": 25.0,
-        "bitrate": "",
-        "bitDepth": "",
-        "pixelFormat": "yuv420p",
-        "hdr": "",
-        "scanType": "",
-        "default": true
+[
+  {
+    "Media_ID": "310bbe19b1cbb713",
+    "Title": "Patar Bashori",
+    "File_Name": "Patar Bashori.mkv",
+    "Artist": "",
+    "Album": "",
+    "Composer": "",
+    "Resolution": "2560x1440",
+    "Video_Codec": "vp9",
+    "Video_Quality": "2K",
+    "Audio_Count": 2,
+    "Hi_Res_Audio": 1,
+    "Subtitle_Count": 1,
+    "Cover": "covers/Patar Bashori.jpg",
+    "Cover_Source": "Custom",
+    "Drive_URL": "https://drive.google.com/file/d/1wjoUQUJLcH-Z9mwrqtgJjIHjFITvIMUH/view",
+    "Download_URL": "https://drive.google.com/uc?export=download&id=1wjoUQUJLcH-Z9mwrqtgJjIHjFITvIMUH",
+    "Video": [
+      {
+        "Video_ID": "310bbe19b1cbb713-V1",
+        "Media_ID": "310bbe19b1cbb713",
+        "File_Name": "Patar Bashori.mkv",
+        "Codec": "vp9",
+        "Profile": "Profile 0",
+        "Width": 2560,
+        "Height": 1440,
+        "Resolution": "2560x1440",
+        "Aspect_Ratio": "16:9",
+        "FPS": 25.0,
+        "Bitrate": "",
+        "Bit_Depth": "",
+        "Pixel_Format": "yuv420p",
+        "HDR": "",
+        "Scan_Type": "Progressive",
+        "Default": "Yes"
+      }
+    ],
+    "Audio": [
+      {
+        "Audio_ID": "310bbe19b1cbb713-A1",
+        "Media_ID": "310bbe19b1cbb713",
+        "Track_No": 1,
+        "Title": "Original YouTube Opus",
+        "Artist": "",
+        "Codec": "opus",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "",
+        "Hi_Res": "No",
+        "Default": "No"
       },
-      "audio": {
-        "trackCount": 2,
-        "hiResCount": 1,
-        "hiResTrack": 2,
-        "tracks": [
-          {
-            "trackNo": 1,
-            "title": "Original YouTube Opus",
-            "codec": "opus",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "hiRes": false,
-            "default": false
-          },
-          {
-            "trackNo": 2,
-            "title": "Hi-Res Apple Lossless (ALAC) 24-bit 96.0kHz By GCP",
-            "codec": "alac",
-            "sampleRate": 96000,
-            "bitDepth": 24,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "hiRes": true,
-            "default": true
-          }
-        ]
+      {
+        "Audio_ID": "310bbe19b1cbb713-A2",
+        "Media_ID": "310bbe19b1cbb713",
+        "Track_No": 2,
+        "Title": "Hi-Res Apple Lossless (ALAC) 24-bit 96.0kHz By GCP",
+        "Artist": "",
+        "Codec": "alac",
+        "Sample_Rate": "96000",
+        "Bit_Depth": "24",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "",
+        "Hi_Res": "Yes",
+        "Default": "Yes"
+      }
+    ],
+    "Subtitle": [
+      {
+        "Subtitle_ID": "310bbe19b1cbb713-S1",
+        "Media_ID": "310bbe19b1cbb713",
+        "Track_No": 1,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "Patar Bashori বাংলা",
+        "Default": "Yes",
+        "Forced": "No"
+      }
+    ]
+  },
+  {
+    "Media_ID": "a0cdcbc7df3789c9",
+    "Title": "Radhimaa",
+    "File_Name": "Radhimaa.mkv",
+    "Artist": "",
+    "Album": "",
+    "Composer": "",
+    "Resolution": "2160x1440",
+    "Video_Codec": "vp9",
+    "Video_Quality": "2K",
+    "Audio_Count": 2,
+    "Hi_Res_Audio": 1,
+    "Subtitle_Count": 0,
+    "Cover": "covers/Radhimaa.jpg",
+    "Cover_Source": "Custom",
+    "Drive_URL": "https://drive.google.com/file/d/1lerHZ6SM_CwDJ6sDmEfpGTodFA6pXgD_/view",
+    "Download_URL": "https://drive.google.com/uc?export=download&id=1lerHZ6SM_CwDJ6sDmEfpGTodFA6pXgD_",
+    "Video": [
+      {
+        "Video_ID": "a0cdcbc7df3789c9-V1",
+        "Media_ID": "a0cdcbc7df3789c9",
+        "File_Name": "Radhimaa.mkv",
+        "Codec": "vp9",
+        "Profile": "Profile 0",
+        "Width": 2160,
+        "Height": 1440,
+        "Resolution": "2160x1440",
+        "Aspect_Ratio": "3:2",
+        "FPS": 24.0,
+        "Bitrate": "",
+        "Bit_Depth": "",
+        "Pixel_Format": "yuv420p",
+        "HDR": "",
+        "Scan_Type": "Progressive",
+        "Default": "Yes"
+      }
+    ],
+    "Audio": [
+      {
+        "Audio_ID": "a0cdcbc7df3789c9-A1",
+        "Media_ID": "a0cdcbc7df3789c9",
+        "Track_No": 1,
+        "Title": "Hi-Res Apple Lossless (ALAC) 24-bit 48.0kHz By GCP",
+        "Artist": "",
+        "Codec": "alac",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "24",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "",
+        "Hi_Res": "Yes",
+        "Default": "Yes"
       },
-      "subtitles": [
-        {
-          "trackNo": 1,
-          "codec": "subrip",
-          "language": "",
-          "title": "Patar Bashori বাংলা",
-          "default": true,
-          "forced": false
-        }
-      ],
-      "cover": "covers/1wjoUQUJLcH-Z9mwrqtgJjIHjFITvIMUH.jpg",
-      "coverSource": "google-drive-custom",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
-    },
-    {
-      "id": "1lerHZ6SM_CwDJ6sDmEfpGTodFA6pXgD_",
-      "fileName": "Radhimaa.mkv",
-      "fileSize": "327922475",
-      "modifiedTime": "2026-09-16T20:09:37.118Z",
-      "title": "Radhimaa [1440p] [VP9] [Multi Audio] [GCP]",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/1lerHZ6SM_CwDJ6sDmEfpGTodFA6pXgD_/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=1lerHZ6SM_CwDJ6sDmEfpGTodFA6pXgD_",
-      "video": {
-        "codec": "vp9",
-        "profile": "Profile 0",
-        "width": 2160,
-        "height": 1440,
-        "resolution": "2160x1440",
-        "quality": "2K",
-        "aspectRatio": "3:2",
-        "fps": 24.0,
-        "bitrate": "",
-        "bitDepth": "",
-        "pixelFormat": "yuv420p",
-        "hdr": "",
-        "scanType": "",
-        "default": true
+      {
+        "Audio_ID": "a0cdcbc7df3789c9-A2",
+        "Media_ID": "a0cdcbc7df3789c9",
+        "Track_No": 2,
+        "Title": "Original Audio [Opus]",
+        "Artist": "",
+        "Codec": "opus",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "eng",
+        "Hi_Res": "No",
+        "Default": "No"
+      }
+    ],
+    "Subtitle": []
+  },
+  {
+    "Media_ID": "acbc598a75cf9e19",
+    "Title": "Rupa Goriya",
+    "File_Name": "Rupa Goriya.mkv",
+    "Artist": "",
+    "Album": "",
+    "Composer": "",
+    "Resolution": "2560x1440",
+    "Video_Codec": "vp9",
+    "Video_Quality": "2K",
+    "Audio_Count": 2,
+    "Hi_Res_Audio": 1,
+    "Subtitle_Count": 3,
+    "Cover": "covers/Rupa Goriya.jpg",
+    "Cover_Source": "Custom",
+    "Drive_URL": "https://drive.google.com/file/d/12VMKglIWemYf93D3iKCufiam9CHXwZNc/view",
+    "Download_URL": "https://drive.google.com/uc?export=download&id=12VMKglIWemYf93D3iKCufiam9CHXwZNc",
+    "Video": [
+      {
+        "Video_ID": "acbc598a75cf9e19-V1",
+        "Media_ID": "acbc598a75cf9e19",
+        "File_Name": "Rupa Goriya.mkv",
+        "Codec": "vp9",
+        "Profile": "Profile 0",
+        "Width": 2560,
+        "Height": 1440,
+        "Resolution": "2560x1440",
+        "Aspect_Ratio": "16:9",
+        "FPS": 25.0,
+        "Bitrate": "",
+        "Bit_Depth": "",
+        "Pixel_Format": "yuv420p",
+        "HDR": "",
+        "Scan_Type": "Progressive",
+        "Default": "Yes"
+      }
+    ],
+    "Audio": [
+      {
+        "Audio_ID": "acbc598a75cf9e19-A1",
+        "Media_ID": "acbc598a75cf9e19",
+        "Track_No": 1,
+        "Title": "Original YouTube Opus",
+        "Artist": "",
+        "Codec": "opus",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "",
+        "Hi_Res": "No",
+        "Default": "No"
       },
-      "audio": {
-        "trackCount": 2,
-        "hiResCount": 1,
-        "hiResTrack": 1,
-        "tracks": [
-          {
-            "trackNo": 1,
-            "title": "Hi-Res Apple Lossless (ALAC) 24-bit 48.0kHz By GCP",
-            "codec": "alac",
-            "sampleRate": 48000,
-            "bitDepth": 24,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "hiRes": true,
-            "default": true
-          },
-          {
-            "trackNo": 2,
-            "title": "Original Audio [Opus]",
-            "codec": "opus",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "eng",
-            "hiRes": false,
-            "default": false
-          }
-        ]
+      {
+        "Audio_ID": "acbc598a75cf9e19-A2",
+        "Media_ID": "acbc598a75cf9e19",
+        "Track_No": 2,
+        "Title": "Hi-Res Apple Lossless (ALAC) 24-bit 44.1kHz By GCP",
+        "Artist": "",
+        "Codec": "alac",
+        "Sample_Rate": "44100",
+        "Bit_Depth": "24",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "",
+        "Hi_Res": "Yes",
+        "Default": "Yes"
+      }
+    ],
+    "Subtitle": [
+      {
+        "Subtitle_ID": "acbc598a75cf9e19-S1",
+        "Media_ID": "acbc598a75cf9e19",
+        "Track_No": 1,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "Rupa Goriya Dual [English] [GCP]",
+        "Default": "Yes",
+        "Forced": "No"
       },
-      "subtitles": [],
-      "cover": "covers/1lerHZ6SM_CwDJ6sDmEfpGTodFA6pXgD_.jpg",
-      "coverSource": "google-drive-custom",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
-    },
-    {
-      "id": "12VMKglIWemYf93D3iKCufiam9CHXwZNc",
-      "fileName": "Rupa Goriya.mkv",
-      "fileSize": "284419300",
-      "modifiedTime": "2026-09-16T20:09:32.229Z",
-      "title": "Rupa Goriya 2K [1440p] [VP9] [Multi Audio] [Tri-Lingual Subs] [GCP]",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/12VMKglIWemYf93D3iKCufiam9CHXwZNc/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=12VMKglIWemYf93D3iKCufiam9CHXwZNc",
-      "video": {
-        "codec": "vp9",
-        "profile": "Profile 0",
-        "width": 2560,
-        "height": 1440,
-        "resolution": "2560x1440",
-        "quality": "2K",
-        "aspectRatio": "16:9",
-        "fps": 25.0,
-        "bitrate": "",
-        "bitDepth": "",
-        "pixelFormat": "yuv420p",
-        "hdr": "",
-        "scanType": "",
-        "default": true
+      {
+        "Subtitle_ID": "acbc598a75cf9e19-S2",
+        "Media_ID": "acbc598a75cf9e19",
+        "Track_No": 2,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "Rupa Goriya Dual [Native + English] [GCP]",
+        "Default": "No",
+        "Forced": "No"
       },
-      "audio": {
-        "trackCount": 2,
-        "hiResCount": 1,
-        "hiResTrack": 2,
-        "tracks": [
-          {
-            "trackNo": 1,
-            "title": "Original YouTube Opus",
-            "codec": "opus",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "hiRes": false,
-            "default": false
-          },
-          {
-            "trackNo": 2,
-            "title": "Hi-Res Apple Lossless (ALAC) 24-bit 44.1kHz By GCP",
-            "codec": "alac",
-            "sampleRate": 44100,
-            "bitDepth": 24,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "hiRes": true,
-            "default": true
-          }
-        ]
+      {
+        "Subtitle_ID": "acbc598a75cf9e19-S3",
+        "Media_ID": "acbc598a75cf9e19",
+        "Track_No": 3,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "Rupa Goriya Dual [Native] [GCP]",
+        "Default": "No",
+        "Forced": "No"
+      }
+    ]
+  },
+  {
+    "Media_ID": "c0c4d5d309cc0a72",
+    "Title": "Saiyonee",
+    "File_Name": "Saiyonee.mkv",
+    "Artist": "",
+    "Album": "",
+    "Composer": "",
+    "Resolution": "2560x1440",
+    "Video_Codec": "vp9",
+    "Video_Quality": "2K",
+    "Audio_Count": 2,
+    "Hi_Res_Audio": 1,
+    "Subtitle_Count": 0,
+    "Cover": "covers/Saiyonee.jpg",
+    "Cover_Source": "Custom",
+    "Drive_URL": "https://drive.google.com/file/d/18RIv4xq89FfoiVVwVWDGqTodvsNCcBu0/view",
+    "Download_URL": "https://drive.google.com/uc?export=download&id=18RIv4xq89FfoiVVwVWDGqTodvsNCcBu0",
+    "Video": [
+      {
+        "Video_ID": "c0c4d5d309cc0a72-V1",
+        "Media_ID": "c0c4d5d309cc0a72",
+        "File_Name": "Saiyonee.mkv",
+        "Codec": "vp9",
+        "Profile": "Profile 0",
+        "Width": 2560,
+        "Height": 1440,
+        "Resolution": "2560x1440",
+        "Aspect_Ratio": "16:9",
+        "FPS": 25.0,
+        "Bitrate": "",
+        "Bit_Depth": "",
+        "Pixel_Format": "yuv420p",
+        "HDR": "",
+        "Scan_Type": "Progressive",
+        "Default": "Yes"
       },
-      "subtitles": [
-        {
-          "trackNo": 1,
-          "codec": "subrip",
-          "language": "",
-          "title": "Rupa Goriya Dual [English] [GCP]",
-          "default": true,
-          "forced": false
-        },
-        {
-          "trackNo": 2,
-          "codec": "subrip",
-          "language": "",
-          "title": "Rupa Goriya Dual [Native + English] [GCP]",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 3,
-          "codec": "subrip",
-          "language": "",
-          "title": "Rupa Goriya Dual [Native] [GCP]",
-          "default": false,
-          "forced": false
-        }
-      ],
-      "cover": "covers/12VMKglIWemYf93D3iKCufiam9CHXwZNc.jpg",
-      "coverSource": "google-drive-custom",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
-    },
-    {
-      "id": "18RIv4xq89FfoiVVwVWDGqTodvsNCcBu0",
-      "fileName": "Saiyonee.mkv",
-      "fileSize": "98895963",
-      "modifiedTime": "2026-09-16T20:09:28.690Z",
-      "title": "Saiyonee [1440p] [VP9] [Multi Audio] [GCP]",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/18RIv4xq89FfoiVVwVWDGqTodvsNCcBu0/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=18RIv4xq89FfoiVVwVWDGqTodvsNCcBu0",
-      "video": {
-        "codec": "vp9",
-        "profile": "Profile 0",
-        "width": 2560,
-        "height": 1440,
-        "resolution": "2560x1440",
-        "quality": "2K",
-        "aspectRatio": "16:9",
-        "fps": 25.0,
-        "bitrate": "",
-        "bitDepth": "",
-        "pixelFormat": "yuv420p",
-        "hdr": "",
-        "scanType": "",
-        "default": true
+      {
+        "Video_ID": "c0c4d5d309cc0a72-V2",
+        "Media_ID": "c0c4d5d309cc0a72",
+        "File_Name": "Saiyonee.mkv",
+        "Codec": "mjpeg",
+        "Profile": "Baseline",
+        "Width": 3000,
+        "Height": 3000,
+        "Resolution": "3000x3000",
+        "Aspect_Ratio": "1:1",
+        "FPS": "",
+        "Bitrate": "",
+        "Bit_Depth": "8",
+        "Pixel_Format": "yuvj420p",
+        "HDR": "",
+        "Scan_Type": "Progressive",
+        "Default": "No"
+      }
+    ],
+    "Audio": [
+      {
+        "Audio_ID": "c0c4d5d309cc0a72-A1",
+        "Media_ID": "c0c4d5d309cc0a72",
+        "Track_No": 1,
+        "Title": "Hi-Res Apple Lossless (ALAC) 16-bit 48.0kHz By GCP",
+        "Artist": "",
+        "Codec": "alac",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "16",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "",
+        "Hi_Res": "Yes",
+        "Default": "Yes"
       },
-      "audio": {
-        "trackCount": 2,
-        "hiResCount": 1,
-        "hiResTrack": 1,
-        "tracks": [
-          {
-            "trackNo": 1,
-            "title": "Hi-Res Apple Lossless (ALAC) 16-bit 48.0kHz By GCP",
-            "codec": "alac",
-            "sampleRate": 48000,
-            "bitDepth": 16,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "hiRes": true,
-            "default": true
-          },
-          {
-            "trackNo": 2,
-            "title": "Original Audio [Opus]",
-            "codec": "opus",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "eng",
-            "hiRes": false,
-            "default": false
-          }
-        ]
+      {
+        "Audio_ID": "c0c4d5d309cc0a72-A2",
+        "Media_ID": "c0c4d5d309cc0a72",
+        "Track_No": 2,
+        "Title": "Original Audio [Opus]",
+        "Artist": "",
+        "Codec": "opus",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "eng",
+        "Hi_Res": "No",
+        "Default": "No"
+      }
+    ],
+    "Subtitle": []
+  },
+  {
+    "Media_ID": "30777ade49c0b215",
+    "Title": "Toi Mor Aashiqui",
+    "File_Name": "Toi Mor Aashiqui.mkv",
+    "Artist": "",
+    "Album": "",
+    "Composer": "",
+    "Resolution": "2560x1440",
+    "Video_Codec": "vp9",
+    "Video_Quality": "2K",
+    "Audio_Count": 2,
+    "Hi_Res_Audio": 1,
+    "Subtitle_Count": 7,
+    "Cover": "covers/Toi Mor Aashiqui.jpg",
+    "Cover_Source": "Custom",
+    "Drive_URL": "https://drive.google.com/file/d/12thKi5halqxmovT1BG-AQkR45JJGnbdi/view",
+    "Download_URL": "https://drive.google.com/uc?export=download&id=12thKi5halqxmovT1BG-AQkR45JJGnbdi",
+    "Video": [
+      {
+        "Video_ID": "30777ade49c0b215-V1",
+        "Media_ID": "30777ade49c0b215",
+        "File_Name": "Toi Mor Aashiqui.mkv",
+        "Codec": "vp9",
+        "Profile": "Profile 0",
+        "Width": 2560,
+        "Height": 1440,
+        "Resolution": "2560x1440",
+        "Aspect_Ratio": "16:9",
+        "FPS": 25.0,
+        "Bitrate": "",
+        "Bit_Depth": "",
+        "Pixel_Format": "yuv420p",
+        "HDR": "",
+        "Scan_Type": "Progressive",
+        "Default": "Yes"
+      }
+    ],
+    "Audio": [
+      {
+        "Audio_ID": "30777ade49c0b215-A1",
+        "Media_ID": "30777ade49c0b215",
+        "Track_No": 1,
+        "Title": "Hi-Res Apple Lossless (ALAC) 24-bit 44.1kHz By GCP",
+        "Artist": "",
+        "Codec": "alac",
+        "Sample_Rate": "44100",
+        "Bit_Depth": "24",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "eng",
+        "Hi_Res": "Yes",
+        "Default": "Yes"
       },
-      "subtitles": [],
-      "cover": "covers/18RIv4xq89FfoiVVwVWDGqTodvsNCcBu0.jpg",
-      "coverSource": "google-drive-custom",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
-    },
-    {
-      "id": "12thKi5halqxmovT1BG-AQkR45JJGnbdi",
-      "fileName": "Toi Mor Aashiqui.mkv",
-      "fileSize": "174306983",
-      "modifiedTime": "2026-09-16T20:09:26.976Z",
-      "title": "Toi Mor Aashiqui (Multi Audio) [GCP]",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/12thKi5halqxmovT1BG-AQkR45JJGnbdi/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=12thKi5halqxmovT1BG-AQkR45JJGnbdi",
-      "video": {
-        "codec": "vp9",
-        "profile": "Profile 0",
-        "width": 2560,
-        "height": 1440,
-        "resolution": "2560x1440",
-        "quality": "2K",
-        "aspectRatio": "16:9",
-        "fps": 25.0,
-        "bitrate": "",
-        "bitDepth": "",
-        "pixelFormat": "yuv420p",
-        "hdr": "",
-        "scanType": "",
-        "default": true
+      {
+        "Audio_ID": "30777ade49c0b215-A2",
+        "Media_ID": "30777ade49c0b215",
+        "Track_No": 2,
+        "Title": "Original YouTube Opus",
+        "Artist": "",
+        "Codec": "opus",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "eng",
+        "Hi_Res": "No",
+        "Default": "No"
+      }
+    ],
+    "Subtitle": [
+      {
+        "Subtitle_ID": "30777ade49c0b215-S1",
+        "Media_ID": "30777ade49c0b215",
+        "Track_No": 1,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "Tri-Lingual (Romanized + Bangla + English) [GCP]",
+        "Default": "Yes",
+        "Forced": "No"
       },
-      "audio": {
-        "trackCount": 2,
-        "hiResCount": 1,
-        "hiResTrack": 1,
-        "tracks": [
-          {
-            "trackNo": 1,
-            "title": "Hi-Res Apple Lossless (ALAC) 24-bit 44.1kHz By GCP",
-            "codec": "alac",
-            "sampleRate": 44100,
-            "bitDepth": 24,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "eng",
-            "hiRes": true,
-            "default": true
-          },
-          {
-            "trackNo": 2,
-            "title": "Original YouTube Opus",
-            "codec": "opus",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "eng",
-            "hiRes": false,
-            "default": false
-          }
-        ]
+      {
+        "Subtitle_ID": "30777ade49c0b215-S2",
+        "Media_ID": "30777ade49c0b215",
+        "Track_No": 2,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "Romanized + Bangla [GCP]",
+        "Default": "No",
+        "Forced": "No"
       },
-      "subtitles": [
-        {
-          "trackNo": 1,
-          "codec": "subrip",
-          "language": "",
-          "title": "Tri-Lingual (Romanized + Bangla + English) [GCP]",
-          "default": true,
-          "forced": false
-        },
-        {
-          "trackNo": 2,
-          "codec": "subrip",
-          "language": "",
-          "title": "Romanized + Bangla [GCP]",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 3,
-          "codec": "subrip",
-          "language": "",
-          "title": "Romanized + English [GCP]",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 4,
-          "codec": "subrip",
-          "language": "",
-          "title": "Bangla + English [GCP]",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 5,
-          "codec": "subrip",
-          "language": "",
-          "title": "Romanized [GCP]",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 6,
-          "codec": "subrip",
-          "language": "ben",
-          "title": "Bangla [GCP]",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 7,
-          "codec": "subrip",
-          "language": "eng",
-          "title": "English [GCP]",
-          "default": false,
-          "forced": false
-        }
-      ],
-      "cover": "covers/12thKi5halqxmovT1BG-AQkR45JJGnbdi.jpg",
-      "coverSource": "google-drive-custom",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
-    },
-    {
-      "id": "1gWfQQMtYTiSKd-RWsc6bQZyxNJ-iA3e6",
-      "fileName": "Tukel Beautiful.mkv",
-      "fileSize": "309850324",
-      "modifiedTime": "2026-09-16T20:09:23.931Z",
-      "title": "Tukel Beautiful (Multi Audio) [GCP]",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/1gWfQQMtYTiSKd-RWsc6bQZyxNJ-iA3e6/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=1gWfQQMtYTiSKd-RWsc6bQZyxNJ-iA3e6",
-      "video": {
-        "codec": "vp9",
-        "profile": "Profile 0",
-        "width": 2560,
-        "height": 1440,
-        "resolution": "2560x1440",
-        "quality": "2K",
-        "aspectRatio": "16:9",
-        "fps": 25.0,
-        "bitrate": "",
-        "bitDepth": "",
-        "pixelFormat": "yuv420p",
-        "hdr": "",
-        "scanType": "",
-        "default": true
+      {
+        "Subtitle_ID": "30777ade49c0b215-S3",
+        "Media_ID": "30777ade49c0b215",
+        "Track_No": 3,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "Romanized + English [GCP]",
+        "Default": "No",
+        "Forced": "No"
       },
-      "audio": {
-        "trackCount": 2,
-        "hiResCount": 1,
-        "hiResTrack": 1,
-        "tracks": [
-          {
-            "trackNo": 1,
-            "title": "Hi-Res Apple Lossless (ALAC) 16-bit 44.1kHz By GCP",
-            "codec": "alac",
-            "sampleRate": 44100,
-            "bitDepth": 16,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "eng",
-            "hiRes": true,
-            "default": true
-          },
-          {
-            "trackNo": 2,
-            "title": "Original YouTube Opus",
-            "codec": "opus",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "eng",
-            "hiRes": false,
-            "default": false
-          }
-        ]
+      {
+        "Subtitle_ID": "30777ade49c0b215-S4",
+        "Media_ID": "30777ade49c0b215",
+        "Track_No": 4,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "Bangla + English [GCP]",
+        "Default": "No",
+        "Forced": "No"
       },
-      "subtitles": [
-        {
-          "trackNo": 1,
-          "codec": "subrip",
-          "language": "",
-          "title": "TB GCP Tri-Lingual Subtitle",
-          "default": true,
-          "forced": false
-        },
-        {
-          "trackNo": 2,
-          "codec": "subrip",
-          "language": "",
-          "title": "TB GCP Romanized + Bangla Subtitle",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 3,
-          "codec": "subrip",
-          "language": "",
-          "title": "TB GCP Romanized + English Subtitle",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 4,
-          "codec": "subrip",
-          "language": "",
-          "title": "TB GCP Bangla + English Subtitle",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 5,
-          "codec": "subrip",
-          "language": "",
-          "title": "TB GCP Romanized Subtitle",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 6,
-          "codec": "subrip",
-          "language": "",
-          "title": "TB GCP Bangla Subtitle",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 7,
-          "codec": "subrip",
-          "language": "",
-          "title": "TB GCP English Subtitle",
-          "default": false,
-          "forced": false
-        }
-      ],
-      "cover": "covers/1gWfQQMtYTiSKd-RWsc6bQZyxNJ-iA3e6.jpg",
-      "coverSource": "google-drive-custom",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
-    },
-    {
-      "id": "188AomWna1mXnsEdul9cINC6G0KdAgwu5",
-      "fileName": "Gori Tor Se Jiya Re 1440p_VP9_Hi_Res_ALAC_Multi_Audio_Tri_Lingual.mkv",
-      "fileSize": "126939221",
-      "modifiedTime": "2026-09-06T05:40:58.488Z",
-      "title": "Gori Tor Se Jiya Re (Multi Audio) [GCP]",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/188AomWna1mXnsEdul9cINC6G0KdAgwu5/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=188AomWna1mXnsEdul9cINC6G0KdAgwu5",
-      "video": {
-        "codec": "vp9",
-        "profile": "Profile 0",
-        "width": 2560,
-        "height": 1440,
-        "resolution": "2560x1440",
-        "quality": "2K",
-        "aspectRatio": "16:9",
-        "fps": 25.0,
-        "bitrate": "",
-        "bitDepth": "",
-        "pixelFormat": "yuv420p",
-        "hdr": "",
-        "scanType": "",
-        "default": true
+      {
+        "Subtitle_ID": "30777ade49c0b215-S5",
+        "Media_ID": "30777ade49c0b215",
+        "Track_No": 5,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "Romanized [GCP]",
+        "Default": "No",
+        "Forced": "No"
       },
-      "audio": {
-        "trackCount": 2,
-        "hiResCount": 1,
-        "hiResTrack": 1,
-        "tracks": [
-          {
-            "trackNo": 1,
-            "title": "Hi-Res Apple Lossless (ALAC) 16-bit 44.1kHz By GCP",
-            "codec": "alac",
-            "sampleRate": 44100,
-            "bitDepth": 16,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "eng",
-            "hiRes": true,
-            "default": true
-          },
-          {
-            "trackNo": 2,
-            "title": "Original YouTube Opus",
-            "codec": "opus",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "eng",
-            "hiRes": false,
-            "default": false
-          }
-        ]
+      {
+        "Subtitle_ID": "30777ade49c0b215-S6",
+        "Media_ID": "30777ade49c0b215",
+        "Track_No": 6,
+        "Codec": "subrip",
+        "Language": "ben",
+        "Title": "Bangla [GCP]",
+        "Default": "No",
+        "Forced": "No"
       },
-      "subtitles": [
-        {
-          "trackNo": 1,
-          "codec": "subrip",
-          "language": "eng",
-          "title": "GTSJ GCP - Romanized + Bangla + English",
-          "default": true,
-          "forced": false
-        },
-        {
-          "trackNo": 2,
-          "codec": "subrip",
-          "language": "ben",
-          "title": "GTSJ GCP - Romanized + Bangla",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 3,
-          "codec": "subrip",
-          "language": "eng",
-          "title": "GTSJ GCP - Romanized + English",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 4,
-          "codec": "subrip",
-          "language": "ben",
-          "title": "GTSJ GCP - Bangla + English",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 5,
-          "codec": "subrip",
-          "language": "eng",
-          "title": "GTSJ GCP - Romanized",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 6,
-          "codec": "subrip",
-          "language": "ben",
-          "title": "GTSJ GCP - Bangla",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 7,
-          "codec": "subrip",
-          "language": "eng",
-          "title": "GTSJ GCP - English",
-          "default": false,
-          "forced": false
-        }
-      ],
-      "cover": "covers/188AomWna1mXnsEdul9cINC6G0KdAgwu5.jpg",
-      "coverSource": "google-drive-custom",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
-    },
-    {
-      "id": "1tUmndTUknJ_EeUD4-Td-iXJfVenAKqM_",
-      "fileName": "Radhimaa [1440p] [VP9] [Multi Audio] [GCP].mkv",
-      "fileSize": "327922475",
-      "modifiedTime": "2026-08-24T18:41:00.000Z",
-      "title": "Radhimaa [1440p] [VP9] [Multi Audio] [GCP]",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/1tUmndTUknJ_EeUD4-Td-iXJfVenAKqM_/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=1tUmndTUknJ_EeUD4-Td-iXJfVenAKqM_",
-      "video": {
-        "codec": "vp9",
-        "profile": "Profile 0",
-        "width": 2160,
-        "height": 1440,
-        "resolution": "2160x1440",
-        "quality": "2K",
-        "aspectRatio": "3:2",
-        "fps": 24.0,
-        "bitrate": "",
-        "bitDepth": "",
-        "pixelFormat": "yuv420p",
-        "hdr": "",
-        "scanType": "",
-        "default": true
+      {
+        "Subtitle_ID": "30777ade49c0b215-S7",
+        "Media_ID": "30777ade49c0b215",
+        "Track_No": 7,
+        "Codec": "subrip",
+        "Language": "eng",
+        "Title": "English [GCP]",
+        "Default": "No",
+        "Forced": "No"
+      }
+    ]
+  },
+  {
+    "Media_ID": "08b5583b1b77b24a",
+    "Title": "Tukel Beautiful",
+    "File_Name": "Tukel Beautiful.mkv",
+    "Artist": "",
+    "Album": "",
+    "Composer": "",
+    "Resolution": "2560x1440",
+    "Video_Codec": "vp9",
+    "Video_Quality": "2K",
+    "Audio_Count": 2,
+    "Hi_Res_Audio": 1,
+    "Subtitle_Count": 7,
+    "Cover": "covers/Tukel Beautiful.jpg",
+    "Cover_Source": "Custom",
+    "Drive_URL": "https://drive.google.com/file/d/1gWfQQMtYTiSKd-RWsc6bQZyxNJ-iA3e6/view",
+    "Download_URL": "https://drive.google.com/uc?export=download&id=1gWfQQMtYTiSKd-RWsc6bQZyxNJ-iA3e6",
+    "Video": [
+      {
+        "Video_ID": "08b5583b1b77b24a-V1",
+        "Media_ID": "08b5583b1b77b24a",
+        "File_Name": "Tukel Beautiful.mkv",
+        "Codec": "vp9",
+        "Profile": "Profile 0",
+        "Width": 2560,
+        "Height": 1440,
+        "Resolution": "2560x1440",
+        "Aspect_Ratio": "16:9",
+        "FPS": 25.0,
+        "Bitrate": "",
+        "Bit_Depth": "",
+        "Pixel_Format": "yuv420p",
+        "HDR": "",
+        "Scan_Type": "Progressive",
+        "Default": "Yes"
+      }
+    ],
+    "Audio": [
+      {
+        "Audio_ID": "08b5583b1b77b24a-A1",
+        "Media_ID": "08b5583b1b77b24a",
+        "Track_No": 1,
+        "Title": "Hi-Res Apple Lossless (ALAC) 16-bit 44.1kHz By GCP",
+        "Artist": "",
+        "Codec": "alac",
+        "Sample_Rate": "44100",
+        "Bit_Depth": "16",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "eng",
+        "Hi_Res": "Yes",
+        "Default": "Yes"
       },
-      "audio": {
-        "trackCount": 2,
-        "hiResCount": 1,
-        "hiResTrack": 1,
-        "tracks": [
-          {
-            "trackNo": 1,
-            "title": "Hi-Res Apple Lossless (ALAC) 24-bit 48.0kHz By GCP",
-            "codec": "alac",
-            "sampleRate": 48000,
-            "bitDepth": 24,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "hiRes": true,
-            "default": true
-          },
-          {
-            "trackNo": 2,
-            "title": "Original Audio [Opus]",
-            "codec": "opus",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "eng",
-            "hiRes": false,
-            "default": false
-          }
-        ]
+      {
+        "Audio_ID": "08b5583b1b77b24a-A2",
+        "Media_ID": "08b5583b1b77b24a",
+        "Track_No": 2,
+        "Title": "Original YouTube Opus",
+        "Artist": "",
+        "Codec": "opus",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "eng",
+        "Hi_Res": "No",
+        "Default": "No"
+      }
+    ],
+    "Subtitle": [
+      {
+        "Subtitle_ID": "08b5583b1b77b24a-S1",
+        "Media_ID": "08b5583b1b77b24a",
+        "Track_No": 1,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "TB GCP Tri-Lingual Subtitle",
+        "Default": "Yes",
+        "Forced": "No"
       },
-      "subtitles": [],
-      "cover": "covers/1tUmndTUknJ_EeUD4-Td-iXJfVenAKqM_.jpg",
-      "coverSource": "google-drive-custom",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
-    },
-    {
-      "id": "1uofh1-iX9SIHDZcXZEUUb_T5IA7gfWP3",
-      "fileName": "Ghaghara [1080p] [H.264] [Multi Audio] [GCP].mkv",
-      "fileSize": "369489200",
-      "modifiedTime": "2026-08-12T19:43:04.000Z",
-      "title": "Ghaghara [1080p] [H.264] [Multi Audio] [GCP]",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/1uofh1-iX9SIHDZcXZEUUb_T5IA7gfWP3/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=1uofh1-iX9SIHDZcXZEUUb_T5IA7gfWP3",
-      "video": {
-        "codec": "h264",
-        "profile": "High",
-        "width": 1920,
-        "height": 1080,
-        "resolution": "1920x1080",
-        "quality": "1080p",
-        "aspectRatio": "16:9",
-        "fps": 24.0,
-        "bitrate": "",
-        "bitDepth": "8",
-        "pixelFormat": "yuv420p",
-        "hdr": "",
-        "scanType": "progressive",
-        "default": true
+      {
+        "Subtitle_ID": "08b5583b1b77b24a-S2",
+        "Media_ID": "08b5583b1b77b24a",
+        "Track_No": 2,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "TB GCP Romanized + Bangla Subtitle",
+        "Default": "No",
+        "Forced": "No"
       },
-      "audio": {
-        "trackCount": 2,
-        "hiResCount": 1,
-        "hiResTrack": 2,
-        "tracks": [
-          {
-            "trackNo": 1,
-            "title": "JeRi - DDP2.0 (224Kb/s)",
-            "codec": "eac3",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "hin",
-            "hiRes": false,
-            "default": false
-          },
-          {
-            "trackNo": 2,
-            "title": "Hi-Res Apple Lossless (ALAC) 16-bit 44.1kHz By GCP",
-            "codec": "alac",
-            "sampleRate": 44100,
-            "bitDepth": 16,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "hiRes": true,
-            "default": true
-          }
-        ]
+      {
+        "Subtitle_ID": "08b5583b1b77b24a-S3",
+        "Media_ID": "08b5583b1b77b24a",
+        "Track_No": 3,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "TB GCP Romanized + English Subtitle",
+        "Default": "No",
+        "Forced": "No"
       },
-      "subtitles": [
-        {
-          "trackNo": 1,
-          "codec": "subrip",
-          "language": "eng",
-          "title": "JeRi",
-          "default": false,
-          "forced": true
-        }
-      ],
-      "cover": "covers/1uofh1-iX9SIHDZcXZEUUb_T5IA7gfWP3.svg",
-      "coverSource": "generated",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
-    },
-    {
-      "id": "1LQk_aOde4MtwID7EjBmR1vPqXAhpKYNB",
-      "fileName": "Ehsaas [1440p] [VP9] [Multi Audio] [Tri-Lingual Subs] [GCP].mkv",
-      "fileSize": "132005543",
-      "modifiedTime": "2026-08-08T10:53:55.000Z",
-      "title": "Ehsaas [1440p] [VP9] [Multi Audio] [Tri-Lingual Subs] [GCP]",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/1LQk_aOde4MtwID7EjBmR1vPqXAhpKYNB/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=1LQk_aOde4MtwID7EjBmR1vPqXAhpKYNB",
-      "video": {
-        "codec": "vp9",
-        "profile": "Profile 0",
-        "width": 2560,
-        "height": 1440,
-        "resolution": "2560x1440",
-        "quality": "2K",
-        "aspectRatio": "16:9",
-        "fps": 25.0,
-        "bitrate": "",
-        "bitDepth": "",
-        "pixelFormat": "yuv420p",
-        "hdr": "",
-        "scanType": "",
-        "default": true
+      {
+        "Subtitle_ID": "08b5583b1b77b24a-S4",
+        "Media_ID": "08b5583b1b77b24a",
+        "Track_No": 4,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "TB GCP Bangla + English Subtitle",
+        "Default": "No",
+        "Forced": "No"
       },
-      "audio": {
-        "trackCount": 2,
-        "hiResCount": 1,
-        "hiResTrack": 2,
-        "tracks": [
-          {
-            "trackNo": 1,
-            "title": "",
-            "codec": "opus",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "eng",
-            "hiRes": false,
-            "default": false
-          },
-          {
-            "trackNo": 2,
-            "title": "Hi-Res Apple Lossless (ALAC) 24-bit 44.1kHz By GCP",
-            "codec": "alac",
-            "sampleRate": 44100,
-            "bitDepth": 24,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "hiRes": true,
-            "default": true
-          }
-        ]
+      {
+        "Subtitle_ID": "08b5583b1b77b24a-S5",
+        "Media_ID": "08b5583b1b77b24a",
+        "Track_No": 5,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "TB GCP Romanized Subtitle",
+        "Default": "No",
+        "Forced": "No"
       },
-      "subtitles": [
-        {
-          "trackNo": 1,
-          "codec": "subrip",
-          "language": "",
-          "title": "Ehsaas Dual [Bangla + English] [GCP]",
-          "default": true,
-          "forced": false
-        },
-        {
-          "trackNo": 2,
-          "codec": "subrip",
-          "language": "",
-          "title": "Ehsaas Dual [Bangla] [GCP]",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 3,
-          "codec": "subrip",
-          "language": "",
-          "title": "Ehsaas Dual [English] [GCP]",
-          "default": false,
-          "forced": false
-        }
-      ],
-      "cover": "covers/1LQk_aOde4MtwID7EjBmR1vPqXAhpKYNB.svg",
-      "coverSource": "generated",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
-    },
-    {
-      "id": "17BUJhyefcUYLHm5csjtZr4om2pxXMnu2",
-      "fileName": "Rupa Goriya 2K [1440p] [VP9] [Multi Audio] [Tri-Lingual Subs] [GCP].mkv",
-      "fileSize": "284419300",
-      "modifiedTime": "2026-08-07T07:45:49.000Z",
-      "title": "Rupa Goriya 2K [1440p] [VP9] [Multi Audio] [Tri-Lingual Subs] [GCP]",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/17BUJhyefcUYLHm5csjtZr4om2pxXMnu2/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=17BUJhyefcUYLHm5csjtZr4om2pxXMnu2",
-      "video": {
-        "codec": "vp9",
-        "profile": "Profile 0",
-        "width": 2560,
-        "height": 1440,
-        "resolution": "2560x1440",
-        "quality": "2K",
-        "aspectRatio": "16:9",
-        "fps": 25.0,
-        "bitrate": "",
-        "bitDepth": "",
-        "pixelFormat": "yuv420p",
-        "hdr": "",
-        "scanType": "",
-        "default": true
+      {
+        "Subtitle_ID": "08b5583b1b77b24a-S6",
+        "Media_ID": "08b5583b1b77b24a",
+        "Track_No": 6,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "TB GCP Bangla Subtitle",
+        "Default": "No",
+        "Forced": "No"
       },
-      "audio": {
-        "trackCount": 2,
-        "hiResCount": 1,
-        "hiResTrack": 2,
-        "tracks": [
-          {
-            "trackNo": 1,
-            "title": "Original YouTube Opus",
-            "codec": "opus",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "hiRes": false,
-            "default": false
-          },
-          {
-            "trackNo": 2,
-            "title": "Hi-Res Apple Lossless (ALAC) 24-bit 44.1kHz By GCP",
-            "codec": "alac",
-            "sampleRate": 44100,
-            "bitDepth": 24,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "hiRes": true,
-            "default": true
-          }
-        ]
+      {
+        "Subtitle_ID": "08b5583b1b77b24a-S7",
+        "Media_ID": "08b5583b1b77b24a",
+        "Track_No": 7,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "TB GCP English Subtitle",
+        "Default": "No",
+        "Forced": "No"
+      }
+    ]
+  },
+  {
+    "Media_ID": "f193fcdbf9ea49fe",
+    "Title": "Gori Tor Se Jiya Re",
+    "File_Name": "Gori Tor Se Jiya Re 1440p_VP9_Hi_Res_ALAC_Multi_Audio_Tri_Lingual.mkv",
+    "Artist": "",
+    "Album": "",
+    "Composer": "",
+    "Resolution": "2560x1440",
+    "Video_Codec": "vp9",
+    "Video_Quality": "2K",
+    "Audio_Count": 2,
+    "Hi_Res_Audio": 1,
+    "Subtitle_Count": 7,
+    "Cover": "covers/Gori Tor Se Jiya Re.jpg",
+    "Cover_Source": "Custom",
+    "Drive_URL": "https://drive.google.com/file/d/188AomWna1mXnsEdul9cINC6G0KdAgwu5/view",
+    "Download_URL": "https://drive.google.com/uc?export=download&id=188AomWna1mXnsEdul9cINC6G0KdAgwu5",
+    "Video": [
+      {
+        "Video_ID": "f193fcdbf9ea49fe-V1",
+        "Media_ID": "f193fcdbf9ea49fe",
+        "File_Name": "Gori Tor Se Jiya Re 1440p_VP9_Hi_Res_ALAC_Multi_Audio_Tri_Lingual.mkv",
+        "Codec": "vp9",
+        "Profile": "Profile 0",
+        "Width": 2560,
+        "Height": 1440,
+        "Resolution": "2560x1440",
+        "Aspect_Ratio": "16:9",
+        "FPS": 25.0,
+        "Bitrate": "",
+        "Bit_Depth": "",
+        "Pixel_Format": "yuv420p",
+        "HDR": "",
+        "Scan_Type": "Progressive",
+        "Default": "Yes"
+      }
+    ],
+    "Audio": [
+      {
+        "Audio_ID": "f193fcdbf9ea49fe-A1",
+        "Media_ID": "f193fcdbf9ea49fe",
+        "Track_No": 1,
+        "Title": "Hi-Res Apple Lossless (ALAC) 16-bit 44.1kHz By GCP",
+        "Artist": "",
+        "Codec": "alac",
+        "Sample_Rate": "44100",
+        "Bit_Depth": "16",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "eng",
+        "Hi_Res": "Yes",
+        "Default": "Yes"
       },
-      "subtitles": [
-        {
-          "trackNo": 1,
-          "codec": "subrip",
-          "language": "",
-          "title": "Rupa Goriya Dual [English] [GCP]",
-          "default": true,
-          "forced": false
-        },
-        {
-          "trackNo": 2,
-          "codec": "subrip",
-          "language": "",
-          "title": "Rupa Goriya Dual [Native + English] [GCP]",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 3,
-          "codec": "subrip",
-          "language": "",
-          "title": "Rupa Goriya Dual [Native] [GCP]",
-          "default": false,
-          "forced": false
-        }
-      ],
-      "cover": "covers/17BUJhyefcUYLHm5csjtZr4om2pxXMnu2.jpg",
-      "coverSource": "google-drive-custom",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
-    },
-    {
-      "id": "1RFcMjfJbVMuGI9sEbruQS_zmYXNo2A8g",
-      "fileName": "Mor Laila [1440p] [VP9] [Multi Audio] [GCP].mkv",
-      "fileSize": "260361877",
-      "modifiedTime": "2026-08-06T05:50:06.000Z",
-      "title": "Mor Laila [1440p] [VP9] [Multi Audio] [GCP]",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/1RFcMjfJbVMuGI9sEbruQS_zmYXNo2A8g/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=1RFcMjfJbVMuGI9sEbruQS_zmYXNo2A8g",
-      "video": {
-        "codec": "vp9",
-        "profile": "Profile 0",
-        "width": 2560,
-        "height": 1440,
-        "resolution": "2560x1440",
-        "quality": "2K",
-        "aspectRatio": "16:9",
-        "fps": 25.0,
-        "bitrate": "",
-        "bitDepth": "",
-        "pixelFormat": "yuv420p",
-        "hdr": "",
-        "scanType": "",
-        "default": true
+      {
+        "Audio_ID": "f193fcdbf9ea49fe-A2",
+        "Media_ID": "f193fcdbf9ea49fe",
+        "Track_No": 2,
+        "Title": "Original YouTube Opus",
+        "Artist": "",
+        "Codec": "opus",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "eng",
+        "Hi_Res": "No",
+        "Default": "No"
+      }
+    ],
+    "Subtitle": [
+      {
+        "Subtitle_ID": "f193fcdbf9ea49fe-S1",
+        "Media_ID": "f193fcdbf9ea49fe",
+        "Track_No": 1,
+        "Codec": "subrip",
+        "Language": "eng",
+        "Title": "GTSJ GCP - Romanized + Bangla + English",
+        "Default": "Yes",
+        "Forced": "No"
       },
-      "audio": {
-        "trackCount": 2,
-        "hiResCount": 1,
-        "hiResTrack": 2,
-        "tracks": [
-          {
-            "trackNo": 1,
-            "title": "Original YouTube Opus",
-            "codec": "opus",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "hiRes": false,
-            "default": false
-          },
-          {
-            "trackNo": 2,
-            "title": "Hi-Res Apple Lossless (ALAC) 24-bit 96.0kHz By GCP",
-            "codec": "alac",
-            "sampleRate": 96000,
-            "bitDepth": 24,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "hiRes": true,
-            "default": true
-          }
-        ]
+      {
+        "Subtitle_ID": "f193fcdbf9ea49fe-S2",
+        "Media_ID": "f193fcdbf9ea49fe",
+        "Track_No": 2,
+        "Codec": "subrip",
+        "Language": "ben",
+        "Title": "GTSJ GCP - Romanized + Bangla",
+        "Default": "No",
+        "Forced": "No"
       },
-      "subtitles": [],
-      "cover": "covers/1RFcMjfJbVMuGI9sEbruQS_zmYXNo2A8g.svg",
-      "coverSource": "generated",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
-    },
-    {
-      "id": "1M6ICOTkc7D7QOMT36oyPB83yCK2HZhSD",
-      "fileName": "Muin Kuanra Tui Kuanri 2K [1440p] [VP9] [Multi Audio] [GCP].mkv",
-      "fileSize": "324274189",
-      "modifiedTime": "2026-08-05T18:36:16.000Z",
-      "title": "Muin Kuanra Tui Kuanri 2K [1440p] [VP9] [Multi Audio] [GCP]",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/1M6ICOTkc7D7QOMT36oyPB83yCK2HZhSD/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=1M6ICOTkc7D7QOMT36oyPB83yCK2HZhSD",
-      "video": {
-        "codec": "vp9",
-        "profile": "Profile 0",
-        "width": 2560,
-        "height": 1440,
-        "resolution": "2560x1440",
-        "quality": "2K",
-        "aspectRatio": "16:9",
-        "fps": 25.0,
-        "bitrate": "",
-        "bitDepth": "",
-        "pixelFormat": "yuv420p",
-        "hdr": "",
-        "scanType": "",
-        "default": true
+      {
+        "Subtitle_ID": "f193fcdbf9ea49fe-S3",
+        "Media_ID": "f193fcdbf9ea49fe",
+        "Track_No": 3,
+        "Codec": "subrip",
+        "Language": "eng",
+        "Title": "GTSJ GCP - Romanized + English",
+        "Default": "No",
+        "Forced": "No"
       },
-      "audio": {
-        "trackCount": 2,
-        "hiResCount": 1,
-        "hiResTrack": 2,
-        "tracks": [
-          {
-            "trackNo": 1,
-            "title": "Original YouTube Opus",
-            "codec": "opus",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "hiRes": false,
-            "default": false
-          },
-          {
-            "trackNo": 2,
-            "title": "Hi-Res Apple Lossless (ALAC) By GCP",
-            "codec": "alac",
-            "sampleRate": 44100,
-            "bitDepth": 16,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "hiRes": true,
-            "default": true
-          }
-        ]
+      {
+        "Subtitle_ID": "f193fcdbf9ea49fe-S4",
+        "Media_ID": "f193fcdbf9ea49fe",
+        "Track_No": 4,
+        "Codec": "subrip",
+        "Language": "ben",
+        "Title": "GTSJ GCP - Bangla + English",
+        "Default": "No",
+        "Forced": "No"
       },
-      "subtitles": [],
-      "cover": "covers/1M6ICOTkc7D7QOMT36oyPB83yCK2HZhSD.svg",
-      "coverSource": "generated",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
-    },
-    {
-      "id": "1HkmGaeEb0XeocSsG1nYNy9_4YOkpIC10",
-      "fileName": "Lal Chuneri [1440p] [VP9] [Hi-Res FLAC Intro] [Multi Audio] [Multi Subs] [GCP].mkv",
-      "fileSize": "161958033",
-      "modifiedTime": "2026-07-27T06:26:31.000Z",
-      "title": "Lal Chuneri (Multi Audio)",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/1HkmGaeEb0XeocSsG1nYNy9_4YOkpIC10/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=1HkmGaeEb0XeocSsG1nYNy9_4YOkpIC10",
-      "video": {
-        "codec": "vp9",
-        "profile": "Profile 0",
-        "width": 2560,
-        "height": 1072,
-        "resolution": "2560x1072",
-        "quality": "2K",
-        "aspectRatio": "160:67",
-        "fps": 25.0,
-        "bitrate": "",
-        "bitDepth": "",
-        "pixelFormat": "yuv420p",
-        "hdr": "",
-        "scanType": "",
-        "default": true
+      {
+        "Subtitle_ID": "f193fcdbf9ea49fe-S5",
+        "Media_ID": "f193fcdbf9ea49fe",
+        "Track_No": 5,
+        "Codec": "subrip",
+        "Language": "eng",
+        "Title": "GTSJ GCP - Romanized",
+        "Default": "No",
+        "Forced": "No"
       },
-      "audio": {
-        "trackCount": 2,
-        "hiResCount": 1,
-        "hiResTrack": 1,
-        "tracks": [
-          {
-            "trackNo": 1,
-            "title": "Hi-Res FLAC Intro 24-bit 44.1kHz By GCP",
-            "codec": "flac",
-            "sampleRate": 44100,
-            "bitDepth": 24,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "hiRes": true,
-            "default": true
-          },
-          {
-            "trackNo": 2,
-            "title": "Original YouTube Opus",
-            "codec": "opus",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "eng",
-            "hiRes": false,
-            "default": false
-          }
-        ]
+      {
+        "Subtitle_ID": "f193fcdbf9ea49fe-S6",
+        "Media_ID": "f193fcdbf9ea49fe",
+        "Track_No": 6,
+        "Codec": "subrip",
+        "Language": "ben",
+        "Title": "GTSJ GCP - Bangla",
+        "Default": "No",
+        "Forced": "No"
       },
-      "subtitles": [
-        {
-          "trackNo": 1,
-          "codec": "subrip",
-          "language": "",
-          "title": "LC GCP - Romanized + Bangla + English",
-          "default": true,
-          "forced": false
-        },
-        {
-          "trackNo": 2,
-          "codec": "subrip",
-          "language": "",
-          "title": "LC GCP - Romanized + Bangla",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 3,
-          "codec": "subrip",
-          "language": "",
-          "title": "LC GCP - Romanized + English",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 4,
-          "codec": "subrip",
-          "language": "",
-          "title": "LC GCP - Bangla + English",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 5,
-          "codec": "subrip",
-          "language": "",
-          "title": "LC GCP - Romanized",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 6,
-          "codec": "subrip",
-          "language": "",
-          "title": "LC GCP - Bangla",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 7,
-          "codec": "subrip",
-          "language": "",
-          "title": "LC GCP - English",
-          "default": false,
-          "forced": false
-        }
-      ],
-      "cover": "covers/1HkmGaeEb0XeocSsG1nYNy9_4YOkpIC10.svg",
-      "coverSource": "generated",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
-    },
-    {
-      "id": "1aNIqHpvxJBC4UY8ls1xtP4VnT-tEzyQr",
-      "fileName": "Jodi Mahuri [1080p] [AV1] [Hi-Res ALAC] [Multi Audio] [GCP].mkv",
-      "fileSize": "187601213",
-      "modifiedTime": "2026-07-25T19:00:10.000Z",
-      "title": "Jodi Mahuri (Multi Audio) [GCP]",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/1aNIqHpvxJBC4UY8ls1xtP4VnT-tEzyQr/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=1aNIqHpvxJBC4UY8ls1xtP4VnT-tEzyQr",
-      "video": {
-        "codec": "av1",
-        "profile": "Main",
-        "width": 1920,
-        "height": 1080,
-        "resolution": "1920x1080",
-        "quality": "1080p",
-        "aspectRatio": "16:9",
-        "fps": 24.0,
-        "bitrate": "",
-        "bitDepth": "",
-        "pixelFormat": "yuv420p",
-        "hdr": "",
-        "scanType": "",
-        "default": true
+      {
+        "Subtitle_ID": "f193fcdbf9ea49fe-S7",
+        "Media_ID": "f193fcdbf9ea49fe",
+        "Track_No": 7,
+        "Codec": "subrip",
+        "Language": "eng",
+        "Title": "GTSJ GCP - English",
+        "Default": "No",
+        "Forced": "No"
+      }
+    ]
+  },
+  {
+    "Media_ID": "682d361827f4ada8",
+    "Title": "Radhimaa",
+    "File_Name": "Radhimaa [1440p] [VP9] [Multi Audio] [GCP].mkv",
+    "Artist": "",
+    "Album": "",
+    "Composer": "",
+    "Resolution": "2160x1440",
+    "Video_Codec": "vp9",
+    "Video_Quality": "2K",
+    "Audio_Count": 2,
+    "Hi_Res_Audio": 1,
+    "Subtitle_Count": 0,
+    "Cover": "covers/Radhimaa.jpg",
+    "Cover_Source": "Custom",
+    "Drive_URL": "https://drive.google.com/file/d/1tUmndTUknJ_EeUD4-Td-iXJfVenAKqM_/view",
+    "Download_URL": "https://drive.google.com/uc?export=download&id=1tUmndTUknJ_EeUD4-Td-iXJfVenAKqM_",
+    "Video": [
+      {
+        "Video_ID": "682d361827f4ada8-V1",
+        "Media_ID": "682d361827f4ada8",
+        "File_Name": "Radhimaa [1440p] [VP9] [Multi Audio] [GCP].mkv",
+        "Codec": "vp9",
+        "Profile": "Profile 0",
+        "Width": 2160,
+        "Height": 1440,
+        "Resolution": "2160x1440",
+        "Aspect_Ratio": "3:2",
+        "FPS": 24.0,
+        "Bitrate": "",
+        "Bit_Depth": "",
+        "Pixel_Format": "yuv420p",
+        "HDR": "",
+        "Scan_Type": "Progressive",
+        "Default": "Yes"
+      }
+    ],
+    "Audio": [
+      {
+        "Audio_ID": "682d361827f4ada8-A1",
+        "Media_ID": "682d361827f4ada8",
+        "Track_No": 1,
+        "Title": "Hi-Res Apple Lossless (ALAC) 24-bit 48.0kHz By GCP",
+        "Artist": "",
+        "Codec": "alac",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "24",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "",
+        "Hi_Res": "Yes",
+        "Default": "Yes"
       },
-      "audio": {
-        "trackCount": 2,
-        "hiResCount": 1,
-        "hiResTrack": 1,
-        "tracks": [
-          {
-            "trackNo": 1,
-            "title": "Hi-Res Apple Lossless (ALAC) 24-bit 48kHz By GCP",
-            "codec": "alac",
-            "sampleRate": 48000,
-            "bitDepth": 24,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "hiRes": true,
-            "default": true
-          },
-          {
-            "trackNo": 2,
-            "title": "Original YouTube Opus",
-            "codec": "opus",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "hin",
-            "hiRes": false,
-            "default": false
-          }
-        ]
+      {
+        "Audio_ID": "682d361827f4ada8-A2",
+        "Media_ID": "682d361827f4ada8",
+        "Track_No": 2,
+        "Title": "Original Audio [Opus]",
+        "Artist": "",
+        "Codec": "opus",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "eng",
+        "Hi_Res": "No",
+        "Default": "No"
+      }
+    ],
+    "Subtitle": []
+  },
+  {
+    "Media_ID": "1a8be52df6785d87",
+    "Title": "Ghaghara",
+    "File_Name": "Ghaghara [1080p] [H.264] [Multi Audio] [GCP].mkv",
+    "Artist": "",
+    "Album": "",
+    "Composer": "",
+    "Resolution": "1920x1080",
+    "Video_Codec": "h264",
+    "Video_Quality": "1080p",
+    "Audio_Count": 2,
+    "Hi_Res_Audio": 1,
+    "Subtitle_Count": 1,
+    "Cover": "covers/1a8be52df6785d87.svg",
+    "Cover_Source": "Generated",
+    "Drive_URL": "https://drive.google.com/file/d/1uofh1-iX9SIHDZcXZEUUb_T5IA7gfWP3/view",
+    "Download_URL": "https://drive.google.com/uc?export=download&id=1uofh1-iX9SIHDZcXZEUUb_T5IA7gfWP3",
+    "Video": [
+      {
+        "Video_ID": "1a8be52df6785d87-V1",
+        "Media_ID": "1a8be52df6785d87",
+        "File_Name": "Ghaghara [1080p] [H.264] [Multi Audio] [GCP].mkv",
+        "Codec": "h264",
+        "Profile": "High",
+        "Width": 1920,
+        "Height": 1080,
+        "Resolution": "1920x1080",
+        "Aspect_Ratio": "16:9",
+        "FPS": 24.0,
+        "Bitrate": "",
+        "Bit_Depth": "8",
+        "Pixel_Format": "yuv420p",
+        "HDR": "",
+        "Scan_Type": "Progressive",
+        "Default": "Yes"
       },
-      "subtitles": [],
-      "cover": "covers/1aNIqHpvxJBC4UY8ls1xtP4VnT-tEzyQr.svg",
-      "coverSource": "generated",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
-    },
-    {
-      "id": "1s-79TsZVgboNZx-NTleha7vhQawHFm2j",
-      "fileName": "Kaattuchembakam [1080p] [H.264] [Hi-Res ALAC] [Multi Audio] [Multi Subs] [GCP].mkv",
-      "fileSize": "242454225",
-      "modifiedTime": "2026-07-24T08:37:40.000Z",
-      "title": "Kaattuchembakam (Multi Audio) [GCP]",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/1s-79TsZVgboNZx-NTleha7vhQawHFm2j/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=1s-79TsZVgboNZx-NTleha7vhQawHFm2j",
-      "video": {
-        "codec": "h264",
-        "profile": "Main",
-        "width": 1920,
-        "height": 1080,
-        "resolution": "1920x1080",
-        "quality": "1080p",
-        "aspectRatio": "16:9",
-        "fps": 24.0,
-        "bitrate": "",
-        "bitDepth": "8",
-        "pixelFormat": "yuv420p",
-        "hdr": "",
-        "scanType": "progressive",
-        "default": true
+      {
+        "Video_ID": "1a8be52df6785d87-V2",
+        "Media_ID": "1a8be52df6785d87",
+        "File_Name": "Ghaghara [1080p] [H.264] [Multi Audio] [GCP].mkv",
+        "Codec": "mjpeg",
+        "Profile": "",
+        "Width": 1920,
+        "Height": 1200,
+        "Resolution": "1920x1200",
+        "Aspect_Ratio": "",
+        "FPS": 30000.0,
+        "Bitrate": "",
+        "Bit_Depth": "",
+        "Pixel_Format": "",
+        "HDR": "",
+        "Scan_Type": "Progressive",
+        "Default": "No"
+      }
+    ],
+    "Audio": [
+      {
+        "Audio_ID": "1a8be52df6785d87-A1",
+        "Media_ID": "1a8be52df6785d87",
+        "Track_No": 1,
+        "Title": "JeRi - DDP2.0 (224Kb/s)",
+        "Artist": "",
+        "Codec": "eac3",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "hin",
+        "Hi_Res": "No",
+        "Default": "No"
       },
-      "audio": {
-        "trackCount": 7,
-        "hiResCount": 1,
-        "hiResTrack": 1,
-        "tracks": [
-          {
-            "trackNo": 1,
-            "title": "Hi-Res Apple Lossless (ALAC) 24-bit 48kHz By GCP",
-            "codec": "alac",
-            "sampleRate": 48000,
-            "bitDepth": 24,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "mal",
-            "hiRes": true,
-            "default": true
-          },
-          {
-            "trackNo": 2,
-            "title": "Malayalam DDP 5.1 Atmos",
-            "codec": "eac3",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 6,
-            "channelLayout": "5.1(side)",
-            "language": "mal",
-            "hiRes": false,
-            "default": true
-          },
-          {
-            "trackNo": 3,
-            "title": "Bangla DDP 5.1",
-            "codec": "eac3",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 6,
-            "channelLayout": "5.1(side)",
-            "language": "ben",
-            "hiRes": false,
-            "default": false
-          },
-          {
-            "trackNo": 4,
-            "title": "Hindi DDP 5.1",
-            "codec": "eac3",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 6,
-            "channelLayout": "5.1(side)",
-            "language": "hin",
-            "hiRes": false,
-            "default": false
-          },
-          {
-            "trackNo": 5,
-            "title": "Kannada DDP 5.1",
-            "codec": "eac3",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 6,
-            "channelLayout": "5.1(side)",
-            "language": "kan",
-            "hiRes": false,
-            "default": false
-          },
-          {
-            "trackNo": 6,
-            "title": "Tamil DDP 5.1",
-            "codec": "eac3",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 6,
-            "channelLayout": "5.1(side)",
-            "language": "tam",
-            "hiRes": false,
-            "default": false
-          },
-          {
-            "trackNo": 7,
-            "title": "Telugu DDP 5.1",
-            "codec": "eac3",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 6,
-            "channelLayout": "5.1(side)",
-            "language": "tel",
-            "hiRes": false,
-            "default": false
-          }
-        ]
+      {
+        "Audio_ID": "1a8be52df6785d87-A2",
+        "Media_ID": "1a8be52df6785d87",
+        "Track_No": 2,
+        "Title": "Hi-Res Apple Lossless (ALAC) 16-bit 44.1kHz By GCP",
+        "Artist": "",
+        "Codec": "alac",
+        "Sample_Rate": "44100",
+        "Bit_Depth": "16",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "",
+        "Hi_Res": "Yes",
+        "Default": "Yes"
+      }
+    ],
+    "Subtitle": [
+      {
+        "Subtitle_ID": "1a8be52df6785d87-S1",
+        "Media_ID": "1a8be52df6785d87",
+        "Track_No": 1,
+        "Codec": "subrip",
+        "Language": "eng",
+        "Title": "JeRi",
+        "Default": "No",
+        "Forced": "Yes"
+      }
+    ]
+  },
+  {
+    "Media_ID": "67774473391d9338",
+    "Title": "Ehsaas",
+    "File_Name": "Ehsaas [1440p] [VP9] [Multi Audio] [Tri-Lingual Subs] [GCP].mkv",
+    "Artist": "",
+    "Album": "",
+    "Composer": "",
+    "Resolution": "2560x1440",
+    "Video_Codec": "vp9",
+    "Video_Quality": "2K",
+    "Audio_Count": 2,
+    "Hi_Res_Audio": 1,
+    "Subtitle_Count": 3,
+    "Cover": "covers/67774473391d9338.svg",
+    "Cover_Source": "Generated",
+    "Drive_URL": "https://drive.google.com/file/d/1LQk_aOde4MtwID7EjBmR1vPqXAhpKYNB/view",
+    "Download_URL": "https://drive.google.com/uc?export=download&id=1LQk_aOde4MtwID7EjBmR1vPqXAhpKYNB",
+    "Video": [
+      {
+        "Video_ID": "67774473391d9338-V1",
+        "Media_ID": "67774473391d9338",
+        "File_Name": "Ehsaas [1440p] [VP9] [Multi Audio] [Tri-Lingual Subs] [GCP].mkv",
+        "Codec": "vp9",
+        "Profile": "Profile 0",
+        "Width": 2560,
+        "Height": 1440,
+        "Resolution": "2560x1440",
+        "Aspect_Ratio": "16:9",
+        "FPS": 25.0,
+        "Bitrate": "",
+        "Bit_Depth": "",
+        "Pixel_Format": "yuv420p",
+        "HDR": "",
+        "Scan_Type": "Progressive",
+        "Default": "Yes"
+      }
+    ],
+    "Audio": [
+      {
+        "Audio_ID": "67774473391d9338-A1",
+        "Media_ID": "67774473391d9338",
+        "Track_No": 1,
+        "Title": "",
+        "Artist": "",
+        "Codec": "opus",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "eng",
+        "Hi_Res": "No",
+        "Default": "No"
       },
-      "subtitles": [
-        {
-          "trackNo": 1,
-          "codec": "subrip",
-          "language": "",
-          "title": "[KCK GCP] Malayalam + Romanized + Bangla + English",
-          "default": true,
-          "forced": false
-        },
-        {
-          "trackNo": 2,
-          "codec": "subrip",
-          "language": "",
-          "title": "[KCK GCP] Bangla + English",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 3,
-          "codec": "subrip",
-          "language": "ben",
-          "title": "[KCK GCP] Bangla",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 4,
-          "codec": "subrip",
-          "language": "eng",
-          "title": "[KCK GCP] English",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 5,
-          "codec": "subrip",
-          "language": "",
-          "title": "[KCK GCP] Romanized + Bangla",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 6,
-          "codec": "subrip",
-          "language": "",
-          "title": "[KCK GCP] Romanized + English",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 7,
-          "codec": "subrip",
-          "language": "",
-          "title": "[KCK GCP] Romanized",
-          "default": false,
-          "forced": false
-        }
-      ],
-      "cover": "covers/1s-79TsZVgboNZx-NTleha7vhQawHFm2j.svg",
-      "coverSource": "generated",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
-    },
-    {
-      "id": "1bVOrZI6-I1bw8ZlX-SLTouHGaBeRdij5",
-      "fileName": "Hame Tora Dil Deli [1440p] [VP9] [Hi-Res ALAC] [Multi Audio] [Tri-Lingual Subs] [GCP].mkv",
-      "fileSize": "217836632",
-      "modifiedTime": "2026-07-18T06:45:58.000Z",
-      "title": "Hame Tora Dil Deli (Multi Audio) [GCP]",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/1bVOrZI6-I1bw8ZlX-SLTouHGaBeRdij5/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=1bVOrZI6-I1bw8ZlX-SLTouHGaBeRdij5",
-      "video": {
-        "codec": "vp9",
-        "profile": "Profile 0",
-        "width": 2560,
-        "height": 1440,
-        "resolution": "2560x1440",
-        "quality": "2K",
-        "aspectRatio": "16:9",
-        "fps": 29.97,
-        "bitrate": "",
-        "bitDepth": "",
-        "pixelFormat": "yuv420p",
-        "hdr": "",
-        "scanType": "",
-        "default": true
+      {
+        "Audio_ID": "67774473391d9338-A2",
+        "Media_ID": "67774473391d9338",
+        "Track_No": 2,
+        "Title": "Hi-Res Apple Lossless (ALAC) 24-bit 44.1kHz By GCP",
+        "Artist": "",
+        "Codec": "alac",
+        "Sample_Rate": "44100",
+        "Bit_Depth": "24",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "",
+        "Hi_Res": "Yes",
+        "Default": "Yes"
+      }
+    ],
+    "Subtitle": [
+      {
+        "Subtitle_ID": "67774473391d9338-S1",
+        "Media_ID": "67774473391d9338",
+        "Track_No": 1,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "Ehsaas Dual [Bangla + English] [GCP]",
+        "Default": "Yes",
+        "Forced": "No"
       },
-      "audio": {
-        "trackCount": 2,
-        "hiResCount": 1,
-        "hiResTrack": 1,
-        "tracks": [
-          {
-            "trackNo": 1,
-            "title": "Hi-Res Apple Lossless (ALAC) 24-bit 44.1kHz By GCP",
-            "codec": "alac",
-            "sampleRate": 44100,
-            "bitDepth": 24,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "",
-            "hiRes": true,
-            "default": true
-          },
-          {
-            "trackNo": 2,
-            "title": "Original YouTube Opus",
-            "codec": "opus",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "eng",
-            "hiRes": false,
-            "default": false
-          }
-        ]
+      {
+        "Subtitle_ID": "67774473391d9338-S2",
+        "Media_ID": "67774473391d9338",
+        "Track_No": 2,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "Ehsaas Dual [Bangla] [GCP]",
+        "Default": "No",
+        "Forced": "No"
       },
-      "subtitles": [
-        {
-          "trackNo": 1,
-          "codec": "subrip",
-          "language": "",
-          "title": "HTDD Romanized + Bangla + English [GCP]",
-          "default": true,
-          "forced": false
-        },
-        {
-          "trackNo": 2,
-          "codec": "subrip",
-          "language": "",
-          "title": "HTDD Romanized + Bangla [GCP]",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 3,
-          "codec": "subrip",
-          "language": "eng",
-          "title": "HTDD Romanized + English [GCP]",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 4,
-          "codec": "subrip",
-          "language": "eng",
-          "title": "HTDD Bangla + English [GCP]",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 5,
-          "codec": "subrip",
-          "language": "",
-          "title": "HTDD Romanized [GCP]",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 6,
-          "codec": "subrip",
-          "language": "ben",
-          "title": "HTDD Bangla [GCP]",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 7,
-          "codec": "subrip",
-          "language": "eng",
-          "title": "HTDD English [GCP]",
-          "default": false,
-          "forced": false
-        }
-      ],
-      "cover": "covers/1bVOrZI6-I1bw8ZlX-SLTouHGaBeRdij5.jpg",
-      "coverSource": "google-drive-custom",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "No supported original audio codec",
-      "audioTracksDetected": []
-    },
-    {
-      "id": "1PsmrkoqeoV4Cc5-XLWIHr8a104YUT4Tz",
-      "fileName": "O Pilaga Venkati [1440p] [VP9] [Hi-Res ALAC] [Quad Audio] [Tri-Lingual Subs] [GCP].mkv",
-      "fileSize": "397444953",
-      "modifiedTime": "2026-07-11T08:19:00.000Z",
-      "title": "O Pilaga Venkati [1440p] [VP9] [Hi-Res ALAC] [Quad Audio] [Tri-Lingual Subs] [GCP]",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/1PsmrkoqeoV4Cc5-XLWIHr8a104YUT4Tz/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=1PsmrkoqeoV4Cc5-XLWIHr8a104YUT4Tz",
-      "video": {
-        "codec": "vp9",
-        "profile": "Profile 0",
-        "width": 2560,
-        "height": 1440,
-        "resolution": "2560x1440",
-        "quality": "2K",
-        "aspectRatio": "16:9",
-        "fps": 29.97,
-        "bitrate": "",
-        "bitDepth": "",
-        "pixelFormat": "yuv420p",
-        "hdr": "",
-        "scanType": "",
-        "default": true
+      {
+        "Subtitle_ID": "67774473391d9338-S3",
+        "Media_ID": "67774473391d9338",
+        "Track_No": 3,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "Ehsaas Dual [English] [GCP]",
+        "Default": "No",
+        "Forced": "No"
+      }
+    ]
+  },
+  {
+    "Media_ID": "c7a482195ac6714f",
+    "Title": "Rupa Goriya",
+    "File_Name": "Rupa Goriya 2K [1440p] [VP9] [Multi Audio] [Tri-Lingual Subs] [GCP].mkv",
+    "Artist": "",
+    "Album": "",
+    "Composer": "",
+    "Resolution": "2560x1440",
+    "Video_Codec": "vp9",
+    "Video_Quality": "2K",
+    "Audio_Count": 2,
+    "Hi_Res_Audio": 1,
+    "Subtitle_Count": 3,
+    "Cover": "covers/Rupa Goriya.jpg",
+    "Cover_Source": "Custom",
+    "Drive_URL": "https://drive.google.com/file/d/17BUJhyefcUYLHm5csjtZr4om2pxXMnu2/view",
+    "Download_URL": "https://drive.google.com/uc?export=download&id=17BUJhyefcUYLHm5csjtZr4om2pxXMnu2",
+    "Video": [
+      {
+        "Video_ID": "c7a482195ac6714f-V1",
+        "Media_ID": "c7a482195ac6714f",
+        "File_Name": "Rupa Goriya 2K [1440p] [VP9] [Multi Audio] [Tri-Lingual Subs] [GCP].mkv",
+        "Codec": "vp9",
+        "Profile": "Profile 0",
+        "Width": 2560,
+        "Height": 1440,
+        "Resolution": "2560x1440",
+        "Aspect_Ratio": "16:9",
+        "FPS": 25.0,
+        "Bitrate": "",
+        "Bit_Depth": "",
+        "Pixel_Format": "yuv420p",
+        "HDR": "",
+        "Scan_Type": "Progressive",
+        "Default": "Yes"
+      }
+    ],
+    "Audio": [
+      {
+        "Audio_ID": "c7a482195ac6714f-A1",
+        "Media_ID": "c7a482195ac6714f",
+        "Track_No": 1,
+        "Title": "Original YouTube Opus",
+        "Artist": "",
+        "Codec": "opus",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "",
+        "Hi_Res": "No",
+        "Default": "No"
       },
-      "audio": {
-        "trackCount": 4,
-        "hiResCount": 3,
-        "hiResTrack": 1,
-        "tracks": [
-          {
-            "trackNo": 1,
-            "title": "Hi-Res Apple Lossless (ALAC) 24-bit 44.1kHz By GCP (Telugu)",
-            "codec": "alac",
-            "sampleRate": 44100,
-            "bitDepth": 24,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "eng",
-            "hiRes": true,
-            "default": true
-          },
-          {
-            "trackNo": 2,
-            "title": "Hi-Res Apple Lossless (ALAC) 24-bit 44.1kHz By GCP (Tamil)",
-            "codec": "alac",
-            "sampleRate": 44100,
-            "bitDepth": 24,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "eng",
-            "hiRes": true,
-            "default": false
-          },
-          {
-            "trackNo": 3,
-            "title": "Hi-Res Apple Lossless (ALAC) 24-bit 44.1kHz By GCP (Hindi)",
-            "codec": "alac",
-            "sampleRate": 44100,
-            "bitDepth": 24,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "eng",
-            "hiRes": true,
-            "default": false
-          },
-          {
-            "trackNo": 4,
-            "title": "Original YouTube Opus",
-            "codec": "opus",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "eng",
-            "hiRes": false,
-            "default": false
-          }
-        ]
+      {
+        "Audio_ID": "c7a482195ac6714f-A2",
+        "Media_ID": "c7a482195ac6714f",
+        "Track_No": 2,
+        "Title": "Hi-Res Apple Lossless (ALAC) 24-bit 44.1kHz By GCP",
+        "Artist": "",
+        "Codec": "alac",
+        "Sample_Rate": "44100",
+        "Bit_Depth": "24",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "",
+        "Hi_Res": "Yes",
+        "Default": "Yes"
+      }
+    ],
+    "Subtitle": [
+      {
+        "Subtitle_ID": "c7a482195ac6714f-S1",
+        "Media_ID": "c7a482195ac6714f",
+        "Track_No": 1,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "Rupa Goriya Dual [English] [GCP]",
+        "Default": "Yes",
+        "Forced": "No"
       },
-      "subtitles": [
-        {
-          "trackNo": 1,
-          "codec": "subrip",
-          "language": "ben",
-          "title": "Tri-Lingual Subtitle By GCP",
-          "default": true,
-          "forced": false
-        },
-        {
-          "trackNo": 2,
-          "codec": "subrip",
-          "language": "ben",
-          "title": "Bangla Subtitle By GCP",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 3,
-          "codec": "subrip",
-          "language": "eng",
-          "title": "English Subtitle By GCP",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 4,
-          "codec": "subrip",
-          "language": "",
-          "title": "Romanized Telugu Subtitle By GCP",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 5,
-          "codec": "subrip",
-          "language": "ben",
-          "title": "Romanized Telugu + Bangla Subtitle By GCP",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 6,
-          "codec": "subrip",
-          "language": "eng",
-          "title": "Romanized Telugu + English Subtitle By GCP",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 7,
-          "codec": "subrip",
-          "language": "ben",
-          "title": "Romanized Telugu + Bangla Pronunciation By GCP",
-          "default": false,
-          "forced": false
-        }
-      ],
-      "cover": "covers/1PsmrkoqeoV4Cc5-XLWIHr8a104YUT4Tz.svg",
-      "coverSource": "generated",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "No supported original audio codec",
-      "audioTracksDetected": []
-    },
-    {
-      "id": "1pIjjOb8ECDJYTjcnRiZ_81mFimHusDUZ",
-      "fileName": "Jhumka Again [1440p] [VP9] [Hi-Res ALAC] [Multi Audio] [Tri-Lingual Subs] [GCP].mkv",
-      "fileSize": "241595961",
-      "modifiedTime": "2026-07-10T07:52:09.000Z",
-      "title": "Jhumka Again [1440p] [VP9] [Hi-Res ALAC] [Multi Audio] [Tri-Lingual Subs] [GCP]",
-      "artist": "",
-      "album": "",
-      "composer": "",
-      "driveUrl": "https://drive.google.com/file/d/1pIjjOb8ECDJYTjcnRiZ_81mFimHusDUZ/view",
-      "downloadUrl": "https://drive.google.com/uc?export=download&id=1pIjjOb8ECDJYTjcnRiZ_81mFimHusDUZ",
-      "video": {
-        "codec": "vp9",
-        "profile": "Profile 0",
-        "width": 2560,
-        "height": 1440,
-        "resolution": "2560x1440",
-        "quality": "2K",
-        "aspectRatio": "16:9",
-        "fps": 25.0,
-        "bitrate": "",
-        "bitDepth": "",
-        "pixelFormat": "yuv420p",
-        "hdr": "",
-        "scanType": "",
-        "default": true
+      {
+        "Subtitle_ID": "c7a482195ac6714f-S2",
+        "Media_ID": "c7a482195ac6714f",
+        "Track_No": 2,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "Rupa Goriya Dual [Native + English] [GCP]",
+        "Default": "No",
+        "Forced": "No"
       },
-      "audio": {
-        "trackCount": 2,
-        "hiResCount": 1,
-        "hiResTrack": 1,
-        "tracks": [
-          {
-            "trackNo": 1,
-            "title": "Hi-Res Apple Lossless (ALAC) 24-bit 48kHz By GCP",
-            "codec": "alac",
-            "sampleRate": 48000,
-            "bitDepth": 24,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "eng",
-            "hiRes": true,
-            "default": true
-          },
-          {
-            "trackNo": 2,
-            "title": "Original YouTube Opus",
-            "codec": "opus",
-            "sampleRate": 48000,
-            "bitDepth": 0,
-            "channels": 2,
-            "channelLayout": "stereo",
-            "language": "eng",
-            "hiRes": false,
-            "default": false
-          }
-        ]
+      {
+        "Subtitle_ID": "c7a482195ac6714f-S3",
+        "Media_ID": "c7a482195ac6714f",
+        "Track_No": 3,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "Rupa Goriya Dual [Native] [GCP]",
+        "Default": "No",
+        "Forced": "No"
+      }
+    ]
+  },
+  {
+    "Media_ID": "8172083dc1c5f664",
+    "Title": "Mor Laila",
+    "File_Name": "Mor Laila [1440p] [VP9] [Multi Audio] [GCP].mkv",
+    "Artist": "",
+    "Album": "",
+    "Composer": "",
+    "Resolution": "2560x1440",
+    "Video_Codec": "vp9",
+    "Video_Quality": "2K",
+    "Audio_Count": 2,
+    "Hi_Res_Audio": 1,
+    "Subtitle_Count": 0,
+    "Cover": "covers/8172083dc1c5f664.svg",
+    "Cover_Source": "Generated",
+    "Drive_URL": "https://drive.google.com/file/d/1RFcMjfJbVMuGI9sEbruQS_zmYXNo2A8g/view",
+    "Download_URL": "https://drive.google.com/uc?export=download&id=1RFcMjfJbVMuGI9sEbruQS_zmYXNo2A8g",
+    "Video": [
+      {
+        "Video_ID": "8172083dc1c5f664-V1",
+        "Media_ID": "8172083dc1c5f664",
+        "File_Name": "Mor Laila [1440p] [VP9] [Multi Audio] [GCP].mkv",
+        "Codec": "vp9",
+        "Profile": "Profile 0",
+        "Width": 2560,
+        "Height": 1440,
+        "Resolution": "2560x1440",
+        "Aspect_Ratio": "16:9",
+        "FPS": 25.0,
+        "Bitrate": "",
+        "Bit_Depth": "",
+        "Pixel_Format": "yuv420p",
+        "HDR": "",
+        "Scan_Type": "Progressive",
+        "Default": "Yes"
       },
-      "subtitles": [
-        {
-          "trackNo": 1,
-          "codec": "subrip",
-          "language": "ben",
-          "title": "Tri-Lingual Subtitle By GCP",
-          "default": true,
-          "forced": false
-        },
-        {
-          "trackNo": 2,
-          "codec": "subrip",
-          "language": "ben",
-          "title": "Bangla Subtitle By GCP",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 3,
-          "codec": "subrip",
-          "language": "eng",
-          "title": "English Subtitle By GCP",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 4,
-          "codec": "subrip",
-          "language": "inc",
-          "title": "Sambalpuri Subtitle By GCP",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 5,
-          "codec": "subrip",
-          "language": "ben",
-          "title": "Sambalpuri + Bangla Subtitle By GCP",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 6,
-          "codec": "subrip",
-          "language": "eng",
-          "title": "Sambalpuri + English Subtitle By GCP",
-          "default": false,
-          "forced": false
-        },
-        {
-          "trackNo": 7,
-          "codec": "subrip",
-          "language": "eng",
-          "title": "Bangla + English Subtitle By GCP",
-          "default": false,
-          "forced": false
-        }
-      ],
-      "cover": "covers/1pIjjOb8ECDJYTjcnRiZ_81mFimHusDUZ.jpg",
-      "coverSource": "google-drive-custom",
-      "audioPlaybackAvailable": false,
-      "audioPlaybackReason": "Unable to inspect audio tracks"
-    }
-  ]
-}
+      {
+        "Video_ID": "8172083dc1c5f664-V2",
+        "Media_ID": "8172083dc1c5f664",
+        "File_Name": "Mor Laila [1440p] [VP9] [Multi Audio] [GCP].mkv",
+        "Codec": "mjpeg",
+        "Profile": "Baseline",
+        "Width": 1500,
+        "Height": 1500,
+        "Resolution": "1500x1500",
+        "Aspect_Ratio": "1:1",
+        "FPS": "",
+        "Bitrate": "",
+        "Bit_Depth": "8",
+        "Pixel_Format": "yuvj420p",
+        "HDR": "",
+        "Scan_Type": "Progressive",
+        "Default": "No"
+      }
+    ],
+    "Audio": [
+      {
+        "Audio_ID": "8172083dc1c5f664-A1",
+        "Media_ID": "8172083dc1c5f664",
+        "Track_No": 1,
+        "Title": "Original YouTube Opus",
+        "Artist": "",
+        "Codec": "opus",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "",
+        "Hi_Res": "No",
+        "Default": "No"
+      },
+      {
+        "Audio_ID": "8172083dc1c5f664-A2",
+        "Media_ID": "8172083dc1c5f664",
+        "Track_No": 2,
+        "Title": "Hi-Res Apple Lossless (ALAC) 24-bit 96.0kHz By GCP",
+        "Artist": "",
+        "Codec": "alac",
+        "Sample_Rate": "96000",
+        "Bit_Depth": "24",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "",
+        "Hi_Res": "Yes",
+        "Default": "Yes"
+      }
+    ],
+    "Subtitle": []
+  },
+  {
+    "Media_ID": "5420e1151ec58dbd",
+    "Title": "Muin Kuanra Tui Kuanri",
+    "File_Name": "Muin Kuanra Tui Kuanri 2K [1440p] [VP9] [Multi Audio] [GCP].mkv",
+    "Artist": "",
+    "Album": "",
+    "Composer": "",
+    "Resolution": "2560x1440",
+    "Video_Codec": "vp9",
+    "Video_Quality": "2K",
+    "Audio_Count": 2,
+    "Hi_Res_Audio": 1,
+    "Subtitle_Count": 0,
+    "Cover": "covers/5420e1151ec58dbd.svg",
+    "Cover_Source": "Generated",
+    "Drive_URL": "https://drive.google.com/file/d/1M6ICOTkc7D7QOMT36oyPB83yCK2HZhSD/view",
+    "Download_URL": "https://drive.google.com/uc?export=download&id=1M6ICOTkc7D7QOMT36oyPB83yCK2HZhSD",
+    "Video": [
+      {
+        "Video_ID": "5420e1151ec58dbd-V1",
+        "Media_ID": "5420e1151ec58dbd",
+        "File_Name": "Muin Kuanra Tui Kuanri 2K [1440p] [VP9] [Multi Audio] [GCP].mkv",
+        "Codec": "vp9",
+        "Profile": "Profile 0",
+        "Width": 2560,
+        "Height": 1440,
+        "Resolution": "2560x1440",
+        "Aspect_Ratio": "16:9",
+        "FPS": 25.0,
+        "Bitrate": "",
+        "Bit_Depth": "",
+        "Pixel_Format": "yuv420p",
+        "HDR": "",
+        "Scan_Type": "Progressive",
+        "Default": "Yes"
+      }
+    ],
+    "Audio": [
+      {
+        "Audio_ID": "5420e1151ec58dbd-A1",
+        "Media_ID": "5420e1151ec58dbd",
+        "Track_No": 1,
+        "Title": "Original YouTube Opus",
+        "Artist": "",
+        "Codec": "opus",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "",
+        "Hi_Res": "No",
+        "Default": "No"
+      },
+      {
+        "Audio_ID": "5420e1151ec58dbd-A2",
+        "Media_ID": "5420e1151ec58dbd",
+        "Track_No": 2,
+        "Title": "Hi-Res Apple Lossless (ALAC) By GCP",
+        "Artist": "",
+        "Codec": "alac",
+        "Sample_Rate": "44100",
+        "Bit_Depth": "16",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "",
+        "Hi_Res": "Yes",
+        "Default": "Yes"
+      }
+    ],
+    "Subtitle": []
+  },
+  {
+    "Media_ID": "c061d4d178c16c9e",
+    "Title": "Lal Chuneri",
+    "File_Name": "Lal Chuneri [1440p] [VP9] [Hi-Res FLAC Intro] [Multi Audio] [Multi Subs] [GCP].mkv",
+    "Artist": "",
+    "Album": "",
+    "Composer": "",
+    "Resolution": "2560x1072",
+    "Video_Codec": "vp9",
+    "Video_Quality": "2K",
+    "Audio_Count": 2,
+    "Hi_Res_Audio": 1,
+    "Subtitle_Count": 7,
+    "Cover": "covers/c061d4d178c16c9e.svg",
+    "Cover_Source": "Generated",
+    "Drive_URL": "https://drive.google.com/file/d/1HkmGaeEb0XeocSsG1nYNy9_4YOkpIC10/view",
+    "Download_URL": "https://drive.google.com/uc?export=download&id=1HkmGaeEb0XeocSsG1nYNy9_4YOkpIC10",
+    "Video": [
+      {
+        "Video_ID": "c061d4d178c16c9e-V1",
+        "Media_ID": "c061d4d178c16c9e",
+        "File_Name": "Lal Chuneri [1440p] [VP9] [Hi-Res FLAC Intro] [Multi Audio] [Multi Subs] [GCP].mkv",
+        "Codec": "vp9",
+        "Profile": "Profile 0",
+        "Width": 2560,
+        "Height": 1072,
+        "Resolution": "2560x1072",
+        "Aspect_Ratio": "160:67",
+        "FPS": 25.0,
+        "Bitrate": "",
+        "Bit_Depth": "",
+        "Pixel_Format": "yuv420p",
+        "HDR": "",
+        "Scan_Type": "Progressive",
+        "Default": "Yes"
+      }
+    ],
+    "Audio": [
+      {
+        "Audio_ID": "c061d4d178c16c9e-A1",
+        "Media_ID": "c061d4d178c16c9e",
+        "Track_No": 1,
+        "Title": "Hi-Res FLAC Intro 24-bit 44.1kHz By GCP",
+        "Artist": "",
+        "Codec": "flac",
+        "Sample_Rate": "44100",
+        "Bit_Depth": "24",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "",
+        "Hi_Res": "Yes",
+        "Default": "Yes"
+      },
+      {
+        "Audio_ID": "c061d4d178c16c9e-A2",
+        "Media_ID": "c061d4d178c16c9e",
+        "Track_No": 2,
+        "Title": "Original YouTube Opus",
+        "Artist": "",
+        "Codec": "opus",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "eng",
+        "Hi_Res": "No",
+        "Default": "No"
+      }
+    ],
+    "Subtitle": [
+      {
+        "Subtitle_ID": "c061d4d178c16c9e-S1",
+        "Media_ID": "c061d4d178c16c9e",
+        "Track_No": 1,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "LC GCP - Romanized + Bangla + English",
+        "Default": "Yes",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "c061d4d178c16c9e-S2",
+        "Media_ID": "c061d4d178c16c9e",
+        "Track_No": 2,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "LC GCP - Romanized + Bangla",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "c061d4d178c16c9e-S3",
+        "Media_ID": "c061d4d178c16c9e",
+        "Track_No": 3,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "LC GCP - Romanized + English",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "c061d4d178c16c9e-S4",
+        "Media_ID": "c061d4d178c16c9e",
+        "Track_No": 4,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "LC GCP - Bangla + English",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "c061d4d178c16c9e-S5",
+        "Media_ID": "c061d4d178c16c9e",
+        "Track_No": 5,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "LC GCP - Romanized",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "c061d4d178c16c9e-S6",
+        "Media_ID": "c061d4d178c16c9e",
+        "Track_No": 6,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "LC GCP - Bangla",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "c061d4d178c16c9e-S7",
+        "Media_ID": "c061d4d178c16c9e",
+        "Track_No": 7,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "LC GCP - English",
+        "Default": "No",
+        "Forced": "No"
+      }
+    ]
+  },
+  {
+    "Media_ID": "502fba9e1f134bee",
+    "Title": "Jodi Mahuri",
+    "File_Name": "Jodi Mahuri [1080p] [AV1] [Hi-Res ALAC] [Multi Audio] [GCP].mkv",
+    "Artist": "Sai Entertainment",
+    "Album": "",
+    "Composer": "",
+    "Resolution": "1920x1080",
+    "Video_Codec": "av1",
+    "Video_Quality": "1080p",
+    "Audio_Count": 2,
+    "Hi_Res_Audio": 1,
+    "Subtitle_Count": 0,
+    "Cover": "covers/502fba9e1f134bee.svg",
+    "Cover_Source": "Generated",
+    "Drive_URL": "https://drive.google.com/file/d/1aNIqHpvxJBC4UY8ls1xtP4VnT-tEzyQr/view",
+    "Download_URL": "https://drive.google.com/uc?export=download&id=1aNIqHpvxJBC4UY8ls1xtP4VnT-tEzyQr",
+    "Video": [
+      {
+        "Video_ID": "502fba9e1f134bee-V1",
+        "Media_ID": "502fba9e1f134bee",
+        "File_Name": "Jodi Mahuri [1080p] [AV1] [Hi-Res ALAC] [Multi Audio] [GCP].mkv",
+        "Codec": "av1",
+        "Profile": "Main",
+        "Width": 1920,
+        "Height": 1080,
+        "Resolution": "1920x1080",
+        "Aspect_Ratio": "16:9",
+        "FPS": 24.0,
+        "Bitrate": "",
+        "Bit_Depth": "",
+        "Pixel_Format": "yuv420p",
+        "HDR": "",
+        "Scan_Type": "Progressive",
+        "Default": "Yes"
+      }
+    ],
+    "Audio": [
+      {
+        "Audio_ID": "502fba9e1f134bee-A1",
+        "Media_ID": "502fba9e1f134bee",
+        "Track_No": 1,
+        "Title": "Hi-Res Apple Lossless (ALAC) 24-bit 48kHz By GCP",
+        "Artist": "",
+        "Codec": "alac",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "24",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "",
+        "Hi_Res": "Yes",
+        "Default": "Yes"
+      },
+      {
+        "Audio_ID": "502fba9e1f134bee-A2",
+        "Media_ID": "502fba9e1f134bee",
+        "Track_No": 2,
+        "Title": "Original YouTube Opus",
+        "Artist": "",
+        "Codec": "opus",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "hin",
+        "Hi_Res": "No",
+        "Default": "No"
+      }
+    ],
+    "Subtitle": []
+  },
+  {
+    "Media_ID": "067d36f35663fd9d",
+    "Title": "Kaattuchembakam",
+    "File_Name": "Kaattuchembakam [1080p] [H.264] [Hi-Res ALAC] [Multi Audio] [Multi Subs] [GCP].mkv",
+    "Artist": "",
+    "Album": "",
+    "Composer": "",
+    "Resolution": "1920x1080",
+    "Video_Codec": "h264",
+    "Video_Quality": "1080p",
+    "Audio_Count": 7,
+    "Hi_Res_Audio": 1,
+    "Subtitle_Count": 7,
+    "Cover": "covers/067d36f35663fd9d.svg",
+    "Cover_Source": "Generated",
+    "Drive_URL": "https://drive.google.com/file/d/1s-79TsZVgboNZx-NTleha7vhQawHFm2j/view",
+    "Download_URL": "https://drive.google.com/uc?export=download&id=1s-79TsZVgboNZx-NTleha7vhQawHFm2j",
+    "Video": [
+      {
+        "Video_ID": "067d36f35663fd9d-V1",
+        "Media_ID": "067d36f35663fd9d",
+        "File_Name": "Kaattuchembakam [1080p] [H.264] [Hi-Res ALAC] [Multi Audio] [Multi Subs] [GCP].mkv",
+        "Codec": "h264",
+        "Profile": "Main",
+        "Width": 1920,
+        "Height": 1080,
+        "Resolution": "1920x1080",
+        "Aspect_Ratio": "16:9",
+        "FPS": 24.0,
+        "Bitrate": "",
+        "Bit_Depth": "8",
+        "Pixel_Format": "yuv420p",
+        "HDR": "",
+        "Scan_Type": "Progressive",
+        "Default": "Yes"
+      }
+    ],
+    "Audio": [
+      {
+        "Audio_ID": "067d36f35663fd9d-A1",
+        "Media_ID": "067d36f35663fd9d",
+        "Track_No": 1,
+        "Title": "Hi-Res Apple Lossless (ALAC) 24-bit 48kHz By GCP",
+        "Artist": "",
+        "Codec": "alac",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "24",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "mal",
+        "Hi_Res": "Yes",
+        "Default": "Yes"
+      },
+      {
+        "Audio_ID": "067d36f35663fd9d-A2",
+        "Media_ID": "067d36f35663fd9d",
+        "Track_No": 2,
+        "Title": "Malayalam DDP 5.1 Atmos",
+        "Artist": "",
+        "Codec": "eac3",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "",
+        "Channels": 6,
+        "Channel_Layout": "5.1(side)",
+        "Language": "mal",
+        "Hi_Res": "No",
+        "Default": "Yes"
+      },
+      {
+        "Audio_ID": "067d36f35663fd9d-A3",
+        "Media_ID": "067d36f35663fd9d",
+        "Track_No": 3,
+        "Title": "Bangla DDP 5.1",
+        "Artist": "",
+        "Codec": "eac3",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "",
+        "Channels": 6,
+        "Channel_Layout": "5.1(side)",
+        "Language": "ben",
+        "Hi_Res": "No",
+        "Default": "No"
+      },
+      {
+        "Audio_ID": "067d36f35663fd9d-A4",
+        "Media_ID": "067d36f35663fd9d",
+        "Track_No": 4,
+        "Title": "Hindi DDP 5.1",
+        "Artist": "",
+        "Codec": "eac3",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "",
+        "Channels": 6,
+        "Channel_Layout": "5.1(side)",
+        "Language": "hin",
+        "Hi_Res": "No",
+        "Default": "No"
+      },
+      {
+        "Audio_ID": "067d36f35663fd9d-A5",
+        "Media_ID": "067d36f35663fd9d",
+        "Track_No": 5,
+        "Title": "Kannada DDP 5.1",
+        "Artist": "",
+        "Codec": "eac3",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "",
+        "Channels": 6,
+        "Channel_Layout": "5.1(side)",
+        "Language": "kan",
+        "Hi_Res": "No",
+        "Default": "No"
+      },
+      {
+        "Audio_ID": "067d36f35663fd9d-A6",
+        "Media_ID": "067d36f35663fd9d",
+        "Track_No": 6,
+        "Title": "Tamil DDP 5.1",
+        "Artist": "",
+        "Codec": "eac3",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "",
+        "Channels": 6,
+        "Channel_Layout": "5.1(side)",
+        "Language": "tam",
+        "Hi_Res": "No",
+        "Default": "No"
+      },
+      {
+        "Audio_ID": "067d36f35663fd9d-A7",
+        "Media_ID": "067d36f35663fd9d",
+        "Track_No": 7,
+        "Title": "Telugu DDP 5.1",
+        "Artist": "",
+        "Codec": "eac3",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "",
+        "Channels": 6,
+        "Channel_Layout": "5.1(side)",
+        "Language": "tel",
+        "Hi_Res": "No",
+        "Default": "No"
+      }
+    ],
+    "Subtitle": [
+      {
+        "Subtitle_ID": "067d36f35663fd9d-S1",
+        "Media_ID": "067d36f35663fd9d",
+        "Track_No": 1,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "[KCK GCP] Malayalam + Romanized + Bangla + English",
+        "Default": "Yes",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "067d36f35663fd9d-S2",
+        "Media_ID": "067d36f35663fd9d",
+        "Track_No": 2,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "[KCK GCP] Bangla + English",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "067d36f35663fd9d-S3",
+        "Media_ID": "067d36f35663fd9d",
+        "Track_No": 3,
+        "Codec": "subrip",
+        "Language": "ben",
+        "Title": "[KCK GCP] Bangla",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "067d36f35663fd9d-S4",
+        "Media_ID": "067d36f35663fd9d",
+        "Track_No": 4,
+        "Codec": "subrip",
+        "Language": "eng",
+        "Title": "[KCK GCP] English",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "067d36f35663fd9d-S5",
+        "Media_ID": "067d36f35663fd9d",
+        "Track_No": 5,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "[KCK GCP] Romanized + Bangla",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "067d36f35663fd9d-S6",
+        "Media_ID": "067d36f35663fd9d",
+        "Track_No": 6,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "[KCK GCP] Romanized + English",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "067d36f35663fd9d-S7",
+        "Media_ID": "067d36f35663fd9d",
+        "Track_No": 7,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "[KCK GCP] Romanized",
+        "Default": "No",
+        "Forced": "No"
+      }
+    ]
+  },
+  {
+    "Media_ID": "e2b152ffc0e50857",
+    "Title": "Hame Tora Dil Deli",
+    "File_Name": "Hame Tora Dil Deli [1440p] [VP9] [Hi-Res ALAC] [Multi Audio] [Tri-Lingual Subs] [GCP].mkv",
+    "Artist": "",
+    "Album": "",
+    "Composer": "",
+    "Resolution": "2560x1440",
+    "Video_Codec": "vp9",
+    "Video_Quality": "2K",
+    "Audio_Count": 2,
+    "Hi_Res_Audio": 1,
+    "Subtitle_Count": 7,
+    "Cover": "covers/Hame Tora Dil Deli.jpg",
+    "Cover_Source": "Custom",
+    "Drive_URL": "https://drive.google.com/file/d/1bVOrZI6-I1bw8ZlX-SLTouHGaBeRdij5/view",
+    "Download_URL": "https://drive.google.com/uc?export=download&id=1bVOrZI6-I1bw8ZlX-SLTouHGaBeRdij5",
+    "Video": [
+      {
+        "Video_ID": "e2b152ffc0e50857-V1",
+        "Media_ID": "e2b152ffc0e50857",
+        "File_Name": "Hame Tora Dil Deli [1440p] [VP9] [Hi-Res ALAC] [Multi Audio] [Tri-Lingual Subs] [GCP].mkv",
+        "Codec": "vp9",
+        "Profile": "Profile 0",
+        "Width": 2560,
+        "Height": 1440,
+        "Resolution": "2560x1440",
+        "Aspect_Ratio": "16:9",
+        "FPS": 29.97,
+        "Bitrate": "",
+        "Bit_Depth": "",
+        "Pixel_Format": "yuv420p",
+        "HDR": "",
+        "Scan_Type": "Progressive",
+        "Default": "Yes"
+      }
+    ],
+    "Audio": [
+      {
+        "Audio_ID": "e2b152ffc0e50857-A1",
+        "Media_ID": "e2b152ffc0e50857",
+        "Track_No": 1,
+        "Title": "Hi-Res Apple Lossless (ALAC) 24-bit 44.1kHz By GCP",
+        "Artist": "",
+        "Codec": "alac",
+        "Sample_Rate": "44100",
+        "Bit_Depth": "24",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "",
+        "Hi_Res": "Yes",
+        "Default": "Yes"
+      },
+      {
+        "Audio_ID": "e2b152ffc0e50857-A2",
+        "Media_ID": "e2b152ffc0e50857",
+        "Track_No": 2,
+        "Title": "Original YouTube Opus",
+        "Artist": "",
+        "Codec": "opus",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "eng",
+        "Hi_Res": "No",
+        "Default": "No"
+      }
+    ],
+    "Subtitle": [
+      {
+        "Subtitle_ID": "e2b152ffc0e50857-S1",
+        "Media_ID": "e2b152ffc0e50857",
+        "Track_No": 1,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "HTDD Romanized + Bangla + English [GCP]",
+        "Default": "Yes",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "e2b152ffc0e50857-S2",
+        "Media_ID": "e2b152ffc0e50857",
+        "Track_No": 2,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "HTDD Romanized + Bangla [GCP]",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "e2b152ffc0e50857-S3",
+        "Media_ID": "e2b152ffc0e50857",
+        "Track_No": 3,
+        "Codec": "subrip",
+        "Language": "eng",
+        "Title": "HTDD Romanized + English [GCP]",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "e2b152ffc0e50857-S4",
+        "Media_ID": "e2b152ffc0e50857",
+        "Track_No": 4,
+        "Codec": "subrip",
+        "Language": "eng",
+        "Title": "HTDD Bangla + English [GCP]",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "e2b152ffc0e50857-S5",
+        "Media_ID": "e2b152ffc0e50857",
+        "Track_No": 5,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "HTDD Romanized [GCP]",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "e2b152ffc0e50857-S6",
+        "Media_ID": "e2b152ffc0e50857",
+        "Track_No": 6,
+        "Codec": "subrip",
+        "Language": "ben",
+        "Title": "HTDD Bangla [GCP]",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "e2b152ffc0e50857-S7",
+        "Media_ID": "e2b152ffc0e50857",
+        "Track_No": 7,
+        "Codec": "subrip",
+        "Language": "eng",
+        "Title": "HTDD English [GCP]",
+        "Default": "No",
+        "Forced": "No"
+      }
+    ]
+  },
+  {
+    "Media_ID": "afb968e6f0f023ff",
+    "Title": "O Pilaga Venkati",
+    "File_Name": "O Pilaga Venkati [1440p] [VP9] [Hi-Res ALAC] [Quad Audio] [Tri-Lingual Subs] [GCP].mkv",
+    "Artist": "",
+    "Album": "",
+    "Composer": "",
+    "Resolution": "2560x1440",
+    "Video_Codec": "vp9",
+    "Video_Quality": "2K",
+    "Audio_Count": 4,
+    "Hi_Res_Audio": 3,
+    "Subtitle_Count": 7,
+    "Cover": "covers/afb968e6f0f023ff.svg",
+    "Cover_Source": "Generated",
+    "Drive_URL": "https://drive.google.com/file/d/1PsmrkoqeoV4Cc5-XLWIHr8a104YUT4Tz/view",
+    "Download_URL": "https://drive.google.com/uc?export=download&id=1PsmrkoqeoV4Cc5-XLWIHr8a104YUT4Tz",
+    "Video": [
+      {
+        "Video_ID": "afb968e6f0f023ff-V1",
+        "Media_ID": "afb968e6f0f023ff",
+        "File_Name": "O Pilaga Venkati [1440p] [VP9] [Hi-Res ALAC] [Quad Audio] [Tri-Lingual Subs] [GCP].mkv",
+        "Codec": "vp9",
+        "Profile": "Profile 0",
+        "Width": 2560,
+        "Height": 1440,
+        "Resolution": "2560x1440",
+        "Aspect_Ratio": "16:9",
+        "FPS": 29.97,
+        "Bitrate": "",
+        "Bit_Depth": "",
+        "Pixel_Format": "yuv420p",
+        "HDR": "",
+        "Scan_Type": "Progressive",
+        "Default": "Yes"
+      }
+    ],
+    "Audio": [
+      {
+        "Audio_ID": "afb968e6f0f023ff-A1",
+        "Media_ID": "afb968e6f0f023ff",
+        "Track_No": 1,
+        "Title": "Hi-Res Apple Lossless (ALAC) 24-bit 44.1kHz By GCP (Telugu)",
+        "Artist": "",
+        "Codec": "alac",
+        "Sample_Rate": "44100",
+        "Bit_Depth": "24",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "eng",
+        "Hi_Res": "Yes",
+        "Default": "Yes"
+      },
+      {
+        "Audio_ID": "afb968e6f0f023ff-A2",
+        "Media_ID": "afb968e6f0f023ff",
+        "Track_No": 2,
+        "Title": "Hi-Res Apple Lossless (ALAC) 24-bit 44.1kHz By GCP (Tamil)",
+        "Artist": "",
+        "Codec": "alac",
+        "Sample_Rate": "44100",
+        "Bit_Depth": "24",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "eng",
+        "Hi_Res": "Yes",
+        "Default": "No"
+      },
+      {
+        "Audio_ID": "afb968e6f0f023ff-A3",
+        "Media_ID": "afb968e6f0f023ff",
+        "Track_No": 3,
+        "Title": "Hi-Res Apple Lossless (ALAC) 24-bit 44.1kHz By GCP (Hindi)",
+        "Artist": "",
+        "Codec": "alac",
+        "Sample_Rate": "44100",
+        "Bit_Depth": "24",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "eng",
+        "Hi_Res": "Yes",
+        "Default": "No"
+      },
+      {
+        "Audio_ID": "afb968e6f0f023ff-A4",
+        "Media_ID": "afb968e6f0f023ff",
+        "Track_No": 4,
+        "Title": "Original YouTube Opus",
+        "Artist": "",
+        "Codec": "opus",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "eng",
+        "Hi_Res": "No",
+        "Default": "No"
+      }
+    ],
+    "Subtitle": [
+      {
+        "Subtitle_ID": "afb968e6f0f023ff-S1",
+        "Media_ID": "afb968e6f0f023ff",
+        "Track_No": 1,
+        "Codec": "subrip",
+        "Language": "ben",
+        "Title": "Tri-Lingual Subtitle By GCP",
+        "Default": "Yes",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "afb968e6f0f023ff-S2",
+        "Media_ID": "afb968e6f0f023ff",
+        "Track_No": 2,
+        "Codec": "subrip",
+        "Language": "ben",
+        "Title": "Bangla Subtitle By GCP",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "afb968e6f0f023ff-S3",
+        "Media_ID": "afb968e6f0f023ff",
+        "Track_No": 3,
+        "Codec": "subrip",
+        "Language": "eng",
+        "Title": "English Subtitle By GCP",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "afb968e6f0f023ff-S4",
+        "Media_ID": "afb968e6f0f023ff",
+        "Track_No": 4,
+        "Codec": "subrip",
+        "Language": "",
+        "Title": "Romanized Telugu Subtitle By GCP",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "afb968e6f0f023ff-S5",
+        "Media_ID": "afb968e6f0f023ff",
+        "Track_No": 5,
+        "Codec": "subrip",
+        "Language": "ben",
+        "Title": "Romanized Telugu + Bangla Subtitle By GCP",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "afb968e6f0f023ff-S6",
+        "Media_ID": "afb968e6f0f023ff",
+        "Track_No": 6,
+        "Codec": "subrip",
+        "Language": "eng",
+        "Title": "Romanized Telugu + English Subtitle By GCP",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "afb968e6f0f023ff-S7",
+        "Media_ID": "afb968e6f0f023ff",
+        "Track_No": 7,
+        "Codec": "subrip",
+        "Language": "ben",
+        "Title": "Romanized Telugu + Bangla Pronunciation By GCP",
+        "Default": "No",
+        "Forced": "No"
+      }
+    ]
+  },
+  {
+    "Media_ID": "9967be142b2e7e42",
+    "Title": "Jhumka Again",
+    "File_Name": "Jhumka Again [1440p] [VP9] [Hi-Res ALAC] [Multi Audio] [Tri-Lingual Subs] [GCP].mkv",
+    "Artist": "",
+    "Album": "",
+    "Composer": "",
+    "Resolution": "2560x1440",
+    "Video_Codec": "vp9",
+    "Video_Quality": "2K",
+    "Audio_Count": 2,
+    "Hi_Res_Audio": 1,
+    "Subtitle_Count": 7,
+    "Cover": "covers/Jhumka Again.jpg",
+    "Cover_Source": "Custom",
+    "Drive_URL": "https://drive.google.com/file/d/1pIjjOb8ECDJYTjcnRiZ_81mFimHusDUZ/view",
+    "Download_URL": "https://drive.google.com/uc?export=download&id=1pIjjOb8ECDJYTjcnRiZ_81mFimHusDUZ",
+    "Video": [
+      {
+        "Video_ID": "9967be142b2e7e42-V1",
+        "Media_ID": "9967be142b2e7e42",
+        "File_Name": "Jhumka Again [1440p] [VP9] [Hi-Res ALAC] [Multi Audio] [Tri-Lingual Subs] [GCP].mkv",
+        "Codec": "vp9",
+        "Profile": "Profile 0",
+        "Width": 2560,
+        "Height": 1440,
+        "Resolution": "2560x1440",
+        "Aspect_Ratio": "16:9",
+        "FPS": 25.0,
+        "Bitrate": "",
+        "Bit_Depth": "",
+        "Pixel_Format": "yuv420p",
+        "HDR": "",
+        "Scan_Type": "Progressive",
+        "Default": "Yes"
+      }
+    ],
+    "Audio": [
+      {
+        "Audio_ID": "9967be142b2e7e42-A1",
+        "Media_ID": "9967be142b2e7e42",
+        "Track_No": 1,
+        "Title": "Hi-Res Apple Lossless (ALAC) 24-bit 48kHz By GCP",
+        "Artist": "",
+        "Codec": "alac",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "24",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "eng",
+        "Hi_Res": "Yes",
+        "Default": "Yes"
+      },
+      {
+        "Audio_ID": "9967be142b2e7e42-A2",
+        "Media_ID": "9967be142b2e7e42",
+        "Track_No": 2,
+        "Title": "Original YouTube Opus",
+        "Artist": "",
+        "Codec": "opus",
+        "Sample_Rate": "48000",
+        "Bit_Depth": "",
+        "Channels": 2,
+        "Channel_Layout": "stereo",
+        "Language": "eng",
+        "Hi_Res": "No",
+        "Default": "No"
+      }
+    ],
+    "Subtitle": [
+      {
+        "Subtitle_ID": "9967be142b2e7e42-S1",
+        "Media_ID": "9967be142b2e7e42",
+        "Track_No": 1,
+        "Codec": "subrip",
+        "Language": "ben",
+        "Title": "Tri-Lingual Subtitle By GCP",
+        "Default": "Yes",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "9967be142b2e7e42-S2",
+        "Media_ID": "9967be142b2e7e42",
+        "Track_No": 2,
+        "Codec": "subrip",
+        "Language": "ben",
+        "Title": "Bangla Subtitle By GCP",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "9967be142b2e7e42-S3",
+        "Media_ID": "9967be142b2e7e42",
+        "Track_No": 3,
+        "Codec": "subrip",
+        "Language": "eng",
+        "Title": "English Subtitle By GCP",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "9967be142b2e7e42-S4",
+        "Media_ID": "9967be142b2e7e42",
+        "Track_No": 4,
+        "Codec": "subrip",
+        "Language": "inc",
+        "Title": "Sambalpuri Subtitle By GCP",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "9967be142b2e7e42-S5",
+        "Media_ID": "9967be142b2e7e42",
+        "Track_No": 5,
+        "Codec": "subrip",
+        "Language": "ben",
+        "Title": "Sambalpuri + Bangla Subtitle By GCP",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "9967be142b2e7e42-S6",
+        "Media_ID": "9967be142b2e7e42",
+        "Track_No": 6,
+        "Codec": "subrip",
+        "Language": "eng",
+        "Title": "Sambalpuri + English Subtitle By GCP",
+        "Default": "No",
+        "Forced": "No"
+      },
+      {
+        "Subtitle_ID": "9967be142b2e7e42-S7",
+        "Media_ID": "9967be142b2e7e42",
+        "Track_No": 7,
+        "Codec": "subrip",
+        "Language": "eng",
+        "Title": "Bangla + English Subtitle By GCP",
+        "Default": "No",
+        "Forced": "No"
+      }
+    ]
+  }
+]
