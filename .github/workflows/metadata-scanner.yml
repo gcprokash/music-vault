@@ -29,9 +29,7 @@ jobs:
 
       - name: Install FFmpeg
         run: |
-
           sudo apt-get update
-
           sudo apt-get install -y ffmpeg
 
 
@@ -41,17 +39,12 @@ jobs:
 
       - name: Install Python Packages
         run: |
-
           python -m pip install --upgrade pip
-
-          pip install \
-            google-api-python-client \
-            google-auth \
-            google-auth-httplib2
+          pip install google-api-python-client google-auth google-auth-httplib2
 
 
       # =========================================================
-      # CREATE SCANNER
+      # CREATE METADATA SCANNER
       # =========================================================
 
       - name: Create Metadata Scanner
@@ -69,77 +62,54 @@ jobs:
 
           from pathlib import Path
 
-
-          # =====================================================
-          # GOOGLE API
-          # =====================================================
-
           from google.oauth2 import service_account
 
           from googleapiclient.discovery import build
 
-          from googleapiclient.http import (
-              MediaIoBaseDownload
-          )
+          from googleapiclient.http import MediaIoBaseDownload
 
 
           # =====================================================
           # CONFIGURATION
           # =====================================================
 
-          VIDEO_FOLDER_ID = (
-              "1lu8rV1ctx4nAJ1pRKJguJJS5bUpKGXql"
-          )
+          VIDEO_FOLDER_ID = "1lu8rV1ctx4nAJ1pRKJguJJS5bUpKGXql"
 
-          SPREADSHEET_ID = (
-              "13t2hCpG87CGhOuSdd2yX-6yLnSfufTCR4Jrca_dvg-0"
-          )
-
+          SPREADSHEET_ID = "13t2hCpG87CGhOuSdd2yX-6yLnSfufTCR4Jrca_dvg-0"
 
           SERVICE_ACCOUNT_JSON = os.environ.get(
               "GOOGLE_SERVICE_ACCOUNT_JSON"
           )
 
-
           if not SERVICE_ACCOUNT_JSON:
-
               raise RuntimeError(
-                  "GOOGLE_SERVICE_ACCOUNT_JSON "
-                  "secret পাওয়া যায়নি।"
+                  "GOOGLE_SERVICE_ACCOUNT_JSON secret পাওয়া যায়নি।"
               )
 
 
           # =====================================================
-          # GOOGLE AUTHENTICATION
+          # GOOGLE AUTH
           # =====================================================
 
           SCOPES = [
-
               "https://www.googleapis.com/auth/drive.readonly",
-
               "https://www.googleapis.com/auth/spreadsheets"
-
           ]
-
 
           credentials = (
               service_account
               .Credentials
               .from_service_account_info(
-                  json.loads(
-                      SERVICE_ACCOUNT_JSON
-                  ),
+                  json.loads(SERVICE_ACCOUNT_JSON),
                   scopes=SCOPES
               )
           )
-
 
           drive_service = build(
               "drive",
               "v3",
               credentials=credentials
           )
-
 
           sheets_service = build(
               "sheets",
@@ -154,194 +124,90 @@ jobs:
 
           SHEET_HEADERS = {
 
-
-              # -------------------------------------------------
-              # MEDIA
-              # -------------------------------------------------
-
               "Media": [
-
                   "Media_ID",
-
                   "Title",
-
                   "File_Name",
-
                   "Artist",
-
                   "Album",
-
                   "Composer",
-
                   "Resolution",
-
                   "Video_Codec",
-
                   "Video_Quality",
-
                   "Audio_Count",
-
                   "Hi_Res_Audio",
-
                   "Subtitle_Count",
-
                   "Cover",
-
                   "Cover_Source",
-
                   "Drive_URL",
-
                   "Download_URL"
-
               ],
-
-
-              # -------------------------------------------------
-              # FILES
-              # -------------------------------------------------
 
               "Files": [
-
                   "File_ID",
-
                   "Media_ID",
-
                   "File_Name",
-
                   "File_Type",
-
                   "File_Size",
-
                   "Modified_Time",
-
                   "Drive_URL",
-
                   "Download_URL"
-
               ],
-
-
-              # -------------------------------------------------
-              # VIDEO
-              # -------------------------------------------------
 
               "Video": [
-
                   "Video_ID",
-
                   "Media_ID",
-
                   "File_Name",
-
                   "Codec",
-
                   "Profile",
-
                   "Width",
-
                   "Height",
-
                   "Resolution",
-
                   "Aspect_Ratio",
-
                   "FPS",
-
                   "Bitrate",
-
                   "Bit_Depth",
-
                   "Pixel_Format",
-
                   "HDR",
-
                   "Scan_Type",
-
                   "Default"
-
               ],
-
-
-              # -------------------------------------------------
-              # AUDIO
-              # -------------------------------------------------
 
               "Audio": [
-
                   "Audio_ID",
-
                   "Media_ID",
-
                   "Track_No",
-
                   "Title",
-
                   "Artist",
-
                   "Codec",
-
                   "Sample_Rate",
-
                   "Bit_Depth",
-
                   "Channels",
-
                   "Channel_Layout",
-
                   "Language",
-
                   "Hi_Res",
-
                   "Default"
-
               ],
-
-
-              # -------------------------------------------------
-              # SUBTITLE
-              # -------------------------------------------------
 
               "Subtitle": [
-
                   "Subtitle_ID",
-
                   "Media_ID",
-
                   "Track_No",
-
                   "Codec",
-
                   "Language",
-
                   "Title",
-
                   "Default",
-
                   "Forced"
-
               ],
 
-
-              # -------------------------------------------------
-              # COVERS
-              # -------------------------------------------------
-
               "Covers": [
-
                   "Cover_ID",
-
                   "Media_ID",
-
                   "File_Name",
-
                   "Cover_Source",
-
                   "Cover_URL",
-
                   "Drive_URL"
-
               ]
-
           }
 
 
@@ -350,110 +216,60 @@ jobs:
           # =====================================================
 
           VIDEO_EXTENSIONS = {
-
               ".mkv",
-
               ".mp4",
-
               ".webm",
-
               ".avi",
-
               ".mov",
-
               ".m4v"
-
           }
 
 
           # =====================================================
-          # BASIC STRING CLEANER
+          # STRING HELPERS
           # =====================================================
 
           def safe_string(value):
 
               if value is None:
-
                   return ""
 
               return str(value).strip()
 
 
-          # =====================================================
-          # NORMALIZE TEXT
-          # =====================================================
-
           def normalize_text(value):
 
-              value = safe_string(value)
-
-              value = value.lower()
-
-
-              # Remove extension
+              value = safe_string(value).lower()
 
               value = re.sub(
-
                   r"\.[a-z0-9]{2,5}$",
-
                   "",
-
                   value
-
               )
 
-
-              # Remove bracket tags
-
               value = re.sub(
-
                   r"\s*\[[^\]]*\]",
-
                   "",
-
                   value
-
               )
 
-
-              # Remove parenthesis tags
-
               value = re.sub(
-
                   r"\s*\([^)]*\)",
-
                   "",
-
                   value
-
               )
 
-
-              # Underscore / hyphen
-
               value = re.sub(
-
                   r"[_\-]+",
-
                   " ",
-
                   value
-
               )
-
-
-              # Multiple spaces
 
               value = re.sub(
-
                   r"\s+",
-
                   " ",
-
                   value
-
               )
-
 
               return value.strip()
 
@@ -466,296 +282,127 @@ jobs:
 
               name = safe_string(value)
 
-
-              # -----------------------------------------------
-              # Remove extension
-              # -----------------------------------------------
-
               name = re.sub(
-
                   r"\.[a-z0-9]{2,5}$",
-
                   "",
-
                   name,
-
                   flags=re.I
-
               )
 
-
-              # -----------------------------------------------
-              # Remove [....]
-              # -----------------------------------------------
-
               name = re.sub(
-
                   r"\s*\[[^\]]*\]",
-
                   "",
-
                   name
-
               )
 
-
-              # -----------------------------------------------
-              # Remove (...)
-              # -----------------------------------------------
-
               name = re.sub(
-
                   r"\s*\([^)]*\)",
-
                   "",
-
                   name
-
               )
 
-
-              # -----------------------------------------------
-              # Remove technical tags
-              # -----------------------------------------------
-
               name = re.sub(
-
                   r"\b("
-
-                  r"4320p|"
-
-                  r"2160p|"
-
-                  r"1440p|"
-
-                  r"1080p|"
-
-                  r"720p|"
-
-                  r"576p|"
-
-                  r"480p|"
-
-                  r"4k|"
-
-                  r"2k|"
-
-                  r"vp9|"
-
-                  r"av1|"
-
-                  r"h\.?264|"
-
-                  r"h\.?265|"
-
-                  r"hevc|"
-
-                  r"multi\s*audio|"
-
-                  r"single\s*audio|"
-
-                  r"multi\s*subtitle|"
-
-                  r"single\s*subtitle|"
-
-                  r"hi[-\s]?res|"
-
-                  r"hires|"
-
+                  r"4320p|2160p|1440p|1080p|720p|576p|480p|"
+                  r"4k|2k|"
+                  r"vp9|av1|"
+                  r"h\.?264|h\.?265|hevc|"
+                  r"multi\s*audio|single\s*audio|"
+                  r"multi\s*subtitle|single\s*subtitle|"
+                  r"hi[-\s]?res|hires|"
                   r"gcp"
-
                   r")\b",
-
                   "",
-
                   name,
-
                   flags=re.I
-
               )
 
-
-              # -----------------------------------------------
-              # Replace separators
-              # -----------------------------------------------
-
               name = re.sub(
-
                   r"[_\-]+",
-
                   " ",
-
                   name
-
               )
-
-
-              # -----------------------------------------------
-              # Remove multiple spaces
-              # -----------------------------------------------
 
               name = re.sub(
-
                   r"\s+",
-
                   " ",
-
                   name
-
               )
 
-
-              return name.strip(
-
-                  " -_."
-
-              )
+              return name.strip(" -_.")
 
 
           # =====================================================
-          # ARTIST KEYS
+          # ARTIST
           # =====================================================
 
           ARTIST_KEYS = [
-
               "artist",
-
               "ARTIST",
-
               "Artist",
-
               "artists",
-
               "ARTISTS",
-
               "Artists",
-
               "album_artist",
-
               "ALBUM_ARTIST",
-
               "Album Artist",
-
               "albumartist",
-
               "ALBUMARTIST",
-
               "AlbumArtist"
-
           ]
 
 
-          # =====================================================
-          # COLLECT ARTIST VALUES
-          # =====================================================
-
           def collect_artist_values(tags):
 
-              artists = []
+              result = []
 
-
-              if not isinstance(
-
-                  tags,
-
-                  dict
-
-              ):
-
-                  return artists
-
+              if not isinstance(tags, dict):
+                  return result
 
               for key in ARTIST_KEYS:
 
                   value = tags.get(key)
 
-
                   if value is None:
-
                       continue
 
-
-                  if isinstance(
-
-                      value,
-
-                      list
-
-                  ):
+                  if isinstance(value, list):
 
                       for item in value:
 
                           item = safe_string(item)
 
                           if item:
-
-                              artists.append(item)
+                              result.append(item)
 
                   else:
 
                       value = safe_string(value)
 
                       if value:
+                          result.append(value)
 
-                          artists.append(value)
+              return result
 
-
-              return artists
-
-
-          # =====================================================
-          # SPLIT ARTIST STRING
-          # =====================================================
 
           def split_artist_string(value):
 
               value = safe_string(value)
 
-
               if not value:
-
                   return []
 
-
-              # Supported separators:
-              #
-              # Kumar Sanu, Alka Yagnik
-              #
-              # Kumar Sanu; Alka Yagnik
-              #
-              # Kumar Sanu / Alka Yagnik
-              #
-              # Kumar Sanu & Alka Yagnik
-
-
               parts = re.split(
-
                   r"\s*[,;/]\s*|\s+\&\s+",
-
                   value
-
               )
 
+              return [
+                  part.strip()
+                  for part in parts
+                  if part.strip()
+              ]
 
-              result = []
-
-
-              for part in parts:
-
-                  part = part.strip()
-
-
-                  if part:
-
-                      result.append(part)
-
-
-              return result
-
-
-          # =====================================================
-          # UNIQUE ARTISTS
-          # =====================================================
 
           def unique_artists(values):
 
@@ -763,124 +410,71 @@ jobs:
 
               seen = set()
 
-
               for value in values:
 
-                  for artist in split_artist_string(
-
-                      value
-
-                  ):
+                  for artist in split_artist_string(value):
 
                       key = artist.casefold()
-
 
                       if key not in seen:
 
                           seen.add(key)
 
-                          result.append(
-
-                              artist
-
-                          )
-
+                          result.append(artist)
 
               return result
 
 
-          # =====================================================
-          # GET ARTIST FROM FFPROBE
-          # =====================================================
-
           def get_artist_from_probe(probe):
 
-              all_artists = []
-
+              artists = []
 
               # -------------------------------------------------
               # FORMAT TAGS
               # -------------------------------------------------
 
               format_data = probe.get(
-
                   "format",
-
                   {}
-
               )
-
 
               format_tags = format_data.get(
-
                   "tags",
-
                   {}
-
               )
 
-
-              all_artists.extend(
-
+              artists.extend(
                   collect_artist_values(
-
                       format_tags
-
                   )
-
               )
-
 
               # -------------------------------------------------
               # STREAM TAGS
               # -------------------------------------------------
 
-              streams = probe.get(
-
+              for stream in probe.get(
                   "streams",
-
                   []
-
-              )
-
-
-              for stream in streams:
+              ):
 
                   stream_tags = stream.get(
-
                       "tags",
-
                       {}
-
                   )
 
-
-                  all_artists.extend(
-
+                  artists.extend(
                       collect_artist_values(
-
                           stream_tags
-
                       )
-
                   )
-
-
-              # -------------------------------------------------
-              # UNIQUE
-              # -------------------------------------------------
 
               artists = unique_artists(
-
-                  all_artists
-
+                  artists
               )
 
-
               return ", ".join(
-
                   artists
-
               )
 
 
@@ -891,52 +485,31 @@ jobs:
           def ffprobe_file(file_path):
 
               command = [
-
                   "ffprobe",
-
                   "-v",
-
                   "quiet",
-
                   "-print_format",
-
                   "json",
-
                   "-show_format",
-
                   "-show_streams",
-
                   str(file_path)
-
               ]
 
-
               result = subprocess.run(
-
                   command,
-
                   capture_output=True,
-
                   text=True
-
               )
-
 
               if result.returncode != 0:
 
                   raise RuntimeError(
-
                       "FFprobe failed: "
-
                       + result.stderr
-
                   )
 
-
               return json.loads(
-
                   result.stdout
-
               )
 
 
@@ -947,52 +520,34 @@ jobs:
           def generate_media_id(file_id):
 
               return hashlib.sha1(
-
-                  file_id.encode(
-
-                      "utf-8"
-
-                  )
-
+                  file_id.encode("utf-8")
               ).hexdigest()[:16]
 
 
           # =====================================================
-          # DRIVE VIEW URL
+          # DRIVE URLS
           # =====================================================
 
           def drive_view_url(file_id):
 
               return (
-
                   "https://drive.google.com/file/d/"
-
                   + file_id
-
                   + "/view"
-
               )
 
-
-          # =====================================================
-          # DRIVE DOWNLOAD URL
-          # =====================================================
 
           def drive_download_url(file_id):
 
               return (
-
                   "https://drive.google.com/uc?"
-
                   "export=download&id="
-
                   + file_id
-
               )
 
 
           # =====================================================
-          # LIST DRIVE CHILDREN
+          # LIST DRIVE FILES
           # =====================================================
 
           def list_drive_children(folder_id):
@@ -1001,394 +556,226 @@ jobs:
 
               page_token = None
 
-
               while True:
 
                   response = (
-
                       drive_service
-
                       .files()
-
                       .list(
-
                           q=(
-
                               f"'{folder_id}' in parents "
-
                               "and trashed = false"
-
                           ),
-
                           fields=(
-
                               "nextPageToken,"
-
                               "files("
-
                               "id,"
-
                               "name,"
-
                               "mimeType,"
-
                               "size,"
-
                               "modifiedTime"
-
                               ")"
-
                           ),
-
                           pageToken=page_token,
-
                           pageSize=1000
-
                       )
-
                       .execute()
-
                   )
-
 
                   files.extend(
-
                       response.get(
-
                           "files",
-
                           []
-
                       )
-
                   )
-
 
                   page_token = response.get(
-
                       "nextPageToken"
-
                   )
 
-
                   if not page_token:
-
                       break
-
 
               return files
 
 
           # =====================================================
-          # FIND PARENT FOLDER
+          # PARENT FOLDER
           # =====================================================
 
           def find_parent_folder(folder_id):
 
               response = (
-
                   drive_service
-
                   .files()
-
                   .get(
-
                       fileId=folder_id,
-
                       fields="parents"
-
                   )
-
                   .execute()
-
               )
-
 
               parents = response.get(
-
                   "parents",
-
                   []
-
               )
 
-
               if not parents:
-
                   return None
-
 
               return parents[0]
 
 
           # =====================================================
-          # FIND COVER FOLDER
+          # COVER FOLDER
           # =====================================================
 
           def find_cover_folder():
 
               parent_id = find_parent_folder(
-
                   VIDEO_FOLDER_ID
-
               )
-
 
               if not parent_id:
-
                   return None
 
-
               children = list_drive_children(
-
                   parent_id
-
               )
-
 
               for item in children:
 
                   if (
-
                       item.get("mimeType")
-
-                      == (
-
-                          "application/vnd.google-apps.folder"
-
-                      )
-
+                      == "application/vnd.google-apps.folder"
                   ):
 
                       if (
-
-                          item.get(
-
-                              "name",
-
-                              ""
-
-                          )
-
+                          item.get("name", "")
                           .strip()
-
                           .lower()
-
                           == "cover"
-
                       ):
 
                           return item["id"]
 
-
               return None
 
 
           # =====================================================
-          # FIND CUSTOM COVER
+          # CUSTOM COVER
           # =====================================================
 
           def find_custom_cover(
-
               media_title,
-
               media_filename,
-
               cover_files
-
           ):
 
               target_title = normalize_text(
-
                   media_title
-
               )
-
 
               target_filename = normalize_text(
-
                   media_filename
-
               )
 
-
               # -------------------------------------------------
-              # EXACT MATCH
+              # EXACT
               # -------------------------------------------------
 
               for cover in cover_files:
 
                   cover_name = normalize_text(
-
-                      cover.get(
-
-                          "name",
-
-                          ""
-
-                      )
-
+                      cover.get("name", "")
                   )
-
 
                   if cover_name == target_title:
-
                       return cover
-
 
                   if cover_name == target_filename:
-
                       return cover
 
-
               # -------------------------------------------------
-              # PARTIAL MATCH
+              # PARTIAL
               # -------------------------------------------------
 
               for cover in cover_files:
 
                   cover_name = normalize_text(
-
-                      cover.get(
-
-                          "name",
-
-                          ""
-
-                      )
-
+                      cover.get("name", "")
                   )
 
-
                   if (
-
                       target_title
-
                       and target_title in cover_name
-
                   ):
-
                       return cover
 
-
                   if (
-
                       target_filename
-
                       and target_filename in cover_name
-
                   ):
-
                       return cover
-
 
                   if (
-
                       cover_name
-
                       and cover_name in target_title
-
                   ):
-
                       return cover
-
 
               return None
 
 
           # =====================================================
-          # EXTRACT EMBEDDED COVER
+          # EMBEDDED COVER
           # =====================================================
 
           def extract_embedded_cover(
-
               video_file,
-
               media_id
-
           ):
 
-              covers_dir = Path(
-
-                  "covers"
-
-              )
-
+              covers_dir = Path("covers")
 
               covers_dir.mkdir(
-
                   parents=True,
-
                   exist_ok=True
-
               )
-
 
               output_file = (
-
                   covers_dir
-
                   / f"{media_id}.jpg"
-
               )
-
 
               command = [
-
                   "ffmpeg",
-
                   "-y",
-
                   "-i",
-
                   str(video_file),
-
                   "-map",
-
                   "0:v:m:attached_pic",
-
                   "-frames:v",
-
                   "1",
-
                   "-q:v",
-
                   "2",
-
                   str(output_file)
-
               ]
 
-
               result = subprocess.run(
-
                   command,
-
                   stdout=subprocess.PIPE,
-
                   stderr=subprocess.PIPE,
-
                   text=True
-
               )
 
-
               if (
-
                   result.returncode == 0
-
                   and output_file.exists()
-
                   and output_file.stat().st_size > 0
-
               ):
 
-                  return str(
-
-                      output_file
-
-                  )
-
+                  return str(output_file)
 
               return None
 
@@ -1398,72 +785,28 @@ jobs:
           # =====================================================
 
           def create_fallback_cover(
-
               title,
-
               media_id
-
           ):
 
-              covers_dir = Path(
-
-                  "covers"
-
-              )
-
+              covers_dir = Path("covers")
 
               covers_dir.mkdir(
-
                   parents=True,
-
                   exist_ok=True
-
               )
-
 
               output_file = (
-
                   covers_dir
-
                   / f"{media_id}.svg"
-
               )
-
 
               safe_title = (
-
-                  safe_string(
-
-                      title
-
-                  )
-
-                  .replace(
-
-                      "&",
-
-                      "&amp;"
-
-                  )
-
-                  .replace(
-
-                      "<",
-
-                      "&lt;"
-
-                  )
-
-                  .replace(
-
-                      ">",
-
-                      "&gt;"
-
-                  )
-
+                  safe_string(title)
+                  .replace("&", "&amp;")
+                  .replace("<", "&lt;")
+                  .replace(">", "&gt;")
               )
-
 
               svg = f'''<svg
               xmlns="http://www.w3.org/2000/svg"
@@ -1491,21 +834,12 @@ jobs:
 
               </svg>'''
 
-
               output_file.write_text(
-
                   svg,
-
                   encoding="utf-8"
-
               )
 
-
-              return str(
-
-                  output_file
-
-              )
+              return str(output_file)
 
 
           # =====================================================
@@ -1513,327 +847,194 @@ jobs:
           # =====================================================
 
           def video_quality(
-
               width,
-
               height
-
           ):
 
               try:
 
-                  width = int(
-
-                      width or 0
-
-                  )
-
-                  height = int(
-
-                      height or 0
-
-                  )
+                  width = int(width or 0)
+                  height = int(height or 0)
 
               except:
 
                   return ""
 
-
               if (
-
                   width >= 3840
-
                   or height >= 2160
-
               ):
-
                   return "4K"
 
-
               if (
-
                   width >= 2560
-
                   or height >= 1440
-
               ):
-
                   return "2K"
 
-
               if (
-
                   width >= 1920
-
                   or height >= 1080
-
               ):
-
                   return "1080p"
 
-
               if (
-
                   width >= 1280
-
                   or height >= 720
-
               ):
-
                   return "720p"
 
-
               if height:
-
                   return f"{height}p"
-
 
               return ""
 
 
           # =====================================================
-          # HI-RES CODECS
+          # HI-RES
           # =====================================================
 
           HI_RES_CODECS = {
-
               "flac",
-
               "alac",
-
               "pcm_s16le",
-
               "pcm_s24le",
-
               "pcm_s32le",
-
               "pcm_s16be",
-
               "pcm_s24be",
-
               "pcm_s32be",
-
               "wavpack",
-
               "ape"
-
           }
 
 
-          # =====================================================
-          # HI-RES DETECTION
-          # =====================================================
-
           def detect_hi_res(
-
               codec,
-
               sample_rate,
-
               bit_depth,
-
               title
-
           ):
 
               codec = safe_string(
-
                   codec
-
               ).lower()
-
 
               title = safe_string(
-
                   title
-
               ).lower()
 
-
               try:
-
                   sr = int(
-
                       sample_rate or 0
-
                   )
-
               except:
-
                   sr = 0
 
-
               try:
-
                   depth = int(
-
                       bit_depth or 0
-
                   )
-
               except:
-
                   depth = 0
 
-
               if codec in HI_RES_CODECS:
-
                   return True
-
 
               if (
-
                   "hi-res" in title
-
                   or "hi res" in title
-
                   or "hires" in title
-
                   or "high-res" in title
-
                   or "high res" in title
-
               ):
-
                   return True
-
 
               if sr >= 96000:
-
                   return True
-
 
               if depth >= 24:
-
                   return True
-
 
               return False
 
 
           # =====================================================
-          # GET GENERAL METADATA
+          # GENERAL METADATA
           # =====================================================
 
           def get_metadata(
-
               probe,
-
               filename
-
           ):
 
               format_data = probe.get(
-
                   "format",
-
                   {}
-
               )
-
 
               tags = format_data.get(
-
                   "tags",
-
                   {}
-
               )
-
 
               # -------------------------------------------------
               # TITLE
               # -------------------------------------------------
 
               raw_title = (
-
                   tags.get("title")
-
                   or tags.get("TITLE")
-
                   or tags.get("Title")
-
                   or Path(filename).stem
-
               )
-
 
               title = clean_title(
-
                   raw_title
-
               )
-
 
               # -------------------------------------------------
               # ARTIST
               # -------------------------------------------------
 
               artist = get_artist_from_probe(
-
                   probe
-
               )
-
 
               # -------------------------------------------------
               # ALBUM
               # -------------------------------------------------
 
               album = (
-
                   tags.get("album")
-
                   or tags.get("ALBUM")
-
                   or tags.get("Album")
-
                   or ""
-
               )
-
 
               album = safe_string(
-
                   album
-
               )
-
 
               # -------------------------------------------------
               # COMPOSER
               # -------------------------------------------------
 
               composer = (
-
                   tags.get("composer")
-
                   or tags.get("COMPOSER")
-
                   or tags.get("Composer")
-
                   or ""
-
               )
-
 
               composer = safe_string(
-
                   composer
-
               )
 
-
               return {
-
                   "title": title,
-
                   "artist": artist,
-
                   "album": album,
-
                   "composer": composer
-
               }
 
 
@@ -1842,320 +1043,158 @@ jobs:
           # =====================================================
 
           def scan_video_streams(
-
               probe,
-
               media_id,
-
               filename
-
           ):
 
               rows = []
 
-              streams = probe.get(
-
-                  "streams",
-
-                  []
-
-              )
-
-
               video_index = 0
 
+              for stream in probe.get(
+                  "streams",
+                  []
+              ):
 
-              for stream in streams:
-
-                  if (
-
-                      stream.get(
-
-                          "codec_type"
-
-                      )
-
-                      != "video"
-
-                  ):
-
+                  if stream.get(
+                      "codec_type"
+                  ) != "video":
                       continue
 
-
                   codec = safe_string(
-
-                      stream.get(
-
-                          "codec_name"
-
-                      )
-
+                      stream.get("codec_name")
                   )
-
 
                   profile = safe_string(
-
-                      stream.get(
-
-                          "profile"
-
-                      )
-
+                      stream.get("profile")
                   )
-
 
                   width = stream.get(
-
                       "width",
-
                       ""
-
                   )
-
 
                   height = stream.get(
-
                       "height",
-
                       ""
-
                   )
-
 
                   resolution = (
-
                       f"{width}x{height}"
-
                       if width and height
-
                       else ""
-
                   )
-
 
                   aspect_ratio = safe_string(
-
                       stream.get(
-
                           "display_aspect_ratio"
-
                       )
-
-                      or stream.get(
-
-                          "sample_aspect_ratio"
-
-                      )
-
                   )
-
-
-                  # -------------------------------------------------
-                  # FPS
-                  # -------------------------------------------------
 
                   fps = ""
 
-
                   fps_value = (
-
                       stream.get(
-
                           "avg_frame_rate"
-
                       )
-
                       or stream.get(
-
                           "r_frame_rate"
-
                       )
-
                   )
 
-
                   if (
-
                       fps_value
-
                       and fps_value != "0/0"
-
                   ):
 
                       try:
 
                           numerator, denominator = (
-
                               fps_value.split("/")
-
                           )
 
-
-                          if float(
-
-                              denominator
-
-                          ) != 0:
+                          if float(denominator) != 0:
 
                               fps = round(
-
                                   float(numerator)
-
                                   / float(denominator),
-
                                   3
-
                               )
 
                       except:
-
                           fps = ""
 
-
-                  # -------------------------------------------------
-                  # BITRATE
-                  # -------------------------------------------------
-
                   bitrate = safe_string(
-
                       stream.get(
-
                           "bit_rate"
-
                       )
-
                   )
-
-
-                  # -------------------------------------------------
-                  # BIT DEPTH
-                  # -------------------------------------------------
 
                   bit_depth = (
-
                       stream.get(
-
                           "bits_per_raw_sample"
-
                       )
-
                       or stream.get(
-
                           "bits_per_sample"
-
                       )
-
                       or ""
-
                   )
-
-
-                  # -------------------------------------------------
-                  # PIXEL FORMAT
-                  # -------------------------------------------------
 
                   pixel_format = safe_string(
-
                       stream.get(
-
                           "pix_fmt"
-
                       )
-
                   )
-
-
-                  # -------------------------------------------------
-                  # HDR
-                  # -------------------------------------------------
 
                   color_transfer = safe_string(
-
                       stream.get(
-
                           "color_transfer"
-
                       )
-
                   )
-
 
                   color_primaries = safe_string(
-
                       stream.get(
-
                           "color_primaries"
-
                       )
-
                   )
-
 
                   hdr = ""
 
-
                   if (
-
                       "smpte2084"
-
                       in color_transfer.lower()
-
                   ):
 
                       hdr = "HDR10"
 
-
                   elif (
-
                       "arib-std-b67"
-
                       in color_transfer.lower()
-
                   ):
 
                       hdr = "HLG"
 
-
                   elif (
-
                       "bt2020"
-
                       in color_primaries.lower()
-
                   ):
 
                       hdr = "BT.2020"
 
-
-                  # -------------------------------------------------
-                  # SCAN TYPE
-                  # -------------------------------------------------
-
                   field_order = safe_string(
-
                       stream.get(
-
                           "field_order"
-
                       )
-
                   )
 
-
                   if (
-
                       not field_order
-
                       or field_order.lower()
-
                       in {
-
                           "progressive",
-
                           "unknown"
-
                       }
-
                   ):
 
                       scan_type = "Progressive"
@@ -2164,42 +1203,22 @@ jobs:
 
                       scan_type = "Interlaced"
 
-
-                  # -------------------------------------------------
-                  # DEFAULT
-                  # -------------------------------------------------
-
                   default = (
-
                       "Yes"
-
                       if stream.get(
-
                           "disposition",
-
                           {}
-
                       ).get(
-
                           "default",
-
                           0
-
                       )
-
                       else "No"
-
                   )
-
 
                   video_id = (
-
                       f"{media_id}-V"
-
                       f"{video_index + 1}"
-
                   )
-
 
                   rows.append({
 
@@ -2234,12 +1253,9 @@ jobs:
                       "Scan_Type": scan_type,
 
                       "Default": default
-
                   })
 
-
                   video_index += 1
-
 
               return rows
 
@@ -2249,251 +1265,111 @@ jobs:
           # =====================================================
 
           def scan_audio_streams(
-
               probe,
-
               media_id
-
           ):
 
               rows = []
 
-              streams = probe.get(
-
-                  "streams",
-
-                  []
-
-              )
-
-
               audio_index = 0
 
+              for stream in probe.get(
+                  "streams",
+                  []
+              ):
 
-              for stream in streams:
-
-                  if (
-
-                      stream.get(
-
-                          "codec_type"
-
-                      )
-
-                      != "audio"
-
-                  ):
+                  if stream.get(
+                      "codec_type"
+                  ) != "audio":
 
                       continue
 
-
                   tags = stream.get(
-
                       "tags",
-
                       {}
-
                   )
-
-
-                  # -------------------------------------------------
-                  # TITLE
-                  # -------------------------------------------------
-
-                  title = (
-
-                      tags.get("title")
-
-                      or tags.get("TITLE")
-
-                      or tags.get("Title")
-
-                      or ""
-
-                  )
-
 
                   title = safe_string(
-
-                      title
-
+                      tags.get("title")
+                      or tags.get("TITLE")
+                      or tags.get("Title")
+                      or ""
                   )
-
-
-                  # -------------------------------------------------
-                  # ARTIST
-                  # -------------------------------------------------
 
                   artist_values = (
-
                       collect_artist_values(
-
                           tags
-
                       )
-
                   )
-
 
                   audio_artist = ", ".join(
-
                       unique_artists(
-
                           artist_values
-
                       )
-
                   )
-
-
-                  # -------------------------------------------------
-                  # CODEC
-                  # -------------------------------------------------
 
                   codec = safe_string(
-
                       stream.get(
-
                           "codec_name"
-
                       )
-
                   )
-
-
-                  # -------------------------------------------------
-                  # SAMPLE RATE
-                  # -------------------------------------------------
 
                   sample_rate = safe_string(
-
                       stream.get(
-
                           "sample_rate"
-
                       )
-
                   )
-
-
-                  # -------------------------------------------------
-                  # BIT DEPTH
-                  # -------------------------------------------------
 
                   bit_depth = (
-
                       stream.get(
-
                           "bits_per_raw_sample"
-
                       )
-
                       or stream.get(
-
                           "bits_per_sample"
-
                       )
-
                       or ""
-
                   )
-
-
-                  # -------------------------------------------------
-                  # CHANNELS
-                  # -------------------------------------------------
 
                   channels = stream.get(
-
                       "channels",
-
                       ""
-
                   )
-
-
-                  # -------------------------------------------------
-                  # CHANNEL LAYOUT
-                  # -------------------------------------------------
 
                   channel_layout = safe_string(
-
                       stream.get(
-
                           "channel_layout"
-
                       )
-
                   )
-
-
-                  # -------------------------------------------------
-                  # LANGUAGE
-                  # -------------------------------------------------
 
                   language = safe_string(
-
                       tags.get("language")
-
                       or tags.get("LANGUAGE")
-
                       or tags.get("Language")
-
                   )
-
-
-                  # -------------------------------------------------
-                  # HI-RES
-                  # -------------------------------------------------
 
                   hi_res = detect_hi_res(
-
                       codec,
-
                       sample_rate,
-
                       bit_depth,
-
                       title
-
                   )
-
-
-                  # -------------------------------------------------
-                  # DEFAULT
-                  # -------------------------------------------------
 
                   default = (
-
                       "Yes"
-
                       if stream.get(
-
                           "disposition",
-
                           {}
-
                       ).get(
-
                           "default",
-
                           0
-
                       )
-
                       else "No"
-
                   )
-
 
                   audio_id = (
-
                       f"{media_id}-A"
-
                       f"{audio_index + 1}"
-
                   )
-
 
                   rows.append({
 
@@ -2520,22 +1396,15 @@ jobs:
                       "Language": language,
 
                       "Hi_Res": (
-
                           "Yes"
-
                           if hi_res
-
                           else "No"
-
                       ),
 
                       "Default": default
-
                   })
 
-
                   audio_index += 1
-
 
               return rows
 
@@ -2545,140 +1414,76 @@ jobs:
           # =====================================================
 
           def scan_subtitle_streams(
-
               probe,
-
               media_id
-
           ):
 
               rows = []
 
-              streams = probe.get(
-
-                  "streams",
-
-                  []
-
-              )
-
-
               subtitle_index = 0
 
+              for stream in probe.get(
+                  "streams",
+                  []
+              ):
 
-              for stream in streams:
-
-                  if (
-
-                      stream.get(
-
-                          "codec_type"
-
-                      )
-
-                      != "subtitle"
-
-                  ):
+                  if stream.get(
+                      "codec_type"
+                  ) != "subtitle":
 
                       continue
 
-
                   tags = stream.get(
-
                       "tags",
-
                       {}
-
                   )
-
 
                   codec = safe_string(
-
                       stream.get(
-
                           "codec_name"
-
                       )
-
                   )
-
 
                   language = safe_string(
-
                       tags.get("language")
-
                       or tags.get("LANGUAGE")
-
                       or tags.get("Language")
-
                   )
-
 
                   title = safe_string(
-
                       tags.get("title")
-
                       or tags.get("TITLE")
-
                       or tags.get("Title")
-
                   )
-
 
                   default = (
-
                       "Yes"
-
                       if stream.get(
-
                           "disposition",
-
                           {}
-
                       ).get(
-
                           "default",
-
                           0
-
                       )
-
                       else "No"
-
                   )
-
 
                   forced = (
-
                       "Yes"
-
                       if stream.get(
-
                           "disposition",
-
                           {}
-
                       ).get(
-
                           "forced",
-
                           0
-
                       )
-
                       else "No"
-
                   )
-
 
                   subtitle_id = (
-
                       f"{media_id}-S"
-
                       f"{subtitle_index + 1}"
-
                   )
-
 
                   rows.append({
 
@@ -2697,12 +1502,9 @@ jobs:
                       "Default": default,
 
                       "Forced": forced
-
                   })
 
-
                   subtitle_index += 1
-
 
               return rows
 
@@ -2714,421 +1516,259 @@ jobs:
           def file_size_text(size):
 
               if not size:
-
                   return ""
 
-
               try:
-
                   size = int(size)
-
               except:
-
-                  return safe_string(
-
-                      size
-
-                  )
-
+                  return safe_string(size)
 
               units = [
-
                   "B",
-
                   "KB",
-
                   "MB",
-
                   "GB",
-
                   "TB"
-
               ]
 
-
               value = float(size)
-
 
               for unit in units:
 
                   if value < 1024:
 
                       return (
-
-                          f"{value:.2f} "
-
-                          f"{unit}"
-
+                          f"{value:.2f} {unit}"
                       )
 
                   value /= 1024
 
-
               return (
-
                   f"{value:.2f} PB"
-
               )
 
 
           # =====================================================
-          # ROBUST DRIVE DOWNLOAD
+          # ROBUST GOOGLE DRIVE DOWNLOAD
           # =====================================================
 
           def download_drive_file(
-
               file_id,
-
               output_file,
-
               max_retries=5
-
           ):
 
               for attempt in range(
-
                   1,
-
                   max_retries + 1
-
               ):
 
                   try:
 
                       print()
-
                       print(
-
                           "================================"
-
                       )
 
                       print(
-
                           "Downloading: "
-
                           + output_file.name
-
                       )
 
                       print(
-
                           f"Attempt: "
-
                           f"{attempt}/{max_retries}"
-
                       )
 
                       print(
-
                           "================================"
-
                       )
-
 
                       # -----------------------------------------
-                      # Remove partial file
+                      # Remove incomplete file
                       # -----------------------------------------
 
                       if output_file.exists():
 
                           try:
-
                               output_file.unlink()
-
-                          except Exception:
-
+                          except:
                               pass
 
-
                       # -----------------------------------------
-                      # Drive request
+                      # Request
                       # -----------------------------------------
 
                       request = (
-
                           drive_service
-
                           .files()
-
                           .get_media(
-
                               fileId=file_id
-
                           )
-
                       )
-
 
                       # -----------------------------------------
                       # Download
                       # -----------------------------------------
 
                       with open(
-
                           output_file,
-
                           "wb"
-
                       ) as fh:
 
                           downloader = (
-
                               MediaIoBaseDownload(
-
                                   fh,
-
                                   request,
-
-                                  chunksize=(
-
-                                      10 * 1024 * 1024
-
-                                  )
-
+                                  chunksize=10 * 1024 * 1024
                               )
-
                           )
 
-
                           done = False
-
 
                           while not done:
 
                               status, done = (
-
                                   downloader.next_chunk(
-
                                       num_retries=3
-
                                   )
-
                               )
-
 
                               if status:
 
                                   progress = int(
-
                                       status.progress()
-
                                       * 100
-
                                   )
-
 
                                   print(
-
                                       "Download progress: "
-
                                       f"{progress}%"
-
                                   )
-
 
                       # -----------------------------------------
                       # Verify
                       # -----------------------------------------
 
                       if (
-
                           output_file.exists()
-
                           and output_file.stat().st_size > 0
-
                       ):
 
                           size_mb = (
-
                               output_file.stat().st_size
-
                               / 1024
-
                               / 1024
-
                           )
-
 
                           print(
-
                               "Download completed: "
-
                               f"{size_mb:.2f} MB"
-
                           )
-
 
                           return True
 
-
                       raise RuntimeError(
-
                           "Downloaded file is empty."
-
                       )
-
 
                   except Exception as e:
 
                       print()
-
                       print(
-
                           "DOWNLOAD ERROR:"
-
                       )
 
                       print(
-
                           str(e)
-
                       )
-
-
-                      # -----------------------------------------
-                      # Delete incomplete file
-                      # -----------------------------------------
 
                       if output_file.exists():
 
                           try:
-
                               output_file.unlink()
-
-                          except Exception:
-
+                          except:
                               pass
-
-
-                      # -----------------------------------------
-                      # Retry
-                      # -----------------------------------------
 
                       if attempt < max_retries:
 
                           wait_seconds = (
-
                               attempt * 10
-
                           )
-
 
                           print(
-
                               "Retrying in "
-
                               f"{wait_seconds} seconds..."
-
                           )
 
-
                           time.sleep(
-
                               wait_seconds
-
                           )
 
                       else:
 
                           print(
-
-                              "Maximum download retries "
-
-                              "reached."
-
+                              "Maximum download retries reached."
                           )
 
-
                           return False
-
 
               return False
 
 
           # =====================================================
-          # START SCANNING
+          # START
           # =====================================================
 
           print()
-
           print(
-
               "======================================"
-
           )
 
           print(
-
               "GOOGLE DRIVE MEDIA SCANNER"
-
           )
 
           print(
-
               "======================================"
-
           )
 
 
           # =====================================================
-          # GET DRIVE FILES
+          # DRIVE FILES
           # =====================================================
 
           print()
-
           print(
-
               "Scanning Google Drive..."
-
           )
-
 
           drive_files = list_drive_children(
-
               VIDEO_FOLDER_ID
-
           )
-
 
           video_files = []
 
-
           for file in drive_files:
 
-              name = file.get(
-
+              filename = file.get(
                   "name",
-
                   ""
-
               )
 
-
               extension = Path(
-
-                  name
-
+                  filename
               ).suffix.lower()
-
 
               if extension in VIDEO_EXTENSIONS:
 
                   video_files.append(
-
                       file
-
                   )
 
-
-          print()
-
           print(
-
-              "Video files found: "
-
+              f"Video files found: "
               f"{len(video_files)}"
-
           )
 
 
@@ -3137,46 +1777,28 @@ jobs:
           # =====================================================
 
           cover_folder_id = (
-
               find_cover_folder()
-
           )
-
 
           cover_files = []
 
-
           if cover_folder_id:
 
-              print()
-
               print(
-
                   "Cover folder found: "
-
                   + cover_folder_id
-
               )
 
-
               cover_files = (
-
                   list_drive_children(
-
                       cover_folder_id
-
                   )
-
               )
 
           else:
 
-              print()
-
               print(
-
                   "Cover folder পাওয়া যায়নি."
-
               )
 
 
@@ -3204,106 +1826,66 @@ jobs:
           # =====================================================
 
           temp_dir = Path(
-
               "temp_media"
-
           )
 
-
           temp_dir.mkdir(
-
               parents=True,
-
               exist_ok=True
-
           )
 
 
           # =====================================================
-          # PROCESS VIDEOS
+          # PROCESS EVERY VIDEO
           # =====================================================
 
           for file_number, file in enumerate(
-
               video_files,
-
               start=1
-
           ):
 
               file_id = file["id"]
 
-
               filename = file.get(
-
                   "name",
-
                   ""
-
               )
 
-
               print()
-
               print()
-
               print(
-
                   "########################################"
-
               )
 
-
               print(
-
                   f"FILE {file_number}/"
-
                   f"{len(video_files)}"
-
               )
 
-
               print(
-
                   filename
-
               )
 
-
               print(
-
                   "########################################"
-
               )
 
 
               media_id = generate_media_id(
-
                   file_id
-
               )
-
 
               drive_url = drive_view_url(
-
                   file_id
-
               )
-
 
               download_url = drive_download_url(
-
                   file_id
-
               )
 
-
               local_file = (
-
                   temp_dir
-
                   / filename
-
               )
 
 
@@ -3312,45 +1894,27 @@ jobs:
               # =================================================
 
               download_success = (
-
                   download_drive_file(
-
                       file_id,
-
                       local_file,
-
                       max_retries=5
-
                   )
-
               )
 
 
-              # =================================================
-              # SKIP FAILED DOWNLOAD
-              # =================================================
-
               if not download_success:
 
-                  print()
-
                   print(
-
-                      "WARNING: Could not download: "
-
-                      + filename
-
+                      "WARNING: Download failed:"
                   )
 
-
                   print(
-
-                      "Skipping this file and "
-
-                      "continuing with next file."
-
+                      filename
                   )
 
+                  print(
+                      "Skipping this file."
+                  )
 
                   continue
 
@@ -3362,50 +1926,34 @@ jobs:
               try:
 
                   probe = ffprobe_file(
-
                       local_file
-
                   )
 
               except Exception as e:
 
-                  print()
-
                   print(
-
                       "FFPROBE ERROR:"
-
                   )
 
                   print(
-
                       str(e)
-
                   )
-
 
                   print(
-
                       "Skipping this file."
-
                   )
-
 
                   continue
 
 
               # =================================================
-              # GENERAL METADATA
+              # METADATA
               # =================================================
 
               metadata = get_metadata(
-
                   probe,
-
                   filename
-
               )
-
 
               title = metadata["title"]
 
@@ -3416,65 +1964,36 @@ jobs:
               composer = metadata["composer"]
 
 
-              print()
-
               print(
-
                   "Title: "
-
                   + title
-
               )
 
-
               print(
-
                   "Artist: "
-
                   + (
-
                       artist
-
                       if artist
-
                       else "[Not found]"
-
                   )
-
               )
 
-
               print(
-
                   "Album: "
-
                   + (
-
                       album
-
                       if album
-
                       else "[Not found]"
-
                   )
-
               )
 
-
               print(
-
                   "Composer: "
-
                   + (
-
                       composer
-
                       if composer
-
                       else "[Not found]"
-
                   )
-
               )
 
 
@@ -3483,24 +2002,15 @@ jobs:
               # =================================================
 
               current_video_rows = (
-
                   scan_video_streams(
-
                       probe,
-
                       media_id,
-
                       filename
-
                   )
-
               )
 
-
               video_rows.extend(
-
                   current_video_rows
-
               )
 
 
@@ -3509,22 +2019,14 @@ jobs:
               # =================================================
 
               current_audio_rows = (
-
                   scan_audio_streams(
-
                       probe,
-
                       media_id
-
                   )
-
               )
 
-
               audio_rows.extend(
-
                   current_audio_rows
-
               )
 
 
@@ -3533,22 +2035,14 @@ jobs:
               # =================================================
 
               current_subtitle_rows = (
-
                   scan_subtitle_streams(
-
                       probe,
-
                       media_id
-
                   )
-
               )
 
-
               subtitle_rows.extend(
-
                   current_subtitle_rows
-
               )
 
 
@@ -3559,46 +2053,30 @@ jobs:
               if current_video_rows:
 
                   main_video = (
-
                       current_video_rows[0]
-
                   )
-
 
                   width = main_video["Width"]
 
                   height = main_video["Height"]
 
                   resolution = (
-
                       main_video["Resolution"]
-
                   )
 
                   codec = (
-
                       main_video["Codec"]
-
                   )
 
                   quality = video_quality(
-
                       width,
-
                       height
-
                   )
 
               else:
 
-                  width = ""
-
-                  height = ""
-
                   resolution = ""
-
                   codec = ""
-
                   quality = ""
 
 
@@ -3607,18 +2085,14 @@ jobs:
               # =================================================
 
               audio_count = len(
-
                   current_audio_rows
-
               )
-
 
               hi_res_count = sum(
 
                   1
 
                   for audio
-
                   in current_audio_rows
 
                   if audio["Hi_Res"] == "Yes"
@@ -3634,25 +2108,13 @@ jobs:
 
               cover_value = ""
 
-              cover_drive_url = ""
-
-
-              # =================================================
-              # CUSTOM COVER
-              # =================================================
 
               custom_cover = (
-
                   find_custom_cover(
-
                       title,
-
                       filename,
-
                       cover_files
-
                   )
-
               )
 
 
@@ -3660,77 +2122,53 @@ jobs:
 
                   cover_source = "Custom"
 
-
                   cover_filename = (
-
                       custom_cover.get(
-
                           "name",
-
                           ""
-
                       )
-
                   )
-
 
                   cover_value = (
-
                       "covers/"
-
                       + cover_filename
-
                   )
-
 
                   cover_drive_url = (
-
                       drive_view_url(
-
                           custom_cover["id"]
-
                       )
-
                   )
-
 
                   cover_rows.append({
 
-                      "Cover_ID": (
+                      "Cover_ID":
+                          f"{media_id}-C1",
 
-                          f"{media_id}-C1"
+                      "Media_ID":
+                          media_id,
 
-                      ),
+                      "File_Name":
+                          cover_filename,
 
-                      "Media_ID": media_id,
+                      "Cover_Source":
+                          "Custom",
 
-                      "File_Name": cover_filename,
+                      "Cover_URL":
+                          cover_value,
 
-                      "Cover_Source": "Custom",
-
-                      "Cover_URL": cover_value,
-
-                      "Drive_URL": cover_drive_url
-
+                      "Drive_URL":
+                          cover_drive_url
                   })
 
 
               else:
 
-                  # =============================================
-                  # EMBEDDED COVER
-                  # =============================================
-
                   embedded_cover = (
-
                       extract_embedded_cover(
-
                           local_file,
-
                           media_id
-
                       )
-
                   )
 
 
@@ -3738,89 +2176,70 @@ jobs:
 
                       cover_source = "Embedded"
 
-
                       cover_value = (
-
                           embedded_cover
-
                       )
-
 
                       cover_rows.append({
 
-                          "Cover_ID": (
+                          "Cover_ID":
+                              f"{media_id}-C1",
 
-                              f"{media_id}-C1"
+                          "Media_ID":
+                              media_id,
 
-                          ),
+                          "File_Name":
+                              Path(
+                                  embedded_cover
+                              ).name,
 
-                          "Media_ID": media_id,
+                          "Cover_Source":
+                              "Embedded",
 
-                          "File_Name": Path(
+                          "Cover_URL":
+                              embedded_cover,
 
-                              embedded_cover
-
-                          ).name,
-
-                          "Cover_Source": "Embedded",
-
-                          "Cover_URL": embedded_cover,
-
-                          "Drive_URL": ""
-
+                          "Drive_URL":
+                              ""
                       })
 
 
                   else:
 
-                      # =========================================
-                      # GENERATED COVER
-                      # =========================================
-
                       fallback_cover = (
-
                           create_fallback_cover(
-
                               title,
-
                               media_id
-
                           )
-
                       )
-
 
                       cover_source = "Generated"
 
                       cover_value = (
-
                           fallback_cover
-
                       )
-
 
                       cover_rows.append({
 
-                          "Cover_ID": (
+                          "Cover_ID":
+                              f"{media_id}-C1",
 
-                              f"{media_id}-C1"
+                          "Media_ID":
+                              media_id,
 
-                          ),
+                          "File_Name":
+                              Path(
+                                  fallback_cover
+                              ).name,
 
-                          "Media_ID": media_id,
+                          "Cover_Source":
+                              "Generated",
 
-                          "File_Name": Path(
+                          "Cover_URL":
+                              fallback_cover,
 
-                              fallback_cover
-
-                          ).name,
-
-                          "Cover_Source": "Generated",
-
-                          "Cover_URL": fallback_cover,
-
-                          "Drive_URL": ""
-
+                          "Drive_URL":
+                              ""
                       })
 
 
@@ -3853,9 +2272,7 @@ jobs:
                   hi_res_count,
 
                   len(
-
                       current_subtitle_rows
-
                   ),
 
                   cover_value,
@@ -3882,29 +2299,19 @@ jobs:
                   filename,
 
                   Path(
-
                       filename
-
                   ).suffix.lower().replace(
-
                       ".",
-
                       ""
-
                   ),
 
                   file_size_text(
-
                       file.get("size")
-
                   ),
 
                   file.get(
-
                       "modifiedTime",
-
                       ""
-
                   ),
 
                   drive_url,
@@ -3920,63 +2327,71 @@ jobs:
 
               media_json.append({
 
-                  "Media_ID": media_id,
+                  "Media_ID":
+                      media_id,
 
-                  "Title": title,
+                  "Title":
+                      title,
 
-                  "File_Name": filename,
+                  "File_Name":
+                      filename,
 
-                  "Artist": artist,
+                  "Artist":
+                      artist,
 
-                  "Album": album,
+                  "Album":
+                      album,
 
-                  "Composer": composer,
+                  "Composer":
+                      composer,
 
-                  "Resolution": resolution,
+                  "Resolution":
+                      resolution,
 
-                  "Video_Codec": codec,
+                  "Video_Codec":
+                      codec,
 
-                  "Video_Quality": quality,
+                  "Video_Quality":
+                      quality,
 
-                  "Audio_Count": audio_count,
+                  "Audio_Count":
+                      audio_count,
 
-                  "Hi_Res_Audio": hi_res_count,
+                  "Hi_Res_Audio":
+                      hi_res_count,
 
-                  "Subtitle_Count": (
-
+                  "Subtitle_Count":
                       len(
-
                           current_subtitle_rows
+                      ),
 
-                      )
+                  "Cover":
+                      cover_value,
 
-                  ),
+                  "Cover_Source":
+                      cover_source,
 
-                  "Cover": cover_value,
+                  "Drive_URL":
+                      drive_url,
 
-                  "Cover_Source": cover_source,
+                  "Download_URL":
+                      download_url,
 
-                  "Drive_URL": drive_url,
+                  "Video":
+                      current_video_rows,
 
-                  "Download_URL": download_url,
+                  "Audio":
+                      current_audio_rows,
 
-                  "Video": current_video_rows,
-
-                  "Audio": current_audio_rows,
-
-                  "Subtitle": current_subtitle_rows
+                  "Subtitle":
+                      current_subtitle_rows
 
               })
 
 
-              print()
-
               print(
-
                   "Completed: "
-
                   + filename
-
               )
 
 
@@ -3985,81 +2400,57 @@ jobs:
           # =====================================================
 
           with open(
-
               "media.json",
-
               "w",
-
               encoding="utf-8"
-
           ) as f:
 
               json.dump(
-
                   media_json,
-
                   f,
-
                   ensure_ascii=False,
-
                   indent=2
-
               )
 
 
           print()
-
           print(
-
               "media.json তৈরি হয়েছে."
-
           )
 
 
           # =====================================================
-          # ENSURE SHEET EXISTS
+          # ENSURE SHEET
           # =====================================================
 
           def ensure_sheet(sheet_name):
 
               spreadsheet = (
-
                   sheets_service
-
                   .spreadsheets()
-
                   .get(
-
                       spreadsheetId=SPREADSHEET_ID
-
                   )
-
                   .execute()
-
               )
-
 
               existing_sheets = [
 
                   s["properties"]["title"]
 
                   for s in spreadsheet.get(
-
                       "sheets",
-
                       []
-
                   )
 
               ]
-
 
               if sheet_name in existing_sheets:
 
                   return
 
 
-              request_body = {
+              body = {
 
                   "requests": [
 
@@ -4069,7 +2460,8 @@ jobs:
 
                               "properties": {
 
-                                  "title": sheet_name
+                                  "title":
+                                      sheet_name
 
                               }
 
@@ -4083,21 +2475,13 @@ jobs:
 
 
               (
-
                   sheets_service
-
                   .spreadsheets()
-
                   .batchUpdate(
-
                       spreadsheetId=SPREADSHEET_ID,
-
-                      body=request_body
-
+                      body=body
                   )
-
                   .execute()
-
               )
 
 
@@ -4106,64 +2490,84 @@ jobs:
           # =====================================================
 
           def write_sheet(
-
               sheet_name,
-
               headers,
-
               rows
-
           ):
 
               ensure_sheet(
-
                   sheet_name
-
               )
 
 
               # -------------------------------------------------
-              # CLEAR
+              # CLEAR OLD DATA
               # -------------------------------------------------
 
               (
-
                   sheets_service
-
                   .spreadsheets()
-
                   .values()
-
                   .clear(
-
                       spreadsheetId=SPREADSHEET_ID,
-
                       range=f"{sheet_name}!A:ZZ",
-
                       body={}
-
                   )
-
                   .execute()
-
               )
 
 
               # -------------------------------------------------
-              # VALUES
+              # IMPORTANT FIX
+              #
+              # Dictionary → List
+              #
+              # Google Sheets API receives rows according
+              # to the exact header order.
+              # -------------------------------------------------
+
+              prepared_rows = []
+
+
+              for row in rows:
+
+                  if isinstance(
+                      row,
+                      dict
+                  ):
+
+                      prepared_row = [
+
+                          row.get(
+                              header,
+                              ""
+                          )
+
+                          for header in headers
+
+                      ]
+
+                      prepared_rows.append(
+                          prepared_row
+                      )
+
+                  else:
+
+                      prepared_rows.append(
+                          row
+                      )
+
+
+              # -------------------------------------------------
+              # FINAL VALUES
               # -------------------------------------------------
 
               values = [
-
                   headers
-
               ]
 
-
               values.extend(
-
-                  rows
-
+                  prepared_rows
               )
 
 
@@ -4172,40 +2576,33 @@ jobs:
               # -------------------------------------------------
 
               (
-
                   sheets_service
-
                   .spreadsheets()
-
                   .values()
-
                   .update(
 
-                      spreadsheetId=SPREADSHEET_ID,
+                      spreadsheetId=
+                          SPREADSHEET_ID,
 
-                      range=f"{sheet_name}!A1",
+                      range=
+                          f"{sheet_name}!A1",
 
-                      valueInputOption="RAW",
+                      valueInputOption=
+                          "RAW",
 
                       body={
-
-                          "values": values
-
+                          "values":
+                              values
                       }
 
                   )
-
                   .execute()
-
               )
 
 
               print(
-
                   f"{sheet_name}: "
-
-                  f"{len(rows)} rows written."
-
+                  f"{len(prepared_rows)} rows written."
               )
 
 
@@ -4214,68 +2611,44 @@ jobs:
           # =====================================================
 
           write_sheet(
-
               "Media",
-
               SHEET_HEADERS["Media"],
-
               media_rows
-
           )
 
 
           write_sheet(
-
               "Files",
-
               SHEET_HEADERS["Files"],
-
               file_rows
-
           )
 
 
           write_sheet(
-
               "Video",
-
               SHEET_HEADERS["Video"],
-
               video_rows
-
           )
 
 
           write_sheet(
-
               "Audio",
-
               SHEET_HEADERS["Audio"],
-
               audio_rows
-
           )
 
 
           write_sheet(
-
               "Subtitle",
-
               SHEET_HEADERS["Subtitle"],
-
               subtitle_rows
-
           )
 
 
           write_sheet(
-
               "Covers",
-
               SHEET_HEADERS["Covers"],
-
               cover_rows
-
           )
 
 
@@ -4286,9 +2659,7 @@ jobs:
           if temp_dir.exists():
 
               shutil.rmtree(
-
                   temp_dir
-
               )
 
 
@@ -4297,74 +2668,44 @@ jobs:
           # =====================================================
 
           print()
-
-          print()
-
           print(
-
               "======================================"
-
           )
 
           print(
-
               "SCAN COMPLETED SUCCESSFULLY"
-
           )
 
           print(
-
               "======================================"
-
           )
 
-
           print(
-
               f"Media    : {len(media_rows)}"
-
           )
 
-
           print(
-
               f"Files    : {len(file_rows)}"
-
           )
 
-
           print(
-
               f"Video    : {len(video_rows)}"
-
           )
 
-
           print(
-
               f"Audio    : {len(audio_rows)}"
-
           )
 
-
           print(
-
               f"Subtitle : {len(subtitle_rows)}"
-
           )
 
-
           print(
-
               f"Covers   : {len(cover_rows)}"
-
           )
 
-
           print(
-
               "======================================"
-
           )
 
 
@@ -4377,11 +2718,9 @@ jobs:
 
       - name: Run Metadata Scanner
         env:
-
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
 
         run: |
-
           python scanner.py
 
 
@@ -4391,12 +2730,11 @@ jobs:
 
       - name: Git Status
         run: |
-
           git status --short
 
 
       # =========================================================
-      # COMMIT MEDIA.JSON AND COVERS
+      # COMMIT
       # =========================================================
 
       - name: Commit Updated Metadata
