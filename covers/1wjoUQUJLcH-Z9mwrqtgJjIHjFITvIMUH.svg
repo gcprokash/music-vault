@@ -6,8 +6,6 @@ viewBox="0 0 1000 1000">
 
 <defs>
 
-    <!-- Premium Background -->
-
     <linearGradient
         id="bg"
         x1="0"
@@ -30,10 +28,7 @@ viewBox="0 0 1000 1000">
     </linearGradient>
 
 
-    <!-- Main Glow -->
-
-    <radialGradient
-        id="glow">
+    <radialGradient id="glow">
 
         <stop
             offset="0%"
@@ -53,10 +48,7 @@ viewBox="0 0 1000 1000">
     </radialGradient>
 
 
-    <!-- Secondary Glow -->
-
-    <radialGradient
-        id="glow2">
+    <radialGradient id="glow2">
 
         <stop
             offset="0%"
@@ -70,8 +62,6 @@ viewBox="0 0 1000 1000">
 
     </radialGradient>
 
-
-    <!-- Glass Ring -->
 
     <linearGradient
         id="ring"
@@ -95,19 +85,11 @@ viewBox="0 0 1000 1000">
 </defs>
 
 
-<!-- =========================================
-     BACKGROUND
-     ========================================= -->
-
 <rect
     width="1000"
     height="1000"
     fill="url(#bg)"/>
 
-
-<!-- =========================================
-     DECORATIVE GLOWS
-     ========================================= -->
 
 <circle
     cx="210"
@@ -129,10 +111,6 @@ viewBox="0 0 1000 1000">
     r="360"
     fill="url(#glow)"/>
 
-
-<!-- =========================================
-     OUTER RINGS
-     ========================================= -->
 
 <circle
     cx="500"
@@ -163,10 +141,6 @@ viewBox="0 0 1000 1000">
     stroke-width="2"/>
 
 
-<!-- =========================================
-     CENTER DISC
-     ========================================= -->
-
 <circle
     cx="500"
     cy="380"
@@ -178,10 +152,6 @@ viewBox="0 0 1000 1000">
     stroke-width="2"/>
 
 
-<!-- =========================================
-     MUSIC ICON
-     ========================================= -->
-
 <text
     x="500"
     y="415"
@@ -190,15 +160,9 @@ viewBox="0 0 1000 1000">
     font-size="105"
     font-family="Arial, sans-serif"
     font-weight="700">
-
     ♪
-
 </text>
 
-
-<!-- =========================================
-     SMALL LABEL
-     ========================================= -->
 
 <text
     x="500"
@@ -209,15 +173,9 @@ viewBox="0 0 1000 1000">
     font-family="Arial, sans-serif"
     font-weight="600"
     letter-spacing="7">
-
     MUSIC RELEASE
-
 </text>
 
-
-<!-- =========================================
-     SONG TITLE
-     ========================================= -->
 
 
 <text
@@ -228,16 +186,10 @@ viewBox="0 0 1000 1000">
     font-size="46"
     font-family="Arial, sans-serif"
     font-weight="700">
-
     Patar Bashori
-
 </text>
 
 
-
-<!-- =========================================
-     ARTIST
-     ========================================= -->
 
 <text
     x="500"
@@ -246,15 +198,9 @@ viewBox="0 0 1000 1000">
     fill="#ddd6fe"
     font-size="28"
     font-family="Arial, sans-serif">
-
     Music Vault
-
 </text>
 
-
-<!-- =========================================
-     MUSIC VAULT BRAND
-     ========================================= -->
 
 <text
     x="500"
@@ -266,9 +212,7 @@ viewBox="0 0 1000 1000">
     font-family="Arial, sans-serif"
     font-weight="600"
     letter-spacing="6">
-
     MUSIC VAULT
-
 </text>
 
 
